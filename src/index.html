@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <title>快销宝 - 基于金蝶KIS旗舰版的快消Saas平台</title>
+    <link href="./lib/css/layui.css" rel="stylesheet">
+    <link href="./css/index.min.css" rel="stylesheet">    
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+      <div class="layui-header ">
+        <div class="layui-logo"><img src="./images/logo-white.png"><img class="layui-hide-xs" src="./images/logo-white-text.png"></div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left" lay-filter="menutogle">
+          <li class="layui-nav-item" lay-unselect><a href="javascript:;" class="layui-show-xs-inline" title="收起导航栏"><i class="iconfont icon-liebiaoshouqi"></i></a></li>
+        </ul>
+        <!-- 横向导航布局 -->
+        <ul class="layui-nav layui-layout-right horizontal"  lay-filter="kt-sidemenu">
+          <li class="layui-nav-item" lay-unselect>
+            <a class="" href="javascript:;">
+              <i class="iconfont icon-chucha"></i>
+              <cite>外勤管理</cite>
+            </a>
+            <dl class="layui-nav-child">
+              <dd lay-unselect><a _href="pages/attendance.html" data-menuid='01'>
+                <i class=""></i>
+                <cite>打卡签到</cite>
+                <span class="layui-badge layui-bg-green">查询</span>
+              </a></dd>
+              <dd lay-unselect><a _href="pages/workflow.html" data-menuid='02'>
+                  <i class=""></i>
+                  <cite>工作流</cite>
+                <span class="layui-badge layui-bg-green">查询</span>                    
+              </a></dd>
+              <dd lay-unselect><a _href="pages/emplattend.html" data-menuid='03'>
+                  <cite>员工考勤</cite>
+                </a>
+                <span class="layui-badge layui-bg-green">查询</span>
+            </dd>
+              <dd lay-unselect><a _href="pages/workplan.html" data-menuid='04'>
+                  <i class=""></i>
+                  <cite>工作计划</cite>
+              </a></dd>
+              <dd lay-unselect><a _href="pages/contacts.html" data-menuid='05'>
+                  <i class=""></i>
+                  <cite>通讯录</cite>
+                <span class="layui-badge layui-bg-green">新增</span>
+              </a></dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item" lay-unselect>
+            <a href="javascript:;">
+              <i class="iconfont icon-hezuo"></i>
+              <cite>生意管理</cite>
+            </a>
+            <dl class="layui-nav-child">
+                <dd lay-unselect><a _href="pages/customermanage.html" data-menuid='06'>
+                    <i class=""></i>
+                    <cite>客户管理</cite>
+                  <span class="layui-badge layui-bg-green">新增</span>
+                </a></dd>                
+                <dd lay-unselect><a _href="pages/contract.html" data-menuid='07'>
+                    <i class=""></i>
+                    <cite>客户合同</cite>
+                  <span class="layui-badge layui-bg-green">新增</span>
+                </a></dd>
+                <dd lay-unselect><a _href="pages/customertask.html" data-menuid='08'>
+                    <i class=""></i>
+                    <cite>客户任务</cite>
+                  <span class="layui-badge layui-bg-green">查询</span>
+                </a></dd>
+                <dd lay-unselect><a _href="pages/report.html" data-menuid='09'>
+                    <i class=""></i>
+                    <cite>业绩报表</cite>
+                </a></dd>
+                <dd lay-unselect><a _href="pages/shelves.html" data-menuid='10'>
+                    <i class=""></i>
+                    <cite>商品铺货</cite>
+                  <span class="layui-badge layui-bg-green">查询</span>
+                </a></dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item" lay-unselect>
+              <a href="javascript:;">
+                  <i class="iconfont icon-dingdan"></i>
+                  <cite>订货商城</cite>
+              </a>
+              <dl class="layui-nav-child">
+                  <dd lay-unselect><a _href="pages/ordergoods.html" data-menuid='11'>
+                      <i class=""></i>
+                      <cite>订货订单</cite>
+                    <span class="layui-badge layui-bg-green">查询</span>
+                  </a></dd>                
+                  <dd lay-unselect><a _href="pages/replenishment.html" data-menuid='12'>
+                      <i class=""></i>
+                      <cite>订单补货</cite>
+                    <span class="layui-badge layui-bg-green">查询</span>
+                  </a></dd>
+                  <dd lay-unselect><a _href="pages/shelves.html" data-menuid='13'>
+                      <i class=""></i>
+                      <cite>货架管理</cite>
+                    <span class="layui-badge layui-bg-green">查询</span>
+                  </a></dd>
+                  <dd lay-unselect><a _href="pages/statements.html" data-menuid='14'>
+                      <i class=""></i>
+                      <cite>订货结算</cite>
+                    <span class="layui-badge layui-bg-green">查询</span>
+                  </a></dd>
+              </dl>
+            </li>
+            <li class="layui-nav-item" lay-unselect>
+                <a href="javascript:;">
+                    <i class="iconfont icon-ziliao"></i>
+                    <cite>基础资料</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd lay-unselect><a _href="pages/employees.html" data-menuid='15'>
+                        <i class=""></i>
+                        <cite>员工管理</cite>
+                      <span class="layui-badge layui-bg-green">查询</span>
+                    </a></dd>                
+                    <dd lay-unselect><a _href="pages/role.html" data-menuid='16'>
+                        <i class=""></i>
+                        <cite>角色管理</cite>
+                      <span class="layui-badge layui-bg-green">查询</span>
+                    </a></dd>
+                    <dd lay-unselect><a _href="pages/department.html" data-menuid='17'>
+                        <i class=""></i>
+                        <cite>部门管理</cite>
+                      <span class="layui-badge layui-bg-green">查询</span>
+                    </a></dd>
+                    <dd lay-unselect><a _href="pages/price.html" data-menuid='18'>
+                        <i class=""></i>
+                        <cite>价格管理</cite>
+                      <span class="layui-badge layui-bg-green">查询</span>                          
+                    </a></dd>
+                    <dd lay-unselect><a _href="pages/goods.html" data-menuid='19'>
+                        <i class=""></i>
+                        <cite>商品管理</cite>
+                      <span class="layui-badge layui-bg-green">查询</span>
+                    </a></dd>
+                    <dd lay-unselect><a _href="pages/document.html" data-menuid='20'>
+                        <i class=""></i>
+                        <cite>文档中心</cite>
+                      <span class="layui-badge layui-bg-green">查询</span>
+                    </a></dd>
+                </dl>
+              </li>
+        </ul>
+        <div class="layui-nav kt-company layui-hide-xs layui-layout-left">
+          <h2>深圳市沟通科技有限公司</h2>
+      </div>
+        <ul class="layui-nav layui-layout-right">
+          <li class="layui-nav-item" lay-unselect>
+            <a lay-href="app/message/index.html" layadmin-event="message" lay-text="消息中心">
+              <i class="iconfont icon-xiaoxi"><span class="layui-badge-dot"></span></i>  
+              <!-- 如果有新消息，则显示小圆点 -->
+            </a>
+          </li>
+          <li class="layui-nav-item">
+            <a href="javascript:;">
+              <img src="./images/th.jpg" class="layui-nav-img">
+              <span class="layui-hide-xs">用户</span>
+            </a>
+            <dl class="layui-nav-child">
+              <dd><a href=""><i class="iconfont icon-bangzhu"></i>帮助</a></dd>
+              <dd><a href=""><i class="iconfont icon-pifu"></i>皮肤</a></dd>
+              <dd><a href=""><i class="iconfont icon-shezhi"></i>设置</a></dd>
+            <hr>
+              <dd><a href=""><i class="iconfont icon-icon_logout"></i>注销</a></dd>              
+            </dl>
+        </ul>
+      </div>
+      
+      <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+          <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+          <ul class="layui-nav layui-nav-tree"   lay-filter="kt-sidemenu">
+            <li class="layui-nav-item layui-nav-itemed" lay-unselect>
+              <a class="" href="javascript:;">
+                <i class="iconfont icon-chucha"></i>
+                <cite>外勤管理</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd lay-unselect><a _href="pages/attendance.html" data-menuid='01'>
+                  <i class=""></i>
+                  <cite>打卡签到</cite>
+                  <span class="layui-badge layui-bg-green">查询</span>
+                </a></dd>
+                <dd lay-unselect><a _href="pages/workflow.html" data-menuid='02'>
+                    <i class=""></i>
+                    <cite>工作流</cite>
+                  <span class="layui-badge layui-bg-green">查询</span>                    
+                </a></dd>
+                <dd lay-unselect>
+                  <a _href="pages/emplattend.html" data-menuid='03'>
+                    <cite>员工考勤</cite>
+                  </a>
+                  <span class="layui-badge layui-bg-green" id="query1">查询</span>
+              </dd>
+                <dd lay-unselect><a _href="pages/workplan.html" data-menuid='04'>
+                    <i class=""></i>
+                    <cite>工作计划</cite>
+                </a></dd>
+                <dd lay-unselect><a _href="pages/contacts.html" data-menuid='05'>
+                    <i class=""></i>
+                    <cite>通讯录</cite>
+                  <span class="layui-badge layui-bg-green">新增</span>
+                </a></dd>
+              </dl>
+            </li>
+            <li class="layui-nav-item" lay-unselect>
+              <a href="javascript:;">
+                <i class="iconfont icon-hezuo"></i>
+                <cite>生意管理</cite>
+              </a>
+              <dl class="layui-nav-child">
+                  <dd lay-unselect><a _href="pages/customermanage.html" data-menuid='06'>
+                      <i class=""></i>
+                      <cite>客户管理</cite>
+                    <span class="layui-badge layui-bg-green">新增</span>
+                  </a></dd>                
+                  <dd lay-unselect><a _href="pages/contract.html" data-menuid='07'>
+                      <i class=""></i>
+                      <cite>客户合同</cite>
+                    <span class="layui-badge layui-bg-green">新增</span>
+                  </a></dd>
+                  <dd lay-unselect><a _href="pages/customertask.html" data-menuid='08'>
+                      <i class=""></i>
+                      <cite>客户任务</cite>
+                    <span class="layui-badge layui-bg-green">查询</span>
+                  </a></dd>
+                  <dd lay-unselect><a _href="pages/report.html" data-menuid='09'>
+                      <i class=""></i>
+                      <cite>业绩报表</cite>
+                  </a></dd>
+                  <dd lay-unselect><a _href="pages/shelves.html" data-menuid='10'>
+                      <i class=""></i>
+                      <cite>商品铺货</cite>
+                    <span class="layui-badge layui-bg-green">查询</span>
+                  </a></dd>
+              </dl>
+            </li>
+            <li class="layui-nav-item" lay-unselect>
+                <a href="javascript:;">
+                    <i class="iconfont icon-dingdan"></i>
+                    <cite>订货商城</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd lay-unselect><a _href="pages/ordergoods.html" data-menuid='11'>
+                        <i class=""></i>
+                        <cite>订货订单</cite>
+                      <span class="layui-badge layui-bg-green">查询</span>
+                    </a></dd>                
+                    <dd lay-unselect><a _href="pages/replenishment.html" data-menuid='12'>
+                        <i class=""></i>
+                        <cite>订单补货</cite>
+                      <span class="layui-badge layui-bg-green">查询</span>
+                    </a></dd>
+                    <dd lay-unselect><a _href="pages/shelves.html" data-menuid='13'>
+                        <i class=""></i>
+                        <cite>货架管理</cite>
+                      <span class="layui-badge layui-bg-green">查询</span>
+                    </a></dd>
+                    <dd lay-unselect><a _href="pages/statements.html" data-menuid='14'>
+                        <i class=""></i>
+                        <cite>订货结算</cite>
+                      <span class="layui-badge layui-bg-green">查询</span>
+                    </a></dd>
+                </dl>
+              </li>
+              <li class="layui-nav-item" lay-unselect>
+                  <a href="javascript:;">
+                      <i class="iconfont icon-ziliao"></i>
+                      <cite>基础资料</cite>
+                  </a>
+                  <dl class="layui-nav-child">
+                      <dd lay-unselect><a _href="pages/employees.html" data-menuid='15'>
+                          <i class=""></i>
+                          <cite>员工管理</cite>
+                        <span class="layui-badge layui-bg-green">查询</span>
+                      </a></dd>                
+                      <dd lay-unselect><a _href="pages/role.html" data-menuid='16'>
+                          <i class=""></i>
+                          <cite>角色管理</cite>
+                        <span class="layui-badge layui-bg-green">查询</span>
+                      </a></dd>
+                      <dd lay-unselect><a _href="pages/department.html" data-menuid='17'>
+                          <i class=""></i>
+                          <cite>部门管理</cite>
+                        <span class="layui-badge layui-bg-green">查询</span>
+                      </a></dd>
+                      <dd lay-unselect><a _href="pages/price.html" data-menuid='18'>
+                          <i class=""></i>
+                          <cite>价格管理</cite>
+                        <span class="layui-badge layui-bg-green">查询</span>                          
+                      </a></dd>
+                      <dd lay-unselect><a _href="pages/goods.html" data-menuid='19'>
+                          <i class=""></i>
+                          <cite>商品管理</cite>
+                        <span class="layui-badge layui-bg-green">查询</span>
+                      </a></dd>
+                      <dd lay-unselect><a _href="pages/document.html" data-menuid='20'>
+                          <i class=""></i>
+                          <cite>文档中心</cite>
+                        <span class="layui-badge layui-bg-green">查询</span>
+                      </a></dd>
+                  </dl>
+                </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="layui-body">
+        <!-- 内容主体区域 -->
+          <div class="layui-tab" id="task-tab-wrap" lay-allowClose="true" lay-filter="kt_toptab">
+            <i class="tab-scroll tab-scroll-left iconfont icon-zelvgongyongshouqi"></i>
+            <ul class="layui-tab-title" id="task-tab">
+              <li lay-id='00' class="layui-this">首页</li>
+            </ul>
+            <i class="tab-scroll tab-scroll-right iconfont icon-zelvgongyongshouqi2"></i>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                  <iframe src='./pages/welcom.html' frameborder="0" scrolling="yes" id="00"></iframe>
+                </div>
+            </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <script src="../lib/layui.js"></script>
+    <script src="./js/index.min.js"></script>
+    </body>
+    </html>
+          
