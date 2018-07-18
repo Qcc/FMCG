@@ -1,5 +1,4 @@
 window.onload = function () {
-setIframeHeight(document.getElementById('kt-iframe'));
 //JavaScript代码区域
 layui.use('element', function(){
   "use strict";
@@ -12,7 +11,7 @@ layui.use('element', function(){
       //新增一个Tab项
       element.tabAdd('kt_toptab', {
         title: title 
-        ,content: '<iframe tab-id="' + id + '" frameborder="0" src="' + url + '" scrolling="yes" class="kt-iframe"></iframe>'
+        ,content: '<iframe  tab-id="' + id + '" id=iframe' + id + ' " frameborder="0" src="' + url + '" scrolling="yes" class="kt-iframe"></iframe>'
         ,id: id
       })
       checkTabWidth();
@@ -79,6 +78,8 @@ layui.use('element', function(){
     tab.tabAdd(title,url,menuid);
     tab.tabChange(menuid);
     $('#task-tab').show();
+    $('.layui-tab-backgroud').show();
+    $('.kt-iframe').css('margin-top','36px');
   }); // 侧边栏监听结束
   //监听多任务tab栏
   element.on('tabDelete(kt_toptab)', function(data){
@@ -94,16 +95,20 @@ layui.use('element', function(){
       $('#task-tab').css('width',tabWidth); 
       $('#task-tab').css('left',$('#task-tab-wrap').position().left + 'px');      
       if($('#task-tab').children().length === 1){
-        $('#task-tab').css('display','none');
+        $('#task-tab').hide();
+        $('.layui-tab-backgroud').hide();
+        $('.kt-iframe').css('margin-top','0');
       }
     }
   });
   element.on('tab(kt_toptab)', function(data){
-    checkTabWidth();    
+    checkTabWidth(); // 调整tab宽度
+    addContextMenu(); // 添加右键菜单事件
   });
   // 多任务tab栏监听结束
   //检测tab页面是否铺满title栏，铺满则显示滚动条
   function checkTabWidth(){
+    
     var liWidth = 0;
     var tabWidth = $('#task-tab-wrap').outerWidth();
     $('#task-tab').children().each(function(index,element){
@@ -161,21 +166,62 @@ layui.use('element', function(){
     }
   });
   // 结束左右移动已经打开的tab页面
-  $('#task-tab').click(function(e){
-    layui.stope(e);
-    console.log(e);
+  // $('#task-tab').click(function(e){
+  //   layui.stope(e);
+  //   console.log(e,'qqq');
+  // })
+  //添加tab页面右键菜单
+	//取消右键
+	$('html').click(function(){
+		$('.popup_menu').hide();
+	});
+  //点击右击
+  function addContextMenu(){
+    var tabid = $('#task-tab li:last').attr('lay-id'); 
+    $('#task-tab li:last').on('contextmenu',function (e,tabid){
+      var popupmenu = $('.popup_menu').attr('tabId',$(this).attr('lay-id')),
+      l = ($(document).width() - e.clientX) < popupmenu.width() ? (e.clientX - popupmenu.width()) : e.clientX,
+      t = ($(document).height() - e.clientY) < popupmenu.height() ? (e.clientY - popupmenu.height()) : e.clientY;
+      popupmenu.css({left: l,top: t}).show();
+      e.preventDefault()        
+      return false;
+    });
+  }
+  // 右键菜单具体操作
+  //关闭当前页
+  $('#close-active-menu').on('click',function(){
+    element.tabDelete('kt_toptab', $('.popup_menu').attr('tabid'));
+  })
+  //关闭其他
+  $('#close-other-menu').on('click',function(){
+    $('#task-tab li').each(function(index,e){
+      var id = $(this).attr('lay-id');
+      console.log(id)
+      if(id === $('.popup_menu').attr('tabid') || id === '00'){
+        return;
+      }
+      element.tabDelete('kt_toptab', id);
+    });
+  })
+  //关闭所有
+  $('#close-all-menu').on('click',function(){
+    $('#task-tab li').each(function(index,e){
+      var id = $(this).attr('lay-id');
+      if(id !== '00'){
+        element.tabDelete('kt_toptab', id);
+      }
+    });
+  })
+  //刷新
+  $('#refresh-active-menu').on('click',function(index,e){
+    var iframe = '#iframe' + $('.popup_menu').attr('tabid');
+    console.log($(iframe).attr('src'));
+    $(iframe).attr('src', $(iframe).attr('src'));
   })
   //代码区域
 });
 };
 
 // 设置iframe宽高
-function setIframeHeight(iframe) {
-if (iframe) {
-var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
-if (iframeWin.document.body) {
-iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
-}
-}
-};
+ 
       

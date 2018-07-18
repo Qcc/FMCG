@@ -319,18 +319,26 @@
           </ul>
         </div>
       </div>
-      
+      <div class="popup_menu">
+        <ul>
+          <li id="close-active-menu">关闭当前页</li>
+          <li id="close-other-menu">关闭其他</li>
+          <li id="close-all-menu">关闭所有</li>
+          <li id="refresh-active-menu">刷新</li>
+        </ul>
+      </div>
       <div class="layui-body">
         <!-- 内容主体区域 -->
           <div class="layui-tab" id="task-tab-wrap" lay-allowClose="true" lay-filter="kt_toptab">
-            <i class="tab-scroll tab-scroll-left iconfont icon-zelvgongyongshouqi"></i>
-            <ul class="layui-tab-title" id="task-tab">
-              <li lay-id='00' class="layui-this">首页</li>
-            </ul>
-            <i class="tab-scroll tab-scroll-right iconfont icon-zelvgongyongshouqi2"></i>
-            <div class="layui-tab-content">
+            <div class="layui-tab-backgroud"></div>
+              <i class="tab-scroll tab-scroll-left iconfont icon-zelvgongyongshouqi"></i>
+              <ul class="layui-tab-title" id="task-tab">
+                <li lay-id='00' class="layui-this">首页</li>
+              </ul>
+              <i class="tab-scroll tab-scroll-right iconfont icon-zelvgongyongshouqi2"></i>
+            <div class="layui-tab-content" style="padding: 0;">
                 <div class="layui-tab-item layui-show">
-                  <iframe src='./pages/welcom.html' frameborder="0" scrolling="yes" id="00"></iframe>
+                  <iframe src='./pages/welcom.html' frameborder="0" scrolling="yes" id="00" class="kt-iframe"></iframe>
                 </div>
             </div>
             </div>
