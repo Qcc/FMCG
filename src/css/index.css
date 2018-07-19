@@ -72,26 +72,17 @@
 .layui-layout .layui-nav .layui-nav-item a i{
     font-size: 16px;
 }
-
+.nav-settings{
+cursor: pointer;
+}
 .layui-header .layui-layout-left{
 padding-left:0px; 
 }
-.layui-layout-body .layui-layout .layui-header .horizontal{
+.layui-layout-body .layui-layout .layui-header .horizontal-nav-tree{
     right: 200px;
     display: none;
 }
-.layui-layout-body .layui-layout .layui-header .horizontal a i{
-    margin-right: 5px;
-    cursor: pointer;
-}
-.layui-layout .layui-header .horizontal li dl dd a{
-    padding: 0 10px;
-    cursor: pointer;    
-}
-.layui-layout .layui-header .horizontal li dl dd a:hover{
-    padding: 0 30px;
-    cursor: pointer;    
-}
+
 .layui-header .kt-company{
     display: inline;
     /* position: absolute;
@@ -107,6 +98,11 @@ padding-left:0px;
 }
 .layui-header .kt-company h2{
     font-size: 16px;
+}
+/* 框架页面竖向滚动条 */
+.layui-layout-admin .layui-body{
+    bottom: 0;
+    overflow-y:hidden;
 }
 .layui-body .layui-tab{
     margin: 0;
@@ -181,13 +177,19 @@ padding-left:0px;
 .layui-side .layui-nav-item a>i{
     margin-right: 20px;
 }
-.horizontal .layui-nav-item .layui-badge, .layui-side .layui-nav-item .layui-badge{
+.horizontal-nav-tree{
     position: absolute;
-    top: 18px;
+    top: 0;
     right: 5px;
     cursor: pointer;
     display: none;
-
+}
+.left-nav-tree .layui-badge, .layui-side .layui-nav-item .layui-badge{
+    position: absolute;
+    top: 18px;
+    right: 25px;
+    cursor: pointer;
+    display: none;
 }
 
 .tab-scroll{
@@ -224,7 +226,7 @@ padding-left:0px;
     .layui-header .layui-layout-left{
         left: 60px;;
     }
-    .layui-layout .layui-header .horizontal{
+    .layui-layout .layui-header .horizontal-nav-tree{
         display: none;
     }
     .layui-layout .layui-side{
@@ -253,7 +255,7 @@ padding-left:0px;
     .layui-header .kt-company{
         display: none;
     }
-    .layui-layout-body .layui-layout .layui-header .horizontal{
+    .layui-layout-body .layui-layout .layui-header .horizontal-nav-tree{
         right: 190px;
     }
 }
@@ -267,9 +269,6 @@ padding-left:0px;
 	right:0;
     bottom:0;
 }
-
-  
-
   /*!
  * animate.css -http://daneden.me/animate
  * Version - 3.6.0
@@ -384,4 +383,46 @@ padding-left:0px;
   .bodyOutLeft {
     -webkit-animation-name: bodyOutLeft;
     animation-name: bodyOutLeft;
+  }
+
+  /* 导航菜单样式 */
+  .layui-nav-tree .layui-nav-child .menu-item-deputy{
+    position: absolute;
+    top: 9px;
+    left: 140px;
+    padding: 3px;
+    border-radius: 5px;
+    background-color: #009688;
+    height: 16px;
+    line-height: 16px;
+    display: none;
+}
+  .layui-nav-tree .layui-nav-child .menu-item-deputy:hover{
+    background-color: #5FB878;
+    box-shadow: 0 0 1px 1px #5FB878;
+    display: inline !important;
+  }
+  .menu-item-primary:hover + .menu-item-deputy{
+      display: inline !important;
+  }
+
+  .horizontal-nav-tree .menu-item-deputy{
+    position: absolute;
+    top: 9px;
+    left: 88px;
+    padding: 3px !important;
+    border-radius: 5px;
+    background-color: #009688;
+    height: 16px;
+    line-height: 16px;
+    display: none !important;
+    color: #fff !important;
+}
+.horizontal-nav-tree .layui-nav-child .menu-item-deputy:hover{
+    background-color: #5FB878;
+    box-shadow: 0 0 1px 1px #5FB878;
+    display: inline !important;
+  }
+  .horizontal-nav-tree .layui-nav-child {
+      width: 120%;
   }

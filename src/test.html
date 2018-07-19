@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <a class="a1">A1</a>
+        <a class="a2">A2</a>
+        <a class="a3">A3</a>
+        <hr/>
+        <a class="a1">A1</a>
+        <a class="a2">A2</a>
+        <a class="a3">A3</a>
+    </div>
+    <style>
+        .a2{
+            display: none;
+        }
+    .a1:hover +.a2{
+        color: red;
+        display: inline;
+    }
+    </style>
+</body>
+</html>

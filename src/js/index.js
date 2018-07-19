@@ -1,10 +1,10 @@
 window.onload = function () {
 //JavaScript代码区域
-layui.use('element', function(){
+layui.use(['element','layer'], function(){
   "use strict";
   var $ = layui.$ //获得内置jquery
-  var element = layui.element;
-  
+  ,element = layui.element
+  ,layer = layui.layer;
   //触发事件
   var tab = {
     tabAdd: function(title,url,id){
@@ -41,7 +41,7 @@ layui.use('element', function(){
       $('.layui-body').removeClass("animated bodyOutLeft");        
       $('.layui-body').addClass("animated bodyInLeft");
 
-      $('.horizontal').addClass('layui-show-md-block');
+      $('.horizontal-nav-tree').addClass('layui-show-md-block');
     }else{
       elem.attr({title:"收起导航菜单"});
       elem.css({"transform":"rotate(0deg)",
@@ -55,14 +55,43 @@ layui.use('element', function(){
       $('.layui-body').removeClass("animated bodyInLeft");        
       $('.layui-body').addClass("animated bodyOutLeft");   
 
-      $('.horizontal').removeClass('layui-show-md-block');
+      $('.horizontal-nav-tree').removeClass('layui-show-md-block');
     }
   });
-  //监听顶栏 侧边导航点击
+
+  //监听顶部右侧消息设置工具栏
+  element.on('nav(kt-message)', function(elem){
+    var url = elem.attr('_href');
+    var menuid = elem.attr('data-menuid');
+    var title = elem.attr('title') || elem.text();
+    console.log(url, menuid, title);
+    if(menuid === 'pifu'){
+      layer.msg('自定义皮肤还没做');
+      return;
+    }
+    if(menuid === 'logout'){
+      layer.msg('退出');
+      return;
+    }
+    // 循环 tab页面如果已经打开，则切换到对应页面
+    for (var i = 0; i < $('.kt-iframe').length; i++) {
+      if($('.kt-iframe').eq(i).attr('tab-id') == menuid){
+          tab.tabChange(menuid);
+          event.stopPropagation();
+          return;
+      }
+    };
+    tab.tabAdd(title,url,menuid);
+    tab.tabChange(menuid);
+    $('#task-tab').show();
+    $('.layui-tab-backgroud').show();
+    $('.kt-iframe').css('margin-top','36px');
+  });
+    //监听顶栏 侧边导航点击
   element.on('nav(kt-sidemenu)', function(elem){
     var url = elem.attr('_href');
     var menuid = elem.attr('data-menuid');
-    var title = elem.text();
+    var title = elem.attr('title') || elem.text();
     if(url === undefined && menuid === undefined){
       // 类目导航
       return;
