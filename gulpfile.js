@@ -22,13 +22,25 @@ gulp.task('scripts', function() {
         'src/js/**/*.js',
       ])
     //   .pipe(concat('custom.js')) // 合并js文件
-      .pipe(gulp.dest(DEST+'/js'))
+    //   .pipe(gulp.dest(DEST+'/js'))
       .pipe(rename({suffix: '.min'}))
     //   .pipe(uglify()) // JS压缩
       .pipe(gulp.dest(DEST+'/js'))
       .pipe(browserSync.stream());
 });
 
+gulp.task('compontents', function() {
+    return gulp.src([
+        // 'src/js/helpers/*.js',
+        'src/compontents/**/*.js',
+      ])
+    //   .pipe(concat('custom.js')) // 合并js文件
+    //   .pipe(gulp.dest(DEST+'/compontents'))
+    //   .pipe(rename({suffix: '.min'}))
+    //   .pipe(uglify()) // JS压缩
+      .pipe(gulp.dest(DEST+'/compontents'))
+      .pipe(browserSync.stream());
+});
 
 // 压缩html静态文件
 gulp.task('html-minify', function() {
@@ -85,7 +97,8 @@ gulp.task('watch', function() {
   // Watch .html files
   gulp.watch('src/**/*.html', ['html-minify'], browserSync.reload);
   // Watch .js files
-  gulp.watch('src/js/**/*.js', ['scripts']);
+  gulp.watch('src/**/*.js', ['scripts']);
+  gulp.watch('src/compontents/**/*.js', ['compontents']);
   // Watch .scss files
   gulp.watch('src/css/**/*.css', ['css']);
   // 图片压缩
@@ -93,7 +106,7 @@ gulp.task('watch', function() {
 });
 
 // Default Task
-gulp.task('default', ['imagemin', 'html-minify', 'scripts', 'css', 'icon', 'lib']);
+gulp.task('default', ['imagemin', 'html-minify', 'scripts', 'compontents', 'css', 'icon', 'lib']);
 
 // watching Task
-gulp.task('watching', ['browser-sync', 'imagemin', 'html-minify', 'scripts', 'css','watch']);
+gulp.task('watching', ['browser-sync', 'imagemin', 'html-minify', 'scripts', 'compontents','css','watch']);

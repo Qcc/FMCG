@@ -71,6 +71,7 @@ layui.use(['element','layer'], function(){
     }
     if(menuid === 'logout'){
       layer.msg('退出');
+      location.href = './login.html';
       return;
     }
     // 循环 tab页面如果已经打开，则切换到对应页面

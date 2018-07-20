@@ -70,8 +70,11 @@
 
   <script src="./lib/layui.js"></script>  
   <script>
-  layui.use('form', function(){
-    "use strict";
+  layui.config({
+    base: './compontents/' //静态资源所在路径
+  }).extend({
+    index: 'index' //主入口模块
+  }).use(['index', 'user'], function(){
     var $ = layui.$
     ,setter = layui.setter
     ,admin = layui.admin
@@ -86,7 +89,7 @@
     
       //请求登入接口
       admin.req({
-        url: layui.setter.base + 'json/user/login.js' //实际使用请改成服务端真实接口
+        url: layui.setter.base + 'data/login.js' //实际使用请改成服务端真实接口
         ,data: obj.field
         ,done: function(res){
         
@@ -102,7 +105,7 @@
             ,icon: 1
             ,time: 1000
           }, function(){
-            location.href = '../'; //后台主页
+            location.href = './index.html'; //后台主页
           });
         }
       });
