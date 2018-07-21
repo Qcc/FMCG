@@ -1,0 +1,187 @@
+{
+    "code": 0, 
+    "msg": "", 
+    "count": 1000, 
+    "data": [
+        {
+            "companycode": 10000, 
+            "account": "zhangsan1", 
+            "password": "123456", 
+            "state": "正常", 
+            "nickname": "张三1", 
+            "autologin": "开启", 
+            "wxopenid": "weixinid", 
+            "usergroup": "用户组1"
+        }, 
+        {
+            "companycode": 10001, 
+            "account": "lisi", 
+            "password": "888888", 
+            "state": "正常", 
+            "nickname": "李四", 
+            "autologin": "开启", 
+            "wxopenid": "weixinzhanghao", 
+            "usergroup": "用户组2"
+        }, 
+        {
+            "companycode": 10002, 
+            "account": "mingzi", 
+            "password": "12ddd", 
+            "state": "正常", 
+            "nickname": "小明", 
+            "autologin": "开启", 
+            "wxopenid": "wexiaod", 
+            "usergroup": "用户组2"
+        }, 
+        {
+            "companycode": 10003, 
+            "account": "zhangsan", 
+            "password": "123456", 
+            "state": "正常", 
+            "nickname": "张三", 
+            "autologin": "开启", 
+            "wxopenid": "weixinid", 
+            "usergroup": "用户组1"
+        }, 
+        {
+            "companycode": 10004, 
+            "account": "lisi", 
+            "password": "888888", 
+            "state": "正常", 
+            "nickname": "李四", 
+            "autologin": "开启", 
+            "wxopenid": "weixinzhanghao", 
+            "usergroup": "用户组2"
+        }, 
+        {
+            "companycode": 10005, 
+            "account": "mingzi", 
+            "password": "12ddd", 
+            "state": "正常", 
+            "nickname": "小明", 
+            "autologin": "开启", 
+            "wxopenid": "wexiaod", 
+            "usergroup": "用户组2"
+        },
+        {
+            "companycode": 10006, 
+            "account": "zhangsan", 
+            "password": "123456", 
+            "state": "正常", 
+            "nickname": "张三", 
+            "autologin": "开启", 
+            "wxopenid": "weixinid", 
+            "usergroup": "用户组1"
+        }, 
+        {
+            "companycode": 10007, 
+            "account": "lisi", 
+            "password": "888888", 
+            "state": "正常", 
+            "nickname": "李四", 
+            "autologin": "开启", 
+            "wxopenid": "weixinzhanghao", 
+            "usergroup": "用户组2"
+        }, 
+        {
+            "companycode": 10008, 
+            "account": "mingzi", 
+            "password": "12ddd", 
+            "state": "正常", 
+            "nickname": "小明", 
+            "autologin": "开启", 
+            "wxopenid": "wexiaod", 
+            "usergroup": "用户组2"
+        }, 
+        {
+            "companycode": 10009, 
+            "account": "zhangsan", 
+            "password": "123456", 
+            "state": "正常", 
+            "nickname": "张三", 
+            "autologin": "开启", 
+            "wxopenid": "weixinid", 
+            "usergroup": "用户组1"
+        }, 
+        {
+            "companycode": 10010, 
+            "account": "lisi", 
+            "password": "888888", 
+            "state": "正常", 
+            "nickname": "李四", 
+            "autologin": "开启", 
+            "wxopenid": "weixinzhanghao", 
+            "usergroup": "用户组2"
+        }, 
+        {
+            "companycode": 10011, 
+            "account": "mingzi", 
+            "password": "12ddd", 
+            "state": "正常", 
+            "nickname": "小明", 
+            "autologin": "开启", 
+            "wxopenid": "wexiaod", 
+            "usergroup": "用户组2"
+        },
+        {
+            "companycode": 10012, 
+            "account": "zhangsan", 
+            "password": "123456", 
+            "state": "正常", 
+            "nickname": "张三", 
+            "autologin": "开启", 
+            "wxopenid": "weixinid", 
+            "usergroup": "用户组1"
+        }, 
+        {
+            "companycode": 10013, 
+            "account": "lisi", 
+            "password": "888888", 
+            "state": "正常", 
+            "nickname": "李四", 
+            "autologin": "开启", 
+            "wxopenid": "weixinzhanghao", 
+            "usergroup": "用户组2"
+        }, 
+        {
+            "companycode": 10014, 
+            "account": "mingzi", 
+            "password": "12ddd", 
+            "state": "正常", 
+            "nickname": "小明", 
+            "autologin": "开启", 
+            "wxopenid": "wexiaod", 
+            "usergroup": "用户组2"
+        }, 
+        {
+            "companycode": 10015, 
+            "account": "zhangsan", 
+            "password": "123456", 
+            "state": "正常", 
+            "nickname": "张三", 
+            "autologin": "开启", 
+            "wxopenid": "weixinid", 
+            "usergroup": "用户组1"
+        }, 
+        {
+            "companycode": 10016, 
+            "account": "lisi", 
+            "password": "888888", 
+            "state": "正常", 
+            "nickname": "李四", 
+            "autologin": "开启", 
+            "wxopenid": "weixinzhanghao", 
+            "usergroup": "用户组2"
+        }, 
+        {
+            "companycode": 10017, 
+            "account": "mingzi", 
+            "password": "12ddd", 
+            "state": "正常", 
+            "nickname": "小明", 
+            "autologin": "开启", 
+            "wxopenid": "wexiaod", 
+            "usergroup": "用户组2"
+        }
+    ]
+}

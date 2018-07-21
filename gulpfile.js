@@ -23,7 +23,7 @@ gulp.task('scripts', function() {
       ])
     //   .pipe(concat('custom.js')) // 合并js文件
     //   .pipe(gulp.dest(DEST+'/js'))
-      .pipe(rename({suffix: '.min'}))
+    //   .pipe(rename({suffix: '.min'}))
     //   .pipe(uglify()) // JS压缩
       .pipe(gulp.dest(DEST+'/js'))
       .pipe(browserSync.stream());
@@ -39,6 +39,19 @@ gulp.task('compontents', function() {
     //   .pipe(rename({suffix: '.min'}))
     //   .pipe(uglify()) // JS压缩
       .pipe(gulp.dest(DEST+'/compontents'))
+      .pipe(browserSync.stream());
+});
+
+gulp.task('demodata', function() {
+    return gulp.src([
+        // 'src/js/helpers/*.js',
+        'src/compontents/demodata/**/*.json',
+      ])
+    //   .pipe(concat('custom.js')) // 合并js文件
+    //   .pipe(gulp.dest(DEST+'/compontents'))
+    //   .pipe(rename({suffix: '.min'}))
+    //   .pipe(uglify()) // JS压缩
+      .pipe(gulp.dest(DEST+'/compontents/demodata/'))
       .pipe(browserSync.stream());
 });
 
@@ -77,9 +90,9 @@ gulp.task('css', function() {
 gulp.task('browser-sync', function() {
     browserSync.init({
         server: {
-            baseDir: './'
+            baseDir: './dest/'
         },
-        startPath: './dest/index.html',
+        startPath: 'index.html',
         port: 8000
     });
 });
@@ -99,6 +112,7 @@ gulp.task('watch', function() {
   // Watch .js files
   gulp.watch('src/**/*.js', ['scripts']);
   gulp.watch('src/compontents/**/*.js', ['compontents']);
+  gulp.watch('src/compontents/demodata/**/*.json', ['demodata']);
   // Watch .scss files
   gulp.watch('src/css/**/*.css', ['css']);
   // 图片压缩
@@ -106,7 +120,7 @@ gulp.task('watch', function() {
 });
 
 // Default Task
-gulp.task('default', ['imagemin', 'html-minify', 'scripts', 'compontents', 'css', 'icon', 'lib']);
+gulp.task('default', ['imagemin', 'html-minify', 'scripts', 'compontents', 'demodata', 'css', 'icon', 'lib']);
 
 // watching Task
-gulp.task('watching', ['browser-sync', 'imagemin', 'html-minify', 'scripts', 'compontents','css','watch']);
+gulp.task('watching', ['browser-sync', 'imagemin', 'html-minify', 'scripts', 'compontents', 'demodata', 'css','watch']);
