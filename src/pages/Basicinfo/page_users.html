@@ -9,25 +9,6 @@
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
         <link rel="stylesheet" href="../../lib/css/layui.css">
         <link rel="stylesheet" href="../../css/basicinfo_users.min.css">
-        <style>
-        body{
-          padding: 10px;
-          margin: 0;
-        }
-        .editmenu{
-          position: absolute;
-          cursor: pointer;
-    width: 80px;
-    line-height: 30px;
-    box-shadow: 0 2px 4px rgba(0,0,0,.12);
-    border: 1px solid #d2d2d2;
-    background-color: #fff;
-    border-radius: 2px;
-    white-space: nowrap;
-    text-align:center;
-    display: none;
-        }
-        </style>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -35,12 +16,57 @@
     <![endif]-->
     </head>
     <body>
-        <div class="layui-btn-group demoTable">
-            <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
-            <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
-            <button class="layui-btn" data-type="isAll">验证是否全选</button>
+      <div class="layui-fluid">
+      <div class="layui-row">
+        <div class="layui-col-md2">
+          <div class="layui-row kt-company">
+          <div class="layui-col-xs6">
+            <h3>组织架构</h3>
           </div>
-          <div style="width: 100%">
+          <div class="layui-col-xs6">
+              <div class="layui-btn-group kt-company-button">
+                <button class="layui-btn layui-btn-primary layui-btn-sm" style="border: none;"><i class="layui-icon layui-icon-add-1"></i></button>
+                <button class="layui-btn layui-btn-primary layui-btn-sm" style="border: none;"><i class="layui-icon layui-icon-refresh"></i></button>
+              </div>
+          </div>
+          </div>
+          <div class="layui-row">
+            <form class="layui-form layui-inline">
+              <div class="layui-form-item" style="margin-bottom: 0px;">
+                <div class="layui-input-inline">
+                  <input type="text" style="border-left:none;border-right: none;" name="number" placeholder="请输入搜索的部门" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="layui-row">
+              <ul id="kttree"></ul>
+          </div>
+        </div>
+        <div class="layui-col-md10">
+            <div class="layui-row ">
+              <div class="layui-col-md3 kt-bic">
+                <h3 class="layui-inline">基本信息</h3>
+              </div>
+              <div class="layui-col-md9 kt-query" style="text-align: right;">
+                <form class="layui-form layui-inline">
+                  <div class="layui-form-item" style="margin-bottom: 0px;">
+                    <div class="layui-input-inline" style="margin-right: -1px;">
+                      <input type="text" style="height: 30px;" name="number" placeholder="姓名/手机号码" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-btn-group">
+                      <button class="layui-btn layui-btn-primary layui-btn-sm" lay-submit="" lay-filter="demo1"><i class="layui-icon">&#xe615;</i> </button>
+                    </div>
+                  </div>
+                </form>
+                <div class="layui-btn-group">
+                  <button class="layui-btn layui-btn-sm">新增</button>
+                  <button class="layui-btn layui-btn-sm">导出</button>
+                  <button class="layui-btn layui-btn-sm">筛选</button>
+                </div>
+              </div>
+            </div>
+          <div>
             <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/basicinfo_users.json', page:true, id:'idTest'}" lay-filter="demo">
               <thead>
                 <tr>
@@ -58,17 +84,12 @@
                 </tr>
               </thead>
             </table>
-            <ul class="editmenu">
-              <li class="editmenu-item"><a href="javascript:;">修改</a></li>
-              <li class="editmenu-item"><a href="javascript:;">停用</a></li>
-              <li class="editmenu-item"><a href="javascript:;">删除</a></li>
-              <li class="editmenu-item"><a href="javascript:;">解绑微信</a></li>
-              <li class="editmenu-item"><a href="javascript:;">查看日志</a></li>
-            </ul>
           </div>
-            
+        </div>
+      </div>    
+    </div>    
           <script type="text/html" id="barDemo">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">操作<i class="layui-icon layui-icon-triangle-d"></i></a>
+            <a class="layui-btn layui-btn-xs" lay-event="setting">编辑</i></a>
             
           </script>
     <script src="../../lib/layui.js"></script>
@@ -83,30 +104,28 @@
 //     ,busers = layui.basicinfo_users;
 //     busers.run('jiazai');
 //   });
-layui.use('table', function(){
-  var table = layui.table;
+layui.use(['table','form','layer','tree'], function(){
+  var table = layui.table
+  ,form =layui.form
+  ,layer = layui.layer;
   //监听表格复选框选择
   table.on('checkbox(demo)', function(obj){
     console.log(obj)
   });
   //监听工具条
   table.on('tool(demo)', function(obj){
-    console.log(obj,getMousePos());
-    var xy = getMousePos();
     var data = obj.data;
-    $('.editmenu').css({left: xy.x,top: xy.y}).show();
-      return false;
-
-    // if(obj.event === 'detail'){
-    //   layer.msg('ID：'+ data.companycode + ' 的查看操作');
-    // } else if(obj.event === 'del'){
-    //   layer.confirm('真的删除行么', function(index){
-    //     obj.del();
-    //     layer.close(index);
-    //   });
-    // } else if(obj.event === 'edit'){
-    //   layer.alert('编辑行：<br>'+ JSON.stringify(data))
-    // }
+    if(obj.event === 'setting'){
+      layer.msg('ID：'+ data.companycode + ' 编辑');
+    } else if(obj.event === 'del'){
+      layer.confirm('真的删除行么', function(index){
+        obj.del();
+        layer.close(index);
+      });
+    } else if(obj.event === 'edit'){
+      layer.alert('编辑行：<br>'+ JSON.stringify(data))
+    }
+    return false;
   });
   
   var $ = layui.$, active = {
@@ -131,20 +150,105 @@ layui.use('table', function(){
     active[type] ? active[type].call(this) : '';
   });
 
-  $('.editmenu').mouseleave(function(){
-    $('.editmenu').hide();
+  //监听提交
+  form.on('submit(demo1)', function(data){
+    layer.alert(JSON.stringify(data.field), {
+      title: '最终的提交信息'
+    })
+    return false;
   });
+
+  layui.tree({
+    elem: '#kttree' //指定元素
+    ,target: '_blank' //是否新选项卡打开（比如节点返回href才有效）
+    ,click: function(item){ //点击节点回调
+      layer.msg('当前节名称：'+ item.name + '<br>全部参数：'+ JSON.stringify(item));
+      console.log(item);
+    },
+    skin:'kt-tree'
+    ,nodes: [ //节点
+      {
+        name: '深圳市沟通科技有限公司'
+        ,id: 1
+        ,alias: 'changyong'
+        ,spread:true
+        ,children: [
+          {
+            name: '分销部'
+            ,id: 11
+            ,href: 'http://www.layui.com/'
+            ,children:[
+              {
+                name: '食品分销'
+                ,id: 12                
+              },{
+                name: '饮料分销'
+                ,id: 13
+              }
+            ]
+          }, {
+            name: '销售部'
+            ,id: 2
+            ,children:[
+              {
+                name: '销售一部'
+                ,id: 12                
+              },{
+                name: '销售二部'
+                ,id: 13
+              }
+            ]
+          }, {
+            name: '技术部'
+            ,id: 3
+          }
+        ]
+      }
+    ]
+  });
+  
+  
+  //生成一个模拟树
+  var createTree = function(node, start){
+    node = node || function(){
+      var arr = [];
+      for(var i = 1; i < 10; i++){
+        arr.push({
+          name: i.toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
+        });
+      }
+      return arr;
+    }();
+    start = start || 1;  
+    layui.each(node, function(index, item){  
+      if(start < 10 && index < 9){
+        var child = [
+          {
+            name: (1 + index + start).toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
+          }
+        ];
+        node[index].children = child;
+        createTree(child, index + start + 1);
+      }
+    });
+    return node;
+  };
+ 
+  layui.tree({
+    elem: '#demo2' //指定元素
+    ,nodes: createTree()
+  });
+  
 });
 //获得鼠标位置
-function getMousePos(event) {
-  var e = event || window.event;
-  var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
-  var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
-  var x = e.pageX || e.clientX + scrollX;
-  var y = e.pageY || e.clientY + scrollY;
-  //alert('x: ' + x + '\ny: ' + y);
-  return { 'x': x, 'y': y };
-}
+// function getMousePos(event) {
+//   var e = event || window.event;
+//   var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+//   var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+//   var x = e.pageX || e.clientX + scrollX;
+//   var y = e.pageY || e.clientY + scrollY;
+//   return { 'x': x, 'y': y };
+// }
   </script>
     </body>
 </html>
