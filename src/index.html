@@ -254,18 +254,15 @@
         <div class="layui-side-scroll">
           <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
           <ul class="layui-nav layui-nav-tree left-nav-tree" lay-shrink="all"  lay-filter="kt-sidemenu">
-            <li class="layui-nav-item " lay-unselect>
+            <li class="layui-nav-item layui-nav-itemed" lay-unselect>
               <a class="" href="javascript:;">
                 <i class="iconfont icon-chucha"></i>
-                <cite>外勤管理</cite>
+                <cite>考勤管理</cite>
               </a>
               <dl class="layui-nav-child">
                 <dd lay-unselect>
                   <a class="menu-item-primary" _href="pages/attendance.html" data-menuid='001'>
-                  <cite>打卡签到</cite>
-                  </a>
-                  <a class="menu-item-deputy" title="打卡签到查询" _href="pages/attendance.html" data-menuid='002'>
-                    <cite>查询</cite>
+                  <cite>考勤统计</cite>
                   </a>
                 </dd>
               
@@ -398,7 +395,7 @@
                 </dd>
               </dl>
             </li>
-            <li class="layui-nav-item layui-nav-itemed" lay-unselect>
+            <li class="layui-nav-item" lay-unselect>
               <a href="javascript:;">
                 <i class="iconfont icon-ziliao"></i>
                 <cite>基础资料</cite>
@@ -472,7 +469,7 @@
               <i class="tab-scroll tab-scroll-right iconfont icon-zelvgongyongshouqi2"></i>
             <div class="layui-tab-content" style="padding: 0;">
                 <div class="layui-tab-item layui-show">
-                  <iframe src='./pages/Basicinfo/page_users.html' frameborder="0" scrolling="yes" id="00" class="kt-iframe"></iframe>
+                  <iframe src='./pages/attendance.html' frameborder="0" scrolling="yes" id="00" class="kt-iframe"></iframe>
                 </div>
             </div>
             </div>

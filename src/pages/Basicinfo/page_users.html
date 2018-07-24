@@ -80,7 +80,7 @@
                   
                   <th lay-data="{field:'wxopenid'}">微信号</th>
                   <th lay-data="{field:'usergroup', sort: true}">用户组</th>
-                  <th lay-data="{ width:178, align:'center', toolbar: '#barDemo'}"></th>
+                  <th lay-data="{ width:80, align:'center', toolbar: '#barDemo'}"></th>
                 </tr>
               </thead>
             </table>
@@ -234,10 +234,10 @@ layui.use(['table','form','layer','tree'], function(){
     return node;
   };
  
-  layui.tree({
-    elem: '#demo2' //指定元素
-    ,nodes: createTree()
-  });
+  // layui.tree({
+  //   elem: '#demo2' //指定元素
+  //   ,nodes: createTree()
+  // });
   
 });
 //获得鼠标位置
