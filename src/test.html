@@ -10,47 +10,37 @@
   <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
+    <div class="layui-container">
  
-    <table class="layui-table" lay-data="{url:'/test/table/demo2.json?v=3', cellMinWidth: 80, page: true}">
-      <thead>
-        <tr>
-          <th lay-data="{field:'username', width:80}" rowspan="3">联系人</th>
-          <th lay-data="{field:'amount', width:120}" rowspan="3">金额</th>
-          <th lay-data="{align:'center'}" colspan="5">地址1</th>
-          <th lay-data="{align:'center'}" colspan="2">地址2</th>
-          <th lay-data="{fixed: 'right', width: 160, align: 'center', toolbar: '#barDemo'}" rowspan="3">操作</th>
-          <th lay-data="{align:'center'}" colspan="3">地址3</th>
-        </tr>
-        <tr>
-          <th lay-data="{field:'province'}" rowspan="2">省</th>
-          <th lay-data="{field:'city'}" rowspan="2">市</th>
-          <th lay-data="{align:'center'}" colspan="3">详细</th>
-          <th lay-data="{field:'province'}" rowspan="2">省</th>
-          <th lay-data="{field:'city'}" rowspan="2">市</th>
-          <th lay-data="{field:'street'}">第三方 </th>
-          <th lay-data="{field:'address'}">地方</th>
-          <th lay-data="{field:'house'}">地方</th>
-        </tr>
-        <tr>
-          <th lay-data="{field:'street'}">街道</th>
-          <th lay-data="{field:'address'}">小区</th>
-          <th lay-data="{field:'house'}">单元</th>
-        </tr>
-      </thead>
-    </table>
- 
-<script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">按钮1</a>
-  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">按钮2</a>
-</script>
-<p style="color: #999">注：上述例子读取的均是静态模拟数据</p>
-               
-          
+      <div class="layui-tab layui-row">
+        <div class="layui-row">
+          <div class="layui-tab-brief layui-col-xs6">
+            <ul id="tabHeader" class="layui-tab-title">
+              <li class="layui-this">标题1</li>
+              <li>标题2</li>
+              <li>标题3</li>
+            </ul>
+          </div>
+        </div>
+        <div id="tabBody" class="layui-tab-content">
+          <div class="layui-tab-item layui-show">内容1</div>
+          <div class="layui-tab-item">内容2</div>
+          <div class="layui-tab-item">内容3</div>
+        </div>
+      </div>
+      
+    </div>
 <script src="../lib/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
-layui.use('table', function(){
-  var table = layui.table;
+layui.use('element', function(){
+  var $ = layui.jquery
+  ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+    //JavaScript              
+// element.tab({
+//   headerElem: '#tabHeader>li' //指定tab头元素项
+//   ,bodyElem: '#tabBody>.xxx' //指定tab主体元素项
+// }); 
   
 });
 </script>

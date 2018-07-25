@@ -1,0 +1,57 @@
+{
+    "code": 0, 
+    "msg": "消息管理", 
+    "count": 1000, 
+    "data": [
+        {
+            "title": "这是一段测试消息！", 
+            "content": "这是测试正文，这是测试正文", 
+            "createdatetime": "2018-07-24", 
+            "type": "html", 
+            "richtext": "富文本", 
+            "source": "来源", 
+            "source": "张三"
+        }, {
+            "title": "豆腐干梵蒂冈息！", 
+            "content": "这是测试纷纷改行分割好正文，这是测试正文", 
+            "createdatetime": "2018-03-21", 
+            "type": "html", 
+            "richtext": "富文本", 
+            "source": "来源", 
+            "source": "张三"
+        },{
+            "title": "这是一段测德国风格地方！", 
+            "content": "对方告诉对方根深蒂固时代风格三等功 ，梵蒂冈梵蒂冈是", 
+            "createdatetime": "2018-07-21", 
+            "type": "html", 
+            "richtext": "富文本", 
+            "source": "来源", 
+            "source": "张三"
+        },{
+            "title": "豆腐干豆腐干", 
+            "content": "沈工时代风格撒旦法高速费告诉对方功夫， 给飞过海发梵蒂冈", 
+            "createdatetime": "2018-07-14", 
+            "type": "html", 
+            "richtext": "富文本", 
+            "source": "来源", 
+            "source": "张三"
+        },{
+            "title": "收购哈飞股份股份", 
+            "content": "岁的发放，让功夫沈工梵蒂冈沈工大公司 ", 
+            "createdatetime": "2018-07-03", 
+            "type": "html", 
+            "richtext": "富文本", 
+            "source": "来源", 
+            "source": "张三"
+        },{
+            "title": "这是一段测试消息！", 
+            "content": "这是测试正文，这是测试正文", 
+            "createdatetime": "2018-07-24", 
+            "type": "html", 
+            "richtext": "富文本", 
+            "source": "来源", 
+            "source": "张三"
+        }
+         
+    ]
+}

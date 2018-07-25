@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
         <link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="../../lib/css/layui.css">
-        <link rel="stylesheet" href="../../css/contacts.min.css">
+        <link rel="stylesheet" href="../../css/messages.min.css">
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -18,11 +18,118 @@
     </head>
     <body>
     <div class="x-body layui-anim layui-anim-up">
-        <blockquote class="layui-elem-quote">消息页面：
-            <span class="x-red">test</span>！当前时间:2018-05-28 20:50:53</blockquote>
+        <div class="layui-tab" style="margin:0;" lay-filter="docDemoTabBrief">
+            <div class="layui-row">
+                <div class="layui-tab-brief layui-col-xs6">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">全部消息</li>
+                        <li>系统通知</li>
+                        <li>收信</li>
+                        <li>已发信息</li>
+                        <li>发送私信</li>
+                    </ul>
+                </div>
+                <div class="layui-col-xs6" style="text-align: right;margin-top: 5px;">
+                  <form class="layui-form layui-inline">
+                    <div class="layui-form-item" style="margin-bottom: 0px;">
+                      <div class="layui-input-inline" style="margin-right: -1px;">
+                        <input type="text" style="height: 30px;" name="number" placeholder="请输入要搜索的内容" autocomplete="off" class="layui-input">
+                      </div>
+                      <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" lay-submit="" lay-filter="demo1"><i class="layui-icon">&#xe615;</i> </button>
+                      </div>
+                    </div>
+                  </form>
+                  <div class="layui-btn-group">
+                    <button class="layui-btn layui-btn-sm">删除</button>
+                    <button class="layui-btn layui-btn-sm">标记已读</button>
+                    <button class="layui-btn layui-btn-sm">全部标记</button>
+                  </div>
+                </div>
+            </div>
+            <div class="layui-tab-content">
+              <div class="layui-tab-item layui-show">
+                <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/messages.json', page:true, id:'idTest'}" lay-filter="demo">
+                    <thead>
+                      <tr>
+                        <th lay-data="{type:'checkbox'}"></th>
+                        <th lay-data="{field:'title',width:250}">标题</th>
+                        <th lay-data="{field:'content'}">内容</th>
+                        <th lay-data="{field:'createdatetime', sort: true,width:120}">发送时间</th>
+                      </tr>
+                    </thead>
+                  </table>
+              </div>
+              <div class="layui-tab-item">
+                <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/messages.json', page:true, id:'idTest'}" lay-filter="demo">
+                    <thead>
+                      <tr>
+                        <th lay-data="{type:'checkbox'}"></th>
+                        <th lay-data="{field:'title',width:250}">标题</th>
+                        <th lay-data="{field:'content'}">内容</th>
+                        <th lay-data="{field:'createdatetime', sort: true,width:120}">发送时间</th>
+                      </tr>
+                    </thead>
+                  </table>   
+              </div>
+              <div class="layui-tab-item">
+                <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/messages.json', page:true, id:'idTest'}" lay-filter="demo">
+                    <thead>
+                      <tr>
+                        <th lay-data="{type:'checkbox'}"></th>
+                        <th lay-data="{field:'title',width:250}">标题</th>
+                        <th lay-data="{field:'content'}">内容</th>
+                        <th lay-data="{field:'createdatetime', sort: true,width:120}">发送时间</th>
+                      </tr>
+                    </thead>
+                  </table>   
+              </div>
+              <div class="layui-tab-item">
+                <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/messages.json', page:true, id:'idTest'}" lay-filter="demo">
+                    <thead>
+                      <tr>
+                        <th lay-data="{type:'checkbox'}"></th>
+                        <th lay-data="{field:'title',width:250}">标题</th>
+                        <th lay-data="{field:'content'}">内容</th>
+                        <th lay-data="{field:'createdatetime', sort: true,width:120}">发送时间</th>
+                      </tr>
+                    </thead>
+                  </table>   
+              </div>
+              <div class="layui-tab-item">
+                <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">发送给</label>
+                      <div class="layui-input-block">
+                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入收信人" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <div class="layui-input-block">
+                            <textarea id="demo" style="display: none;"></textarea>
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="demo1">立即发送</button>
+                      </div>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
     </div>
     <script src="../../lib/layui.js"></script>
-    <script src="../../js/contacts.min.js"></script>
+    <script>
+    layui.use(['element', 'form', 'table','layedit', 'layer'], function(){
+    var form = layui.form
+    ,layer = layui.layer
+    ,layedit = layui.layedit
+    ,laydate = layui.laydate
+    ,element = layui.element;
     
+    layedit.build('demo'); //建立编辑器
+  });
+    </script>
     </body>
 </html>
