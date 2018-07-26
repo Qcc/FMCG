@@ -1,0 +1,19 @@
+{
+    "code": 0, 
+    "msg": "考勤设置", 
+    "count": 1000, 
+    "data": [
+        {
+            "kaoqinzu":"默认考勤组",
+            "longitude":"南区W1-B",
+            "kaoqinrenyuan":"张三，李四",
+            "validrange":"20",
+            "time":"2018年7月26日 18:48:27",
+            "employee":"李经理",
+            "zuname":"默认考勤组",
+            "daixin":"是否带薪假",
+            "beizhu":"系统默认考勤组。"
+        }
+
+    ]
+}

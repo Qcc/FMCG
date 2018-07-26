@@ -10,37 +10,146 @@
   <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
-    <div class="layui-container">
- 
-      <div class="layui-tab layui-row">
-        <div class="layui-row">
-          <div class="layui-tab-brief layui-col-xs6">
-            <ul id="tabHeader" class="layui-tab-title">
-              <li class="layui-this">标题1</li>
-              <li>标题2</li>
-              <li>标题3</li>
-            </ul>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">考勤组名称</label>
+          <div class="layui-input-inline">
+            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
           </div>
         </div>
-        <div id="tabBody" class="layui-tab-content">
-          <div class="layui-tab-item layui-show">内容1</div>
-          <div class="layui-tab-item">内容2</div>
-          <div class="layui-tab-item">内容3</div>
+        
+        <div class="layui-form-item">
+          <label class="layui-form-label">节假日设置</label>
+            <div class="layui-input-inline">
+              <select name="interest" lay-filter="aihao">
+                <option value="" selected="">默认节假日</option>
+                <option value="3">自定义节假日</option>
+              </select>
+            </div>
+            <div class="layui-input-inline">
+                <button type="reset" class="layui-btn layui-btn-primary">编辑</button>
+            </div>
+          </div>
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">考勤时间</label>
+            <div class="layui-input-block">
+              <input type="radio" name="sex" value="1" title="工作日每天时间相同" checked="">
+              <input type="radio" name="sex" value="2" title="工作日每天时间不同">
+            </div>
         </div>
-      </div>
-      
-    </div>
+        
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">工作时间1</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="gongzuoshijian1">
+            </div>
+          </div>
+        </div>
+        
+        <div class="layui-form-item layui-inline">
+          <label class="layui-form-label">异常定义</label>
+            <div class="layui-form-mid layui-word-aux">迟到</div>
+            <div class="layui-input-inline" style="width: 50px;">
+              <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
+        </div>
+        <div class="layui-form-item layui-inline">
+          <label class="layui-form-label"></label>
+            <div class="layui-form-mid layui-word-aux">迟到</div>
+            <div class="layui-input-inline" style="width: 50px;">
+              <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
+        </div>
+        <div class="layui-form-item layui-inline">
+          <label class="layui-form-label"></label>
+            <div class="layui-form-mid layui-word-aux">迟到</div>
+            <div class="layui-input-inline" style="width: 50px;">
+              <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
+        </div>
+        <div class="layui-form-item layui-inline">
+          <label class="layui-form-label"></label>
+            <div class="layui-form-mid layui-word-aux">迟到</div>
+            <div class="layui-input-inline" style="width: 50px;">
+              <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">拍照设置</label>
+            <div class="layui-input-inline">
+              <select name="interest" lay-filter="aihao">
+                <option value="0" selected="">考勤异常时强制拍照</option>
+                <option value="1">每次考勤时强制拍照</option>
+                <option value="2">任何情况下不强制拍照</option>
+              </select>
+            </div>
+        </div>
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">考勤点管理</label>
+            <div class="layui-input-inline">
+              <select name="interest" lay-filter="aihao">
+                <option value="0" selected="">南山办公室</option>
+                <option value="1">上海办公室</option>
+                <option value="2">北京办公室</option>
+              </select>
+            </div>
+            <div class="layui-input-inline">
+                <button type="reset" class="layui-btn layui-btn-primary">编辑</button>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">考勤人员</label>
+            <div class="layui-input-block">
+              <input type="radio" name="sex" value="1" title="指定人员" checked="">
+              <input type="radio" name="sex" value="2" title="指定部门">
+              <input type="radio" name="sex" value="2" title="指定职位">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+              以上分配方式均包含某个员工时，考勤组的优先级顺序指定人员>指定部门>指定职务>默认考勤组
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">管理范围</label>
+            <div class="layui-input-inline">
+              <select name="interest" lay-filter="aihao">
+                <option value="0" selected="">销售部</option>
+                <option value="1">市场部</option>
+                <option value="2">配货部</option>
+              </select>
+            </div>
+            <div class="layui-input-inline">
+                <button type="reset" class="layui-btn layui-btn-primary">编辑</button>
+            </div>
+        </div>
+      </form>  
+        
+            
+ 
+
 <script src="../lib/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
-layui.use('element', function(){
+layui.use(['element','form','table','laydate'], function(){
   var $ = layui.jquery
-  ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+  ,element = layui.element
+  ,laydate = layui.laydate;
     //JavaScript              
-// element.tab({
-//   headerElem: '#tabHeader>li' //指定tab头元素项
-//   ,bodyElem: '#tabBody>.xxx' //指定tab主体元素项
-// }); 
+  laydate.render({
+  elem: '#gongzuoshijian1'
+  ,type: 'time'
+  ,range: true
+  ,value:"00:00:00 - 00:00:00"
+});
   
 });
 </script>
