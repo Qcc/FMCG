@@ -1,0 +1,63 @@
+{
+    "code": 0, 
+    "msg": "合同管理", 
+    "count": 1000, 
+    "data": [
+        {
+            "signdate":"2018年7月27日 17:16:52",
+            "startdate":"2018年7月27日 17:16:56",
+            "expirationdate":"2018年7月27日 17:16:58",
+            "deposit":"10000",
+            "content":"合同内容电子版",
+            "hottip":"合同说明",
+            "customer":"深圳市沟通科技有限公司",
+            "sales":"张三",
+            "credentialscans":"证件",
+            "contractscans":"合同源文件"
+        },{
+            "signdate":"2018年7月27日 17:16:52",
+            "startdate":"2018年7月27日 17:16:56",
+            "expirationdate":"2018年7月27日 17:16:58",
+            "deposit":"10000",
+            "content":"合同内容电子版",
+            "hottip":"合同说明",
+            "customer":"深圳市沟通科技有限公司",
+            "sales":"张三",
+            "credentialscans":"证件",
+            "contractscans":"合同源文件"
+        },{
+            "signdate":"2018年7月27日 17:16:52",
+            "startdate":"2018年7月27日 17:16:56",
+            "expirationdate":"2018年7月27日 17:16:58",
+            "deposit":"10000",
+            "content":"合同内容电子版",
+            "hottip":"合同说明",
+            "customer":"深圳市沟通科技有限公司",
+            "sales":"张三",
+            "credentialscans":"证件",
+            "contractscans":"合同源文件"
+        },{
+            "signdate":"2018年7月27日 17:16:52",
+            "startdate":"2018年7月27日 17:16:56",
+            "expirationdate":"2018年7月27日 17:16:58",
+            "deposit":"10000",
+            "content":"合同内容电子版",
+            "hottip":"合同说明",
+            "customer":"深圳市沟通科技有限公司",
+            "sales":"张三",
+            "credentialscans":"证件",
+            "contractscans":"合同源文件"
+        },{
+            "signdate":"2018年7月27日 17:16:52",
+            "startdate":"2018年7月27日 17:16:56",
+            "expirationdate":"2018年7月27日 17:16:58",
+            "deposit":"10000",
+            "content":"合同内容电子版",
+            "hottip":"合同说明",
+            "customer":"深圳市沟通科技有限公司",
+            "sales":"张三",
+            "credentialscans":"证件",
+            "contractscans":"合同源文件"
+        } 
+    ]
+}

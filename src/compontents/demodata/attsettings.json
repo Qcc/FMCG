@@ -11,8 +11,53 @@
             "time":"2018年7月26日 18:48:27",
             "employee":"李经理",
             "zuname":"默认考勤组",
-            "daixin":"是否带薪假",
-            "beizhu":"系统默认考勤组。"
+            "beizhu":"系统默认考勤组。",
+            "daixin":"否",
+            "qingjialeixing":"事假"
+        },{
+            "kaoqinzu":"默认考勤组",
+            "longitude":"南区W1-B",
+            "kaoqinrenyuan":"张三，李四",
+            "validrange":"20",
+            "time":"2018年7月26日 18:48:27",
+            "employee":"李经理",
+            "zuname":"默认考勤组",
+            "beizhu":"系统默认考勤组。",
+            "daixin":"否",
+            "qingjialeixing":"病假"
+        },{
+            "kaoqinzu":"默认考勤组",
+            "longitude":"南区W1-B",
+            "kaoqinrenyuan":"张三，李四",
+            "validrange":"20",
+            "time":"2018年7月26日 18:48:27",
+            "employee":"李经理",
+            "zuname":"默认考勤组",
+            "beizhu":"系统默认考勤组。",
+            "daixin":"是",
+            "qingjialeixing":"婚嫁"
+        },{
+            "kaoqinzu":"默认考勤组",
+            "longitude":"南区W1-B",
+            "kaoqinrenyuan":"张三，李四",
+            "validrange":"20",
+            "time":"2018年7月26日 18:48:27",
+            "employee":"李经理",
+            "zuname":"默认考勤组",
+            "beizhu":"系统默认考勤组。",
+            "daixin":"是",
+            "qingjialeixing":"产假"
+        },{
+            "kaoqinzu":"默认考勤组",
+            "longitude":"南区W1-B",
+            "kaoqinrenyuan":"张三，李四",
+            "validrange":"20",
+            "time":"2018年7月26日 18:48:27",
+            "employee":"李经理",
+            "zuname":"默认考勤组",
+            "beizhu":"系统默认考勤组。",
+            "daixin":"是",
+            "qingjialeixing":"陪产假"
         }
 
     ]

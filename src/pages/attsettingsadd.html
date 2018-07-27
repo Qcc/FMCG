@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 考勤记录页面 -->
+<!-- 添加考勤组页面 -->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -15,15 +15,37 @@
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+      body{
+        margin-top: 5px;
+      }
+      .layui-form{
+        font-size: 13px;
+      }
+    .layui-form .layui-form-item{
+      margin-bottom: 10px;
+    }
+    </style>
     </head>
     <body style="overflow-y: scroll;">
+      <div class="layui-container-full">
         <form class="layui-form" action="">
-            <div class="layui-form-item">
-              <label class="layui-form-label">考勤组名称</label>
-              <div class="layui-input-inline">
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+          <div class="layui-row">
+            <div class="layui-col-xs6">
+              <div class="layui-form-item">
+                <label class="layui-form-label">考勤组名称</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                </div>
               </div>
             </div>
+            <div class="layui-col-xs6"  style="text-align: right">
+              <div class="layui-form-item">
+                <button type="reset" class="layui-btn layui-btn-primary reset-attapproval">取消</button>
+                <button type="reset" class="layui-btn ">保存</button>
+              </div>
+            </div>
+          </div>
             
             <div class="layui-form-item">
               <label class="layui-form-label">节假日设置</label>
@@ -55,40 +77,46 @@
               </div>
             </div>
             
-            <div class="layui-form-item layui-inline">
-              <label class="layui-form-label">异常定义</label>
+            <div class="layui-row">
+              <div class="layui-col-xs4">
+                <div class="layui-form-item layui-inline">
+                  <label class="layui-form-label">异常定义</label>
+                  <div class="layui-form-mid layui-word-aux">迟到</div>
+                  <div class="layui-input-inline" style="width: 50px;">
+                    <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+                  </div>
+                  <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                  <label class="layui-form-label"></label>
+                  <div class="layui-form-mid layui-word-aux">迟到</div>
+                  <div class="layui-input-inline" style="width: 50px;">
+                    <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+                  </div>
+                  <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
+                </div>
+              </div>
+              <div class="layui-col-xs4">
+                <div class="layui-form-item layui-inline">
+                  <!-- <label class="layui-form-label"></label> -->
+                  <div class="layui-form-mid layui-word-aux">迟到</div>
+                  <div class="layui-input-inline" style="width: 50px;">
+                    <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+                  </div>
+                  <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                <!-- <label class="layui-form-label"></label> -->
                 <div class="layui-form-mid layui-word-aux">迟到</div>
                 <div class="layui-input-inline" style="width: 50px;">
                   <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
+              </div>
+              </div>
             </div>
-            <div class="layui-form-item layui-inline">
-              <label class="layui-form-label"></label>
-                <div class="layui-form-mid layui-word-aux">迟到</div>
-                <div class="layui-input-inline" style="width: 50px;">
-                  <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
-            </div>
-            <div class="layui-form-item layui-inline">
-              <label class="layui-form-label"></label>
-                <div class="layui-form-mid layui-word-aux">迟到</div>
-                <div class="layui-input-inline" style="width: 50px;">
-                  <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
-            </div>
-            <div class="layui-form-item layui-inline">
-              <label class="layui-form-label"></label>
-                <div class="layui-form-mid layui-word-aux">迟到</div>
-                <div class="layui-input-inline" style="width: 50px;">
-                  <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
-            </div>
-    
-            <div class="layui-form-item">
+              
+              <div class="layui-form-item">
                 <label class="layui-form-label">拍照设置</label>
                 <div class="layui-input-inline">
                   <select name="interest" lay-filter="aihao">
@@ -139,19 +167,21 @@
                 </div>
             </div>
           </form>  
-  <script type="text/html" id="attsetting">
+      </div>
+  <!-- <script type="text/html" id="attsetting">
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</i></a>
   </script>                 
   <script type="text/html" id="type">
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</i></a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</i></a>
-  </script>                 
+  </script>                  -->
   <script src="../lib/layui.js"></script>
   <!-- <script src="../js/attendance.js"></script> -->
   <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
   <script>
   layui.use(['element', 'table','layedit', 'laydate'], function(){
-    var form = layui.form
+    var $= layui.$ 
+    ,form = layui.form
     ,layer = layui.layer
     ,layedit = layui.layedit
     ,laydate = layui.laydate
@@ -159,20 +189,15 @@
     
     //日期
     laydate.render({
-      elem: '#test1'
+      elem: '#gongzuoshijian1'
       ,range: true
-      ,value: '2018-07-01 - 2018-07-31'
+      ,value: '00:00:00 - 00:00:00'
+      ,type: 'time'
     });
-    laydate.render({
-      elem: '#test2'
-      ,range: true
-      ,value: '2018-07-01 - 2018-07-31'
-    });
-    laydate.render({
-      elem: '#test3'
-      ,range: true
-      ,value: '2018-07-01 - 2018-07-31'
-    });
+   //取消添加考勤组
+   $('.reset-attapproval').on('click',function(){
+      window.parent.layui.element.tabDelete('kt_toptab', 'add-app');
+    })
   });
   </script>
   

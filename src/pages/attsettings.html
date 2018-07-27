@@ -28,17 +28,20 @@
             <div class="layui-tab-item layui-show">
               <div class="layui-row" style="text-align: right;text-align: right;position: absolute;top: 5px;right: 5px;">
                 <div class="layui-inline">
-                    <label class="layui-form-label" style="padding: 6px 5px 4px 0px;">日期范围</label>
                     <div class="layui-input-inline">
-                      <input type="text" class="layui-input" id="test3" placeholder="YY-MM-DD" style="height: 30px;">
+                      <div class="layui-input-inline" style="margin-right: -5px;">
+                        <input type="text" style="height: 30px;" name="number" placeholder="搜索考勤组名称" autocomplete="off" class="layui-input">
+                      </div>
+                      <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i> </button>
+                      </div>
                     </div>
                   </div>
               <div class="layui-btn-group">
-                <button class="layui-btn layui-btn-sm">导出</button>
-                <button class="layui-btn layui-btn-sm">筛选</button>
+                <button class="layui-btn layui-btn-sm add-attapproval">新建</button>
               </div>
             </div>
-              <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/attsettings.json', page:true, id:'idTest2'}" lay-filter="demo">
+              <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/attsettings.json', page:true, id:'idTest2'}" lay-filter="kaoqinzu">
                 <thead>
                   <tr>
                     <th lay-data="{field:'kaoqinzu', sort: true}">考勤组</th>
@@ -56,10 +59,10 @@
                 <div class="layui-row" style="text-align: right;text-align: right;position: absolute;top: 5px;right: 5px;">
                     <button class="layui-btn layui-btn-sm">新增</button>
                 </div>
-                  <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/attsettings.json', page:true, id:'idTest2'}" lay-filter="demo">
+                  <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/attsettings.json', page:true, id:'idTest2'}" lay-filter="jiaqi">
                     <thead>
                       <tr>
-                        <th lay-data="{field:'zuname',width:200, sort: true}">请假类型名称</th>
+                        <th lay-data="{field:'qingjialeixing',width:200, sort: true}">请假类型名称</th>
                         <th lay-data="{field:'daixin',width:200}">是否带薪假</th>
                         <th lay-data="{field:'beizhu'}">备注</th>
                         <th lay-data="{field:'',toolbar: '#type',width:200}">操作</th>
@@ -81,29 +84,53 @@
   <!-- <script src="../js/attendance.js"></script> -->
   <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
   <script>
-  layui.use(['element', 'table','layedit', 'laydate'], function(){
-    var form = layui.form
-    ,layer = layui.layer
-    ,layedit = layui.layedit
-    ,laydate = layui.laydate
-    ,element = layui.element;
+  layui.use(['element', 'table'], function(){
+    var $= layui.$
+    ,element = layui.element
+    ,table = layui.table;
     
-    //日期
-    laydate.render({
-      elem: '#test1'
-      ,range: true
-      ,value: '2018-07-01 - 2018-07-31'
+    //添加考勤组
+    $('.add-attapproval').on('click',function(){
+      addTab(window.parent.layui.element,'新建考勤组','add-app','pages/attsettingsadd.html')
+    })
+    //修改考勤组
+    table.on('tool(kaoqinzu)', function(obj){
+      var data = obj.data;
+      // 循环 tab页面如果已经打开，则切换到对应页面
+      if(obj.event === 'edit'){
+        addTab(window.parent.layui.element,'修改考勤组','edit-app','pages/attsettingsedit.html')
+      }
+      return false;
     });
-    laydate.render({
-      elem: '#test2'
-      ,range: true
-      ,value: '2018-07-01 - 2018-07-31'
+    //修改请假类型
+    table.on('tool(jiaqi)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'edit'){
+      layer.msg('ID：'+ data + ' 编辑');
+    } else if(obj.event === 'delete'){
+      layer.confirm('真的删除行么', function(index){
+        obj.del();
+        layer.close(index);
+      });
+    }
+    return false;
     });
-    laydate.render({
-      elem: '#test3'
-      ,range: true
-      ,value: '2018-07-01 - 2018-07-31'
-    });
+
+    function addTab(tab,title,id,url){
+      for (var i = 0; i < window.parent.layui.$('.kt-iframe').length; i++) {
+          if(window.parent.layui.$('.kt-iframe').eq(i).attr('tab-id') == id){
+              tab.tabChange('kt_toptab',id);
+              event.stopPropagation();
+              return;
+          }
+      };
+      tab.tabAdd('kt_toptab', {
+        title: title
+        ,content: '<iframe  tab-id="' + id + '" id=iframe' + id + ' " frameborder="0" src="' + url + '" scrolling="yes" class="kt-iframe"></iframe>'
+        ,id: id
+      });
+      tab.tabChange('kt_toptab', id);
+    }
   });
   </script>
   
