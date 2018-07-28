@@ -254,33 +254,43 @@
         <div class="layui-side-scroll">
           <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
           <ul class="layui-nav layui-nav-tree left-nav-tree" lay-shrink="all"  lay-filter="kt-sidemenu">
-            <li class="layui-nav-item " lay-unselect>
+            <li class="layui-nav-item layui-nav-itemed" lay-unselect>
               <a class="" href="javascript:;">
                 <i class="iconfont icon-chucha"></i>
-                <cite>考勤管理</cite>
+                <cite>日常办公</cite>
               </a>
               <dl class="layui-nav-child">
                 <dd lay-unselect>
                   <a class="menu-item-primary" _href="pages/attendance.html" data-menuid='001'>
                   <cite>考勤统计</cite>
                   </a>
+                  <a class="menu-item-deputy" title="考勤记录" _href="pages/attrecord.html" data-menuid='002'>
+                    <cite>详细</cite>
+                  </a>
                 </dd>
               
-                <dd lay-unselect>
-                    <a class="menu-item-primary" _href="pages/attrecord.html" data-menuid='003'>
-                      <cite>考勤记录</cite>
-                    </a>
-                </dd>
-
+                
                 <dd lay-unselect>
                   <a class="menu-item-primary" _href="pages/attapproval.html" data-menuid='005'>
                     <cite>考勤审批</cite>
                   </a>
                 </dd>
+                
+                <dd lay-unselect>
+                  <a class="menu-item-primary" _href="pages/attsettings.html" data-menuid='007'>
+                    <cite>考勤设置</cite>
+                  </a>
+                </dd>
+                
+                <dd lay-unselect>
+                    <a class="menu-item-primary" _href="pages/emploplan.html" data-menuid='003'>
+                      <cite>计划任务</cite>
+                    </a>
+                </dd>
 
                 <dd lay-unselect>
-                    <a class="menu-item-primary" _href="pages/attsettings.html" data-menuid='007'>
-                      <cite>考勤设置</cite>
+                    <a class="menu-item-primary" _href="pages/emplotarget.html" data-menuid='008'>
+                      <cite>目标管理</cite>
                     </a>
                 </dd>
 
@@ -288,13 +298,10 @@
                     <a class="menu-item-primary" _href="pages/contacts.html" data-menuid='009'>
                       <cite>通讯录</cite>
                     </a>
-                    <a class="menu-item-deputy" title="新建联系人" _href="pages/contacts.html" data-menuid='010'>
-                      <cite>新建</cite>
-                    </a>
                 </dd>
               </dl>
             </li>
-            <li class="layui-nav-item layui-nav-itemed" lay-unselect>
+            <li class="layui-nav-item" lay-unselect>
               <a href="javascript:;">
                 <i class="iconfont icon-hezuo"></i>
                 <cite>生意管理</cite>
@@ -460,7 +467,7 @@
               <i class="tab-scroll tab-scroll-right iconfont icon-zelvgongyongshouqi2"></i>
             <div class="layui-tab-content" style="padding: 0;">
                 <div class="layui-tab-item layui-show">
-                  <iframe src='./pages/messages/messages.html' frameborder="0" scrolling="yes" id="00" style="margin-top: 0px" class="kt-iframe"></iframe>
+                  <iframe src='./pages/welcom.html' frameborder="0" scrolling="yes" id="00" style="margin-top: 0px" class="kt-iframe"></iframe>
                 </div>
             </div>
             </div>

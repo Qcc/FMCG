@@ -1,0 +1,62 @@
+{
+    "code": 0, 
+    "msg": "任务管理", 
+    "count": 1000, 
+    "data": [
+        {
+            "empname":"张三",
+            "dept":"销售部",
+            "targetreceipts":"30000",
+            "actualreceipts":"25000",
+            "completion":"83%",
+            "assessingperiod":"周",
+            "startdate":"2018年7月28日 15:42:30",
+            "enddate":"2019年7月28日 15:42:33"
+        },{
+            "empname":"张三",
+            "dept":"销售部",
+            "targetreceipts":"30000",
+            "actualreceipts":"25000",
+            "completion":"83%",
+            "assessingperiod":"周",
+            "startdate":"2018年7月28日 15:42:30",
+            "enddate":"2019年7月28日 15:42:33"
+        },{
+            "empname":"张三",
+            "dept":"销售部",
+            "targetreceipts":"30000",
+            "actualreceipts":"25000",
+            "completion":"83%",
+            "assessingperiod":"周",
+            "startdate":"2018年7月28日 15:42:30",
+            "enddate":"2019年7月28日 15:42:33"
+        },{
+            "empname":"张三",
+            "dept":"销售部",
+            "targetreceipts":"30000",
+            "actualreceipts":"25000",
+            "completion":"83%",
+            "assessingperiod":"周",
+            "startdate":"2018年7月28日 15:42:30",
+            "enddate":"2019年7月28日 15:42:33"
+        },{
+            "empname":"张三",
+            "dept":"销售部",
+            "targetreceipts":"30000",
+            "actualreceipts":"25000",
+            "completion":"83%",
+            "assessingperiod":"周",
+            "startdate":"2018年7月28日 15:42:30",
+            "enddate":"2019年7月28日 15:42:33"
+        },{
+            "empname":"张三",
+            "dept":"销售部",
+            "targetreceipts":"30000",
+            "actualreceipts":"25000",
+            "completion":"83%",
+            "assessingperiod":"周",
+            "startdate":"2018年7月28日 15:42:30",
+            "enddate":"2019年7月28日 15:42:33"
+        }
+    ]
+}

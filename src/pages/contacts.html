@@ -17,12 +17,65 @@
     <![endif]-->
     </head>
     <body>
-    <div class="x-body layui-anim layui-anim-up">
-        <blockquote class="layui-elem-quote">通讯录：
-            <span class="x-red">test</span>！当前时间:2018-05-28 20:50:53</blockquote>
-    </div>
+            <body style="overflow-y: scroll;">
+                    <div class="layui-tab layui-tab-brief" style="margin: 0px;" lay-filter="docDemoTabBrief">
+                        <ul class="layui-tab-title">
+                          <li class="layui-this">企业通讯录</li>
+                          <li>客户通讯录</li>
+                        </ul>
+                        <div class="layui-tab-content" style="height: 100px;">
+                          <!-- 收到的任务 -->
+                          <div class="layui-tab-item layui-show">
+                            <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
+                              <div class="layui-inline">
+                                    <div class="layui-input-inline" style="margin-right: -5px;">
+                                      <input type="text" style="height: 30px;" name="number" placeholder="姓名/电话" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-btn-group">
+                                      <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i> </button>
+                                    </div>
+                                </div>
+                          </div>
+                            <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/contacts.json', page:true, id:'idTest2'}" lay-filter="kaoqinzu">
+                              <thead>
+                                <tr>
+                                  <th lay-data="{field:'empname', sort: true}">姓名</th>
+                                  <th lay-data="{field:'empcellphone'}">手机</th>
+                                  <th lay-data="{field:'empseatphone'}">座机</th>
+                                  <th lay-data="{field:'empemail'}">邮箱</th>
+                                  <th lay-data="{field:'dept'}">部门</th>
+                                </tr>
+                              </thead>
+                            </table>
+                          </div>
+                          <!-- 已发任务 -->
+                          <div class="layui-tab-item">
+                              <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
+                              <div class="layui-input-inline">
+                                  <div class="layui-input-inline" style="margin-right: -5px;">
+                                    <input type="text" style="height: 30px;" name="number" placeholder="公司/姓名/电话" autocomplete="off" class="layui-input">
+                                  </div>
+                                  <div class="layui-btn-group">
+                                    <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i></button>
+                                  </div>
+                                </div>
+                              </div>
+                                <table class="layui-table" lay-data="{url:'../../compontents/demodata/contacts.json', page:true}" lay-filter="demoEvent">
+                                  <thead>
+                                    <tr>
+                                        <th lay-data="{field:'custmname', sort: true}">姓名</th>
+                                        <th lay-data="{field:'custmcontact'}">联系人</th>
+                                        <th lay-data="{field:'custmphone'}">电话</th>
+                                        <th lay-data="{field:'custmaddress'}">邮箱</th>
+                                    </tr>
+                                  </thead>
+                                </table> 
+                          </div>
+                    </div>
     <script src="../lib/layui.js"></script>
-    <script src="../js/contacts.min.js"></script>
-    
+    <script>
+    layui.use(['element','table'], function(){
+    });
+    </script>
     </body>
 </html>

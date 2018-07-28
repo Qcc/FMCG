@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<!-- 员工计划任务 页面 -->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>首页-快销宝-深圳市沟通科技有限公司</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
+        <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="../lib/css/layui.css">
+        <style>
+        .layui-form .layui-select-title>input{
+            height: 28px;
+            width: 110px;
+        }
+        .layui-form .layui-anim{
+            top: 30px;
+            text-align: left;
+        }
+        </style>
+    </head>
+<body style="overflow-y: scroll;">
+        <div class="layui-tab layui-tab-brief" style="margin: 0px;" lay-filter="docDemoTabBrief">
+            <ul class="layui-tab-title">
+              <li class="layui-this">收到任务</li>
+              <li>已发任务</li>
+              <li>任务看板</li>
+              <li>办理结果设置</li>
+            </ul>
+            <div class="layui-tab-content" style="height: 100px;">
+              <!-- 收到的任务 -->
+              <div class="layui-tab-item layui-show">
+                <div class="layui-row" style="text-align: right;text-align: right;position: absolute;top: 5px;right: 5px;">
+                  <div class="layui-inline">
+                    <div class="layui-input-inline ">
+                        <form class="layui-form">
+                          <select name="city" lay-verify="kt-" class="layui-input-select">
+                              <option value="01" selected="">未办理</option>
+                              <option value="02">已办理</option>
+                              <option value="03">全部任务</option>
+                            </select>
+                          </form>
+                      </div>
+                      <div class="layui-input-inline">
+                        <div class="layui-inline">
+                          <label class="layui-form-label" style="width:60px;padding: 6px 5px 4px 0px;">日期范围</label>
+                          <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="test3" placeholder="YY-MM-DD" style="height: 30px;">
+                          </div>
+                        </div>
+                        <div class="layui-input-inline" style="margin-right: -5px;">
+                          <input type="text" style="height: 30px;" name="number" placeholder="搜索任务名称" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-btn-group">
+                          <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i> </button>
+                        </div>
+                      </div>
+                    </div>
+                <div class="layui-btn-group">
+                  <button class="layui-btn layui-btn-sm add-attapproval">新建</button>
+                </div>
+              </div>
+                <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/planmanager.json', page:true, id:'idTest2'}" lay-filter="kaoqinzu">
+                  <thead>
+                    <tr>
+                      <th lay-data="{field:'createtime', sort: true}">创建时间</th>
+                      <th lay-data="{field:'creator',width:200}">创建人</th>
+                      <th lay-data="{field:'plantitle',width:120}">标题</th>
+                      <th lay-data="{field:'plancontent',width:120}">任务内容</th>
+                      <th lay-data="{field:'appendixlist',width:110}">任务照片</th>
+                      <th lay-data="{field:'planenddate'}">截至时间</th>
+                      <th lay-data="{field:'',toolbar: '#plan'}">操作</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <!-- 已发任务 -->
+              <div class="layui-tab-item">
+                  <div class="layui-row" style="text-align: right;text-align: right;position: absolute;top: 5px;right: 5px;">
+                  <div class="layui-input-inline">
+                      <div class="layui-inline">
+                        <label class="layui-form-label" style="padding: 6px 5px 4px 0px;">日期范围</label>
+                        <div class="layui-input-inline">
+                          <input type="text" class="layui-input" id="test3" placeholder="YY-MM-DD" style="height: 30px;">
+                        </div>
+                      </div>
+                      <div class="layui-input-inline" style="margin-right: -5px;">
+                        <input type="text" style="height: 30px;" name="number" placeholder="搜索任务名称" autocomplete="off" class="layui-input">
+                      </div>
+                      <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i></button>
+                      </div>
+                      <div class="layui-btn-group">
+                          <button class="layui-btn layui-btn-sm add-attapproval">新建</button>
+                        </div>
+                    </div>
+                  </div>
+                    <table class="layui-table" lay-data="{url:'../../compontents/demodata/planmanager.json', page:true}" lay-filter="demoEvent">
+                      <thead>
+                        <tr>
+                          
+                          <th lay-data="{field:'createtime',width:200,event: 'setSign',style:'cursor: pointer;'}">创建时间</th>
+                          <th lay-data="{field:'plancontent',width:200,event: 'setSign',style:'cursor: pointer;'}">任务内容</th>
+                          <th lay-data="{field:'appendixlist',event: 'setSign',style:'cursor: pointer;'}">任务照片</th>
+                          <th lay-data="{field:'exector',width:100,event: 'setSign',style:'cursor: pointer;'}">执行人</th>
+                          <th lay-data="{field:'endtime',width:200,event: 'setSign',style:'cursor: pointer;'}">截至时间</th>
+                          <th lay-data="{field:'weibanli',event: 'setSign',style:'cursor: pointer;'}">未办理</th>
+                          <th lay-data="{field:'yibanli',event: 'setSign',style:'cursor: pointer;'}">已办理</th>
+                        </tr>
+                      </thead>
+                    </table>
+                    <table class="layui-table" lay-data="{url:'../../compontents/demodata/planmanager.json'}" lay-filter="demoEvent1">
+                      <thead>
+                        <tr>
+                          <th lay-data="{field:'exector', width:80}">执行人</th>
+                          <th lay-data="{field:'state', width:100}">办理状态</th>
+                          <th lay-data="{field:'starttime', width:200}">办理日期</th>
+                          <th lay-data="{field:'endtime'}">办理结果</th>
+                          <th lay-data="{field:'resultdescription'}">总结</th>
+                          <th lay-data="{field:'appendixlist'}">办理照片</th>
+                          <th lay-data="{field:'startlocation'}">办理位置</th>
+                          <th lay-data="{field:'pingjia'}">创建人点评</th>
+                          <th lay-data="{field:'',toolbar: '#plandetils'}">操作</th>
+                        </tr>
+                      </thead>
+                    </table> 
+              </div>
+              <!-- 任务看板 -->
+              <div class="layui-tab-item">
+                  <div class="layui-row" style="text-align: right;text-align: right;position: absolute;top: 5px;right: 5px;">
+                      <div class="layui-input-inline">
+                          <div class="layui-inline">
+                            <label class="layui-form-label" style="padding: 6px 5px 4px 0px;">日期范围</label>
+                            <div class="layui-input-inline">
+                              <input type="text" class="layui-input" id="test3" placeholder="YY-MM-DD" style="height: 30px;">
+                            </div>
+                          </div>
+                          <div class="layui-input-inline" style="margin-right: -5px;">
+                            <input type="text" style="height: 30px;" name="number" placeholder="搜索任务名称" autocomplete="off" class="layui-input">
+                          </div>
+                          <div class="layui-btn-group">
+                            <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i></button>
+                          </div>
+                          <div class="layui-btn-group">
+                              <button class="layui-btn layui-btn-sm add-attapproval">新建</button>
+                            </div>
+                        </div>
+                      </div>
+                        <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/planmanager.json', page:true, id:'idTest2'}" lay-filter="jiaqi">
+                          <thead>
+                            <tr>
+                              <th lay-data="{field:'createtime',width:200,event: 'setSign',style:'cursor: pointer;'}">创建时间</th>
+                              <th lay-data="{field:'creator',width:100,event: 'setSign',style:'cursor: pointer;'}">创建人</th>
+                              <th lay-data="{field:'plantitle',width:150,event: 'setSign',style:'cursor: pointer;'}">任务标题</th>
+                              <th lay-data="{field:'plancontent',width:150,event: 'setSign',style:'cursor: pointer;'}">任务内容</th>
+                              <th lay-data="{field:'appendixlist',event: 'setSign',style:'cursor: pointer;'}">任务照片</th>
+                              <th lay-data="{field:'exector',width:100,event: 'setSign',style:'cursor: pointer;'}">执行人</th>
+                              <th lay-data="{field:'endtime',width:200,event: 'setSign',style:'cursor: pointer;'}">截至时间</th>
+                              <th lay-data="{field:'weibanli',event: 'setSign',style:'cursor: pointer;'}">未办理</th>
+                            </tr>
+                          </thead>
+                        </table>
+                        <table class="layui-table" lay-data="{url:'../../compontents/demodata/planmanager.json'}" lay-filter="demoEvent1">
+                          <thead>
+                            <tr>
+                                <th lay-data="{field:'exector', width:80}">执行人</th>
+                                <th lay-data="{field:'state', width:100}">办理状态</th>
+                                <th lay-data="{field:'starttime', width:200}">办理日期</th>
+                                <th lay-data="{field:'endtime'}">办理结果</th>
+                                <th lay-data="{field:'resultdescription'}">总结</th>
+                                <th lay-data="{field:'appendixlist'}">办理照片</th>
+                                <th lay-data="{field:'startlocation'}">办理位置</th>
+                                <th lay-data="{field:'pingjia'}">创建人点评</th>
+                            </tr>
+                          </thead>
+                        </table> 
+              </div>
+              <!-- 任务结果配置 -->
+              <div class="layui-tab-item">
+                  <div class="layui-row" style="text-align: right;text-align: right;position: absolute;top: 5px;right: 5px;">
+                      <div class="layui--inline">
+                          <div class="layui-btn-group">
+                              <button class="layui-btn layui-btn-sm add-attapproval">新建</button>
+                              <button class="layui-btn layui-btn-sm add-attapproval">删除</button>
+                            </div>
+                        </div>
+                      </div>
+                        <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/planmanager.json', page:true, id:'idTest2'}" lay-filter="jiaqi">
+                          <thead>
+                            <tr>
+                              <th lay-data="{field:'planname',width:200}">名称</th>
+                              <th lay-data="{field:'shuoming'}">说明</th>
+                              <th lay-data="{field:'',width:150,toolbar:'#type'}">操作</th>
+                            </tr>
+                          </thead>
+                        </table>
+              </div>
+            </div>
+        </div>
+    <script type="text/html" id="plan">
+      <a class="layui-btn layui-btn-xs" lay-event="view">查看</i></a>
+      <a class="layui-btn layui-btn-xs" lay-event="edit">办理</i></a>
+    </script>                 
+    <script type="text/html" id="type">
+      <a class="layui-btn layui-btn-xs" lay-event="edit">修改</i></a>
+      <a class="layui-btn layui-btn-xs" lay-event="delete">删除</i></a>
+    </script>   
+    <script type="text/html" id="plandetils">
+      <a class="layui-btn layui-btn-xs" lay-event="edit">重办</i></a>
+      <a class="layui-btn layui-btn-xs" lay-event="delete">点评</i></a>
+    </script>   
+    
+    <script src="../lib/layui.js"></script>
+    <!-- <script src="../js/attendance.js"></script> -->
+    <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+    <script>
+    layui.use(['element', 'table','laydate','layer','form'], function(){
+      var $= layui.$
+      ,element = layui.element
+      ,laydate = layui.laydate
+      ,layer = layui.layer
+      ,form = layui.form
+      ,table = layui.table;
+      
+      laydate.render({
+      elem: '#test3'
+      ,range: true
+      ,value: '2018-07-01 - 2018-07-31'
+      });
+      //添加考勤组
+      $('.add-attapproval').on('click',function(){
+        addTab(window.parent.layui.element,'新建考勤组','add-app','pages/attsettingsadd.html')
+      })
+      //修改考勤组
+      table.on('tool(kaoqinzu)', function(obj){
+        console.log('1');
+        var data = obj.data;
+        // 循环 tab页面如果已经打开，则切换到对应页面
+        if(obj.event === 'edit'){
+          addTab(window.parent.layui.element,'修改考勤组','edit-app','pages/attsettingsedit.html')
+        }
+        return false;
+      });
+      //修改请假类型
+      table.on('tool(jiaqi)', function(obj){
+        console.log('2');
+      var data = obj.data;
+      if(obj.event === 'edit'){
+        layer.msg('ID：'+ data + ' 编辑');
+      } else if(obj.event === 'delete'){
+        layer.confirm('真的删除行么', function(index){
+          obj.del();
+          layer.close(index);
+        });
+      }
+      return false;
+      });
+      
+      //已发任务查看执行详情
+  table.on('tool(demoEvent)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'setSign'){
+      layer.prompt({
+        formType: 2
+        ,title: '修改 ID 为 ['+ data.id +'] 的用户签名'
+        ,value: data.sign
+      }, function(value, index){
+        layer.close(index);
+        
+        //这里一般是发送修改的Ajax请求
+        
+        //同步更新表格和缓存对应的值
+        obj.update({
+          sign: value
+        });
+      });
+    }
+  });
+
+  //监听展开操作
+  form.on('switch(sexDemo)', function(obj){
+    layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+  });
+
+  //iframe中添加首页tab页面
+      function addTab(tab,title,id,url){
+        for (var i = 0; i < window.parent.layui.$('.kt-iframe').length; i++) {
+            if(window.parent.layui.$('.kt-iframe').eq(i).attr('tab-id') == id){
+                tab.tabChange('kt_toptab',id);
+                event.stopPropagation();
+                return;
+            }
+        };
+        tab.tabAdd('kt_toptab', {
+          title: title
+          ,content: '<iframe  tab-id="' + id + '" id=iframe' + id + ' " frameborder="0" src="' + url + '" scrolling="yes" class="kt-iframe"></iframe>'
+          ,id: id
+        });
+        tab.tabChange('kt_toptab', id);
+      }
+    });
+    </script>  
+    </body>
+</html>

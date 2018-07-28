@@ -123,4 +123,5 @@ gulp.task('watch', function() {
 gulp.task('default', ['imagemin', 'html-minify', 'scripts', 'compontents', 'demodata', 'css', 'icon', 'lib']);
 
 // watching Task
-gulp.task('watching', ['browser-sync', 'imagemin', 'html-minify', 'scripts', 'compontents', 'demodata', 'css','watch']);
+gulp.task('watching', ['browser-sync','watch']);
+// gulp.task('watching', ['browser-sync', 'imagemin', 'html-minify', 'scripts', 'compontents', 'demodata', 'css','watch']);
