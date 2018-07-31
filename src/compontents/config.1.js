@@ -8,22 +8,18 @@
  */
  
 layui.define(['laytpl', 'layer', 'element', 'util'], function(exports){
-  var url = "http://192.168.200.103:8080/huyou"
-  // var url = "https://smart.kouton.com/huyou"
   exports('setter', {
-    container: 'KT_app' //容器ID
+    container: 'LAY_app' //容器ID
     ,base: layui.cache.base //记录静态资源所在路径
-    ,root:url
-    ,standardapi:url + '/standard.api'
-    ,layuiqueryapi:url + '/layui_query.api'
-    ,batchapi:url + '/batch.api'
+    // ,interface:"https://smart.kouton.com/huyou"
+    ,interface:"http://192.168.200.103:8080/huyou"
     ,views: layui.cache.base + 'tpl/' //动态模板所在目录
     ,entry: 'index' //默认视图文件名
     ,engine: '.html' //视图文件后缀名
     ,pageTabs: true //是否开启页面选项卡功能。iframe版推荐开启
     
-    ,name: 'ktAdmin'
-    ,tableName: 'ktAdmin' //本地存储表名
+    ,name: 'layuiAdmin'
+    ,tableName: 'layuiAdmin' //本地存储表名
     ,MOD_NAME: 'admin' //模块事件名
     
     ,debug: true //是否开启调试模式。如开启，接口异常时会抛出异常 URL 等信息
@@ -35,11 +31,13 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function(exports){
     
     //自定义响应字段
     ,response: {
-      statusName: 'status' //数据状态的字段名称，默认：code
-      ,statusCode: 0 //成功的状态码，默认：0
-      ,msgName: 'message' //状态信息的字段名称，默认：msg
-      ,countName: 'count' //数据总数的字段名称，默认：count
-      ,dataName: 'entity' //数据列表的字段名称，默认：data
+      statusName: 'code' //数据状态的字段名称
+      ,statusCode: {
+        ok: 0 //数据状态一切正常的状态码
+        ,logout: 1001 //登录状态失效的状态码
+      }
+      ,msgName: 'msg' //状态信息的字段名称
+      ,dataName: 'data' //数据详情的字段名称
     }
     
     //扩展的第三方模块

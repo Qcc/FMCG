@@ -1,187 +1,31 @@
 {
-    "code": 0, 
-    "msg": "用户管理", 
-    "count": 1000, 
-    "data": [
-        {
-            "companycode": 10000, 
-            "account": "zhangsan1", 
-            "password": "123456", 
-            "state": "正常", 
-            "nickname": "张三1", 
-            "autologin": "开启", 
-            "wxopenid": "weixinid", 
-            "usergroup": "用户组1"
-        }, 
-        {
-            "companycode": 10001, 
-            "account": "lisi", 
-            "password": "888888", 
-            "state": "正常", 
-            "nickname": "李四", 
-            "autologin": "开启", 
-            "wxopenid": "weixinzhanghao", 
-            "usergroup": "用户组2"
-        }, 
-        {
-            "companycode": 10002, 
-            "account": "mingzi", 
-            "password": "12ddd", 
-            "state": "正常", 
-            "nickname": "小明", 
-            "autologin": "开启", 
-            "wxopenid": "wexiaod", 
-            "usergroup": "用户组2"
-        }, 
-        {
-            "companycode": 10003, 
-            "account": "zhangsan", 
-            "password": "123456", 
-            "state": "正常", 
-            "nickname": "张三", 
-            "autologin": "开启", 
-            "wxopenid": "weixinid", 
-            "usergroup": "用户组1"
-        }, 
-        {
-            "companycode": 10004, 
-            "account": "lisi", 
-            "password": "888888", 
-            "state": "正常", 
-            "nickname": "李四", 
-            "autologin": "开启", 
-            "wxopenid": "weixinzhanghao", 
-            "usergroup": "用户组2"
-        }, 
-        {
-            "companycode": 10005, 
-            "account": "mingzi", 
-            "password": "12ddd", 
-            "state": "正常", 
-            "nickname": "小明", 
-            "autologin": "开启", 
-            "wxopenid": "wexiaod", 
-            "usergroup": "用户组2"
-        },
-        {
-            "companycode": 10006, 
-            "account": "zhangsan", 
-            "password": "123456", 
-            "state": "正常", 
-            "nickname": "张三", 
-            "autologin": "开启", 
-            "wxopenid": "weixinid", 
-            "usergroup": "用户组1"
-        }, 
-        {
-            "companycode": 10007, 
-            "account": "lisi", 
-            "password": "888888", 
-            "state": "正常", 
-            "nickname": "李四", 
-            "autologin": "开启", 
-            "wxopenid": "weixinzhanghao", 
-            "usergroup": "用户组2"
-        }, 
-        {
-            "companycode": 10008, 
-            "account": "mingzi", 
-            "password": "12ddd", 
-            "state": "正常", 
-            "nickname": "小明", 
-            "autologin": "开启", 
-            "wxopenid": "wexiaod", 
-            "usergroup": "用户组2"
-        }, 
-        {
-            "companycode": 10009, 
-            "account": "zhangsan", 
-            "password": "123456", 
-            "state": "正常", 
-            "nickname": "张三", 
-            "autologin": "开启", 
-            "wxopenid": "weixinid", 
-            "usergroup": "用户组1"
-        }, 
-        {
-            "companycode": 10010, 
-            "account": "lisi", 
-            "password": "888888", 
-            "state": "正常", 
-            "nickname": "李四", 
-            "autologin": "开启", 
-            "wxopenid": "weixinzhanghao", 
-            "usergroup": "用户组2"
-        }, 
-        {
-            "companycode": 10011, 
-            "account": "mingzi", 
-            "password": "12ddd", 
-            "state": "正常", 
-            "nickname": "小明", 
-            "autologin": "开启", 
-            "wxopenid": "wexiaod", 
-            "usergroup": "用户组2"
-        },
-        {
-            "companycode": 10012, 
-            "account": "zhangsan", 
-            "password": "123456", 
-            "state": "正常", 
-            "nickname": "张三", 
-            "autologin": "开启", 
-            "wxopenid": "weixinid", 
-            "usergroup": "用户组1"
-        }, 
-        {
-            "companycode": 10013, 
-            "account": "lisi", 
-            "password": "888888", 
-            "state": "正常", 
-            "nickname": "李四", 
-            "autologin": "开启", 
-            "wxopenid": "weixinzhanghao", 
-            "usergroup": "用户组2"
-        }, 
-        {
-            "companycode": 10014, 
-            "account": "mingzi", 
-            "password": "12ddd", 
-            "state": "正常", 
-            "nickname": "小明", 
-            "autologin": "开启", 
-            "wxopenid": "wexiaod", 
-            "usergroup": "用户组2"
-        }, 
-        {
-            "companycode": 10015, 
-            "account": "zhangsan", 
-            "password": "123456", 
-            "state": "正常", 
-            "nickname": "张三", 
-            "autologin": "开启", 
-            "wxopenid": "weixinid", 
-            "usergroup": "用户组1"
-        }, 
-        {
-            "companycode": 10016, 
-            "account": "lisi", 
-            "password": "888888", 
-            "state": "正常", 
-            "nickname": "李四", 
-            "autologin": "开启", 
-            "wxopenid": "weixinzhanghao", 
-            "usergroup": "用户组2"
-        }, 
-        {
-            "companycode": 10017, 
-            "account": "mingzi", 
-            "password": "12ddd", 
-            "state": "正常", 
-            "nickname": "小明", 
-            "autologin": "开启", 
-            "wxopenid": "wexiaod", 
-            "usergroup": "用户组2"
-        }
-    ]
-}
+    "statusCode":0,
+    "message":"Success",
+    "count":100,
+    "entity":[
+        {"autologin":0,"uid":1,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"sysadmin","usergroup":1,"state":1,"wxopenid":"","account":"sysadmin"}
+        ,{"autologin":0,"uid":2,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"manager","state":1,"wxopenid":"","account":"manager"}
+        ,{"autologin":1,"uid":3,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"张然","state":1,"account":"张然"}
+        ,{"autologin":0,"uid":4,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"陈亚丽","state":1,"wxopenid":"","account":"陈亚丽"}
+        ,{"autologin":1,"uid":5,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"赵丹","state":1,"account":"赵丹"}
+        ,{"autologin":1,"uid":6,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"朱亚文","state":1,"account":"朱亚文"}
+        ,{"autologin":1,"uid":7,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"黄丽","state":1,"account":"黄丽"}
+        ,{"autologin":1,"uid":8,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"石阳","state":1,"account":"石阳"}
+        ,{"autologin":1,"uid":9,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"程月莉","state":1,"account":"程月莉"}
+        ,{"autologin":1,"uid":10,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"徐林丽","state":1,"account":"徐林丽"}
+        ,{"autologin":1,"uid":11,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"胡海静","state":1,"account":"胡海静"}
+        ,{"autologin":1,"uid":12,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"肖晓月","state":1,"account":"肖晓月"}
+        ,{"autologin":1,"uid":13,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"熊英","state":1,"account":"熊英"}
+        ,{"autologin":1,"uid":14,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"张玖兰","state":1,"account":"张玖兰"}
+        ,{"autologin":1,"uid":15,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"黄有龙","state":1,"account":"黄有龙"}
+        ,{"autologin":1,"uid":16,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"吴乾珠","state":1,"account":"吴乾珠"}
+        ,{"autologin":1,"uid":17,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"吴海燕","state":1,"account":"吴海燕"}
+        ,{"autologin":1,"uid":18,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"杨柳","state":1,"account":"杨柳"}
+        ,{"autologin":1,"uid":19,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"陈思","state":1,"wxopenid":"","account":"陈思"}
+        ,{"autologin":1,"uid":20,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"王琳","state":1,"account":"王琳"}
+        ,{"autologin":1,"uid":21,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"曾晓","state":1,"account":"曾晓"}
+        ,{"autologin":1,"uid":22,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"cmh_20180712","state":1,"account":"cmh_20180712"}
+        ,{"autologin":1,"uid":23,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"曹倩","state":1,"wxopenid":"ovzV35O2Y7T7WlmTf3q_0fig7vCs","account":"曹倩"}
+        ,{"autologin":1,"uid":24,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"陈孟辉","state":1,"wxopenid":"ovzV35EwpiETqhNAYOsP27knY1ow","account":"陈孟辉"}
+        ,{"autologin":1,"uid":25,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"王力","state":1,"wxopenid":"ovzV35JnRAhaW5hnPXDyiepeN1C0","account":"王力"}
+        ,{"autologin":1,"uid":26,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"jerry","state":1,"wxopenid":"ovzV35A5au-kaMZa9uD8u7l17G8E","account":"jerry"},{"autologin":1,"uid":27,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"李总","state":1,"account":"李总"},{"autologin":1,"uid":28,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"张应树","state":1,"account":"张应树"},{"autologin":1,"uid":29,"password":"21218cca77804d2ba1922c33e0151105","companycode":"huyou","nickname":"admin","state":1,"account":"admin"}]}

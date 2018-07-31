@@ -25,7 +25,7 @@
           </div>
           <div class="layui-col-xs6">
               <div class="layui-btn-group kt-company-button">
-                <button class="layui-btn layui-btn-primary layui-btn-sm" style="border: none;"><i class="layui-icon layui-icon-add-1"></i></button>
+                <!-- <button class="layui-btn layui-btn-primary layui-btn-sm" style="border: none;"><i class="layui-icon layui-icon-add-1"></i></button> -->
                 <button class="layui-btn layui-btn-primary layui-btn-sm" style="border: none;"><i class="layui-icon layui-icon-refresh"></i></button>
               </div>
           </div>
@@ -59,15 +59,16 @@
                     </div>
                   </div>
                 </form>
-                <div class="layui-btn-group">
+                <!-- <div class="layui-btn-group">
                   <button class="layui-btn layui-btn-sm">新增</button>
                   <button class="layui-btn layui-btn-sm">导出</button>
                   <button class="layui-btn layui-btn-sm">筛选</button>
-                </div>
+                </div> -->
               </div>
             </div>
           <div>
-            <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/basicinfo_users.json',height: 'full-80', page:true, id:'idTest'}" lay-filter="demo">
+            <table class="layui-table" id="userTable"></table>
+            <!-- <table class="layui-table" lay-data="{even:true,height: 'full-80', page:true, id:'userTable'}" lay-filter="usermanager">
               <thead>
                 <tr>
                   <th lay-data="{type:'checkbox'}"></th>
@@ -77,13 +78,12 @@
                   <th lay-data="{field:'state'}">用户状态</th>
                   <th lay-data="{field:'nickname'}">用户昵称</th>
                   <th lay-data="{field:'autologin', sort: true}">自动登录</th>
-                  
                   <th lay-data="{field:'wxopenid'}">微信号</th>
                   <th lay-data="{field:'usergroup', sort: true}">用户组</th>
                   <th lay-data="{ width:80, align:'center', toolbar: '#barDemo'}"></th>
                 </tr>
               </thead>
-            </table>
+            </table> -->
           </div>
         </div>
       </div>    
@@ -95,61 +95,76 @@
     <script src="../../lib/layui.js"></script>
     <script>
 // 自定义模块引用
-//   layui.config({
-//     base: '/js/' //静态资源所在路径
-//   }).extend({
-//     basicinfo_users: 'basicinfo_users' //主入口模块
-//   }).use(['basicinfo_users','laytpl'], function(){
-//     var $ = layui.$
-//     ,busers = layui.basicinfo_users;
-//     busers.run('jiazai');
-//   });
-layui.use(['table','form','layer','tree'], function(){
+layui.config({
+    base: '../../compontents/' //静态资源所在路径
+  }).extend({
+    admin: 'admin' //主入口模块
+  }).use(['table','form','layer','tree','admin'], function(){
   var table = layui.table
+  ,$ =layui.$
+  ,setter = layui.setter
   ,form =layui.form
+  ,admin =layui.admin
   ,layer = layui.layer;
-  //监听表格复选框选择
-  table.on('checkbox(demo)', function(obj){
-    console.log(obj)
-  });
-  //监听工具条
-  table.on('tool(demo)', function(obj){
-    var data = obj.data;
-    if(obj.event === 'setting'){
-      layer.msg('ID：'+ data.companycode + ' 编辑');
-    } else if(obj.event === 'del'){
-      layer.confirm('真的删除行么', function(index){
-        obj.del();
-        layer.close(index);
-      });
-    } else if(obj.event === 'edit'){
-      layer.alert('编辑行：<br>'+ JSON.stringify(data))
-    }
-    return false;
-  });
   
-  var $ = layui.$, active = {
-    getCheckData: function(){ //获取选中数据
-      var checkStatus = table.checkStatus('idTest')
-      ,data = checkStatus.data;
-      layer.alert(JSON.stringify(data));
-    }
-    ,getCheckLength: function(){ //获取选中数目
-      var checkStatus = table.checkStatus('idTest')
-      ,data = checkStatus.data;
-      layer.msg('选中了：'+ data.length + ' 个');
-    }
-    ,isAll: function(){ //验证是否全选
-      var checkStatus = table.checkStatus('idTest');
-      layer.msg(checkStatus.isAll ? '全选': '未全选')
-    }
-  };
-  
-  $('.demoTable .layui-btn').on('click', function(){
-    var type = $(this).data('type');
-    active[type] ? active[type].call(this) : '';
-  });
+ var userTable = table.render({
+  elem: '#userTable',
+  url: setter.layuiqueryapi,
+  method:'post',
+  where: 	{jsonparam: JSON.stringify([{
+    		model: 'bas_user',
+    		api: 'read',
+	    	columns: ['count(uid) AS total'],
+	    },{
+    		model: 'bas_user',
+    		api: 'read'
+	    }])},
+  cols: [[
+      {type:'checkbox'}
+      ,{field:'account', title: '账户', sort: true}
+      ,{field:'companycode', title: '公司代码'}
+      // ,{field:'password', title: '密码', sort: true}
+      ,{field:'state', title: '用户状态'}
+      ,{field:'autologin', title: '自动登录'}
+      ,{field:'wxopenid', title: '微信号', sort: true}
+      ,{field:'usergroup', title: '用户组', sort: true}
+      // ,{field:'', title: '操作',align:'center', toolbar: '#barDemo'}
+    ]],
+  page: true,
+  done: function(res, curr, count){
+    //如果是异步请求数据方式，res即为你接口返回的信息。
+    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+    // console.log(res);
+    
+    //得到当前页码
+    // console.log(curr); 
+    
+    //得到数据总量
+    // console.log(count);
+  }
+});
 
+  //监听表格复选框选择
+  // table.on('checkbox(demo)', function(obj){
+  //   console.log(obj)
+  // });
+  //监听工具条
+  // table.on('tool(demo)', function(obj){
+  //   var data = obj.data;
+  //   if(obj.event === 'setting'){
+  //     layer.msg('ID：'+ data.companycode + ' 编辑');
+  //   } else if(obj.event === 'del'){
+  //     layer.confirm('真的删除行么', function(index){
+  //       obj.del();
+  //       layer.close(index);
+  //     });
+  //   } else if(obj.event === 'edit'){
+  //     layer.alert('编辑行：<br>'+ JSON.stringify(data))
+  //   }
+  //   return false;
+  // });
+  
+ 
   //监听提交
   form.on('submit(demo1)', function(data){
     layer.alert(JSON.stringify(data.field), {
@@ -158,97 +173,44 @@ layui.use(['table','form','layer','tree'], function(){
     return false;
   });
 
-  layui.tree({
+  admin.req({
+    url: layui.setter.standardapi //实际使用请改成服务端真实接口
+      ,data: {model: 'org_department',api: 'read'}
+      ,success: function(res){
+        if(res.errorCode === 0){
+          treeList(res.entity)
+        }else{
+          layer.msg('获取部门信息失败');
+        }
+      }
+      ,error: function(res){
+        //登入成功的提示与跳转
+        layer.msg('网络错误，登录失败！', {
+          offset: '15px'
+          ,icon: 5
+          ,time: 1000
+        });
+      }
+    });
+  function treeList(nodes){
+    var list = [];
+    for (let i = 0; i < nodes.length; i++) {
+      var node={};
+      node.name = nodes[i].deptname;
+      node.id = nodes[i].uid;
+      list.push(node);
+    }
+    layui.tree({
     elem: '#kttree' //指定元素
-    ,target: '_blank' //是否新选项卡打开（比如节点返回href才有效）
     ,click: function(item){ //点击节点回调
       layer.msg('当前节名称：'+ item.name + '<br>全部参数：'+ JSON.stringify(item));
       console.log(item);
     },
     skin:'kt-tree'
-    ,nodes: [ //节点
-      {
-        name: '深圳市沟通科技有限公司'
-        ,id: 1
-        ,alias: 'changyong'
-        ,spread:true
-        ,children: [
-          {
-            name: '分销部'
-            ,id: 11
-            ,href: 'http://www.layui.com/'
-            ,children:[
-              {
-                name: '食品分销'
-                ,id: 12                
-              },{
-                name: '饮料分销'
-                ,id: 13
-              }
-            ]
-          }, {
-            name: '销售部'
-            ,id: 2
-            ,children:[
-              {
-                name: '销售一部'
-                ,id: 12                
-              },{
-                name: '销售二部'
-                ,id: 13
-              }
-            ]
-          }, {
-            name: '技术部'
-            ,id: 3
-          }
-        ]
-      }
-    ]
-  });
-  
-  
-  //生成一个模拟树
-  var createTree = function(node, start){
-    node = node || function(){
-      var arr = [];
-      for(var i = 1; i < 10; i++){
-        arr.push({
-          name: i.toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
-        });
-      }
-      return arr;
-    }();
-    start = start || 1;  
-    layui.each(node, function(index, item){  
-      if(start < 10 && index < 9){
-        var child = [
-          {
-            name: (1 + index + start).toString().replace(/(\d)/, '$1$1$1$1$1$1$1$1$1')
-          }
-        ];
-        node[index].children = child;
-        createTree(child, index + start + 1);
-      }
+    ,nodes: list
     });
-    return node;
-  };
- 
-  // layui.tree({
-  //   elem: '#demo2' //指定元素
-  //   ,nodes: createTree()
-  // });
-  
+  }
 });
-//获得鼠标位置
-// function getMousePos(event) {
-//   var e = event || window.event;
-//   var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
-//   var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
-//   var x = e.pageX || e.clientX + scrollX;
-//   var y = e.pageY || e.clientY + scrollY;
-//   return { 'x': x, 'y': y };
-// }
   </script>
     </body>
 </html>

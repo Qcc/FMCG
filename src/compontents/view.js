@@ -41,7 +41,7 @@ function(e) {
     delete e.success,
     delete e.error,
     t.ajax(t.extend({
-      type: "get",
+      type: "post",
       dataType: "json",
       success: function(t) {
         var a = o.statusCode;

@@ -14,10 +14,34 @@
             height: 28px;
             width: 110px;
         }
-        .layui-form .layui-anim{
-            top: 30px;
-        }
-        </style>
+  .radio-group .layui-anim{
+    display: none;
+    margin-right: 2px;
+  }
+  .radio-group .layui-form-radio{
+    width: 32px;
+    height: 30px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #fff;
+    background-color: #009688;
+    margin-right: -3px;
+  }
+  .radio-group .layui-form-radio:hover{
+    filter:(opactity=70);
+    opacity:0.7;
+  }
+  .radio-group .layui-form-radio:last-child {
+    border-radius: 0 2px 2px 0;
+  }
+  .radio-group .layui-form-radio:first-child {
+    border-radius: 2px 0 0 2px;
+  }
+  .radio-group .layui-form-radioed{
+    background-color: #5FB878;
+  }
+  </style>
     </head> 
     <body style="overflow-y: scroll;">
         <div class="layui-tab layui-tab-brief" style="margin: 0px;" lay-filter="docDemoTabBrief">
@@ -43,12 +67,16 @@
                             </div>
                           </div>
                     </div>
-                    <div class="layui-btn-group">
-                      <button class="layui-btn layui-btn-sm">周</button>
-                      <button class="layui-btn layui-btn-sm">月</button>
-                      <button class="layui-btn layui-btn-sm">季</button>
-                      <button class="layui-btn layui-btn-sm">年</button>
-                    </div>
+                    <div class="layui-input-inline">
+                    <form class="layui-form" action="">
+                          <div class="radio-group">
+                            <input type="radio" name="cycle" value="周" title="周" checked="">
+                            <input type="radio" name="cycle" value="月" title="月">
+                            <input type="radio" name="cycle" value="季" title="季">
+                            <input type="radio" name="cycle" value="年" title="年">
+                          </div>
+                        </form>
+                      </div>
               </div>
                 <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/emplotarget.json', page:true, id:'idTest2'}" lay-filter="kaoqinzu">
                   <thead>

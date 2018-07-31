@@ -36,7 +36,8 @@
                                     </div>
                                 </div>
                           </div>
-                            <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/contacts.json', page:true, id:'idTest2'}" lay-filter="kaoqinzu">
+                          <table class="layui-table" id="companycontacts"></table>
+                            <!-- <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/contacts.json', page:true, id:'companycontacts'}" lay-filter="kaoqinzu">
                               <thead>
                                 <tr>
                                   <th lay-data="{field:'empname', sort: true}">姓名</th>
@@ -46,7 +47,7 @@
                                   <th lay-data="{field:'dept'}">部门</th>
                                 </tr>
                               </thead>
-                            </table>
+                            </table> -->
                           </div>
                           <!-- 已发任务 -->
                           <div class="layui-tab-item">
@@ -60,7 +61,9 @@
                                   </div>
                                 </div>
                               </div>
-                                <table class="layui-table" lay-data="{url:'../../compontents/demodata/contacts.json', page:true}" lay-filter="demoEvent">
+                          <table class="layui-table" id="cuscontacts"></table>
+
+                                <!-- <table class="layui-table" lay-data="{url:'../../compontents/demodata/contacts.json', page:true,id="cuscontacts"}" lay-filter="demoEvent">
                                   <thead>
                                     <tr>
                                         <th lay-data="{field:'custmname', sort: true}">姓名</th>
@@ -69,13 +72,80 @@
                                         <th lay-data="{field:'custmaddress'}">邮箱</th>
                                     </tr>
                                   </thead>
-                                </table> 
+                                </table>  -->
                           </div>
                     </div>
     <script src="../lib/layui.js"></script>
     <script>
-    layui.use(['element','table'], function(){
-    });
+        layui.config({
+    base: '../compontents/' //静态资源所在路径
+  }).extend({
+    admin: 'admin' //主入口模块
+  }).use(['element','form','table','layer','admin'], function(){
+  var $ = layui.jquery
+  ,element = layui.element
+  ,form = layui.form
+  ,setter = layui.setter
+  ,layer = layui.layer
+  ,table = layui.table;
+
+  var empTable = table.render({
+  elem: '#companycontacts',
+  url: setter.layuiqueryapi,
+  method:'post',
+  where: 	{jsonparam: JSON.stringify([{
+    		model: 'org_employee',
+    		api: 'read',
+	    	columns: ['count(uid) AS total'],
+	    },{
+    		model: 'org_employee',
+        api: 'read',
+        columns:['*', 'dept$$org_department.deptname AS deptname'],
+        association: {  	
+          dept: {},
+        }
+	    }])},
+  cols: [[
+      {type:'checkbox'}
+      ,{field:'empname', title: '姓名', sort: true}
+      ,{field:'empseatphone', title: '座机', sort: true}
+      ,{field:'empcellphone', title: '手机'}
+      ,{field:'empemail', title: '邮箱', sort: true}
+      ,{field:'deptname', title: '部门'}
+      // ,{field:'', title: '操作',align:'center', toolbar: '#barDemo'}
+    ]],
+  page: true,
+  done: function(res, curr, count){
+  }
+});
+
+var cusTable = table.render({
+  elem: '#cuscontacts',
+  url: setter.layuiqueryapi,
+  method:'post',
+  where: 	{jsonparam: JSON.stringify([{
+    		model: 'crm_customer',
+    		api: 'read',
+	    	columns: ['count(uid) AS total'],
+	    },{
+    		model: 'crm_customer',
+        api: 'read',
+	    }])},
+  cols: [[
+      {type:'checkbox'}
+      ,{field:'custmname', title: '公司名称'}
+      ,{field:'custmcontact', title: '联系人', sort: true}
+      ,{field:'custmphone', title: '电话', sort: true}
+      ,{field:'custmaddress', title: '地址', sort: true}
+      // ,{field:'', title: '操作',align:'center', toolbar: '#barDemo'}
+    ]],
+  page: true,
+  done: function(res, curr, count){
+  }
+});
+
+
+});
     </script>
     </body>
 </html>

@@ -24,7 +24,7 @@
     <body>
     <div class="layui-container-full">
         <div class="layui-row" style="margin-top: 5px;">
-          <div class="layui-col-xs6">
+          <!-- <div class="layui-col-xs6">
               <form class="layui-form" action="" style="margin-left: 10px;">
                 <div class="layui-input-inline">
                   <select name="city" lay-verify="kt-" class="layui-input kt-select">
@@ -35,8 +35,8 @@
                   </select>
                 </div>
               </form>
-          </div>
-          <div class="layui-col-xs6" style="text-align: right;">
+          </div> -->
+          <!-- <div class="layui-col-xs6" style="text-align: right;"> -->
               <div class="layui-inline">
                 <div class="layui-input-inline">
                   <div class="layui-input-inline" style="margin-right: -5px;">
@@ -46,17 +46,18 @@
                     <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i> </button>
                   </div>
                 </div>
-                <div class="layui-btn-group">
+                <!-- <div class="layui-btn-group">
                   <button class="layui-btn layui-btn-sm "><i class="layui-icon">&#xe654;</i>新增</button>
                   <button class="layui-btn layui-btn-sm "><i class="layui-icon">&#xe601;</i>导入</button>
                   <button class="layui-btn layui-btn-sm "><i class="layui-icon">&#xe681;</i>导出</button>
                   <button class="layui-btn layui-btn-sm "><i class="layui-icon">&#xe640;</i>删除</button>
-                </div>
-              </div>
+                </div> -->
+              <!-- </div> -->
           </div>
         </div>
         <div class="layui-row">
-            <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/contract.json', page:true, id:'idTest2'}" lay-filter="custm">
+          <table class="layui-table" id="contract"></table>
+            <!-- <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/contract.json', page:true, id:'idTest2'}" lay-filter="custm">
               <thead>
                 <tr>
                   <th lay-data="{field:'signdate', sort: true,width:200}">登记日期</th>
@@ -72,7 +73,7 @@
                   <th lay-data="{field:'',fixed:'right',width:80,toolbar: '#view'}">操作</th>
                 </tr>
               </thead>
-            </table>
+            </table> -->
         </div>
       </div>
       <script type="text/html" id="view">
@@ -80,12 +81,52 @@
       </script>
     <script src="../lib/layui.js"></script>
     <script>
-    layui.use(['element','form','table','layer'], function(){
+    layui.config({
+    base: '../compontents/' //静态资源所在路径
+  }).extend({
+    admin: 'admin' //主入口模块
+  }).use(['element','form','table','layer','admin'], function(){
   var $ = layui.jquery
   ,element = layui.element
   ,form = layui.form
+  ,setter = layui.setter
   ,layer = layui.layer
   ,table = layui.table;
+
+  var userTable = table.render({
+  elem: '#contract',
+  url: setter.layuiqueryapi,
+  method:'post',
+  where: 	{jsonparam: JSON.stringify([{
+    		model: 'crm_contract',
+    		api: 'read',
+	    	columns: ['count(uid) AS total'],
+	    },{
+    		model: 'crm_contract',
+        api: 'read',
+        columns:['*', 'sales$$org_employee.empname AS empname','customer$$crm_customer.custmname AS cusname'],
+        association: {  	
+          customer: {},
+          sales:{}
+        }
+	    }])},
+  cols: [[
+      {type:'checkbox'}
+      ,{field:'cusname', title: '客户', sort: true}
+      ,{field:'signdate', title: '登记日期', sort: true}
+      ,{field:'startdate', title: '生效日期'}
+      ,{field:'expirationdate', title: '结束日期', sort: true}
+      ,{field:'deposit', title: '保证金'}
+      ,{field:'content', title: '内容'}
+      ,{field:'hottip', title: '说明', sort: true}
+      ,{field:'empname', title: '销售员', sort: true}
+      // ,{field:'', title: '操作',align:'center', toolbar: '#barDemo'}
+    ]],
+  page: true,
+  done: function(res, curr, count){
+
+  }
+  });
 
   //修改客户信息
   table.on('tool(custm)', function(obj){
