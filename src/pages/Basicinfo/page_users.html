@@ -114,6 +114,7 @@ layui.config({
   where: 	{jsonparam: JSON.stringify([{
     		model: 'bas_user',
     		api: 'read',
+        solve_name_conflict: false,
 	    	columns: ['count(uid) AS total'],
 	    },{
     		model: 'bas_user',

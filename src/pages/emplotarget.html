@@ -10,7 +10,7 @@
         <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="../lib/css/layui.css">
         <style>
-        .layui-form .layui-select-title>input{
+        .layui-form-top .layui-select-title>input{
             height: 28px;
             width: 110px;
         }
@@ -68,10 +68,10 @@
                           </div>
                     </div>
                     <div class="layui-input-inline">
-                    <form class="layui-form" action="">
+                    <form class="layui-form layui-form-top" action="">
                           <div class="radio-group">
-                            <input type="radio" name="cycle" value="周" title="周" checked="">
-                            <input type="radio" name="cycle" value="月" title="月">
+                            <!-- <input type="radio" name="cycle" value="周" title="周" > -->
+                            <input type="radio" name="cycle" value="月" title="月" checked="">
                             <input type="radio" name="cycle" value="季" title="季">
                             <input type="radio" name="cycle" value="年" title="年">
                           </div>
@@ -106,12 +106,13 @@
                         <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i></button>
                       </div>
                       <div class="layui-btn-group">
-                          <button class="layui-btn layui-btn-sm">新建</button>
-                          <button class="layui-btn layui-btn-sm">删除</button>
+                          <button class="layui-btn layui-btn-sm newtarget">新建</button>
+                          <button class="layui-btn layui-btn-sm deltarget">删除</button>
                         </div>
                     </div>
                   </div>
-                    <table class="layui-table" lay-data="{url:'../../compontents/demodata/emplotarget.json', page:true}" lay-filter="ygmubiao">
+                    <table class="layui-table" id="emptargetset" lay-filter="emptager"></table>
+                    <!-- <table class="layui-table" lay-data="{url:'../../compontents/demodata/emplotarget.json', page:true}" lay-filter="ygmubiao">
                       <thead>
                         <tr>
                             <th lay-data="{type:'checkbox'}"></th>
@@ -123,29 +124,336 @@
                             <th lay-data="{field:'', toolbar: '#yuangongmubiao'}">操作</th>
                         </tr>
                       </thead>
-                    </table> 
+                    </table>  -->
+              </div>
+              <div id="newemptarget" style="display:none;padding-right: 50px;">
+                  <form class="layui-form" action="">
+                      <div class="layui-form-item">
+                        <label class="layui-form-label">选择</label>
+                        <div class="layui-input-block">
+                          <div class="layui-inline">
+                            <input type="text" uidvalue="" required name="employee" lay-verify="selectemployee" autocomplete="off" placeholder="请选择员工/部门" class="layui-input emplist">
+                          </div>
+                          <div class="layui-inline">
+                            <button class="layui-btn layui-btn-primary btnemployee" style="margin-left: -15px;" title="选择员工"><i class="layui-icon">&#xe612;</i></button>
+                            <!-- 按部门提交 -->
+                            <!-- <button class="layui-btn layui-btn-primary btndept" style="margin-left: -5px;" title="选择部门"><i class="layui-icon">&#xe613;</i></button> -->
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="layui-form-item">
+                        <label class="layui-form-label">考核区间</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="targettime"  type="text" id="targettime">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux" style="margin-left: 110px;">在此期间内考核目标会按周期循环</div>
+                      </div>
+                      <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">考核周期</label>
+                        <div class="layui-input-block">
+                            <select name="period" lay-verify="zhouqi">
+                                <option value="3" selected>月</option>
+                                <option value="2">季度</option>
+                                <option value="1">年</option>
+                              </select>
+                        </div>
+                      </div>
+
+                      <div class="layui-form-item">
+                          <label class="layui-form-label">考核指标</label>
+                          <div class="layui-input-inline">
+                              <input type="number" name="kpi" required lay-verify="required" placeholder="请输入收款金额" autocomplete="off" class="layui-input">
+                          </div>
+                        </div>
+
+                      <div class="layui-form-item">
+                        <div class="layui-input-block">
+                          <button class="layui-btn" lay-submit lay-filter="ntarget">确认</button>
+                          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                      </div>
+                    </form>
+              </div>
+              <div  id="employeese" style="display: none;">
+                  <table class="layui-table" id="employeetb"></table>
+                  <div style="position: relative;right: 20px;text-align: right;">
+                    <button class="layui-btn  layui-btn-primary empcancel">取消</button>
+                    <button  class="layui-btn empenter">确定</button>
+                  </div>
+              </div>
+              <div  id="deptse" style="display: none;">
+                  <table class="layui-table" id="depttb"></table>
+                  <div style="position: relative;right: 20px;text-align: right;">
+                    <button class="layui-btn  layui-btn-primary deptcancel">取消</button>
+                    <button  class="layui-btn deptenter">确定</button>
+                  </div>
               </div>
         </div>
-    <script type="text/html" id="yuangongmubiao">
+    <script type="text/html" id="targettool">
       <a class="layui-btn layui-btn-xs" lay-event="edit">修改</i></a>
       <a class="layui-btn layui-btn-xs" lay-event="delete">删除</i></a>
-    </script>                     
+    </script>  
+    <script type="text/html" id="period">
+      {{#  if(d.period === 1){ }}
+        <span style="color: #01AAED;">年</span>
+      {{#  } else if(d.period === 2){ }}
+        <span style="color: #FFB800;">季度</span>
+      {{# }else if(d.period === 3) { }}
+      <span style="color: #FF5722;">月</span>
+      {{#  } }}
+    </script>                                       
     <script src="../lib/layui.js"></script>
     <!-- <script src="../js/attendance.js"></script> -->
     <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
     <script>
-    layui.use(['element', 'table','laydate','layer','form'], function(){
-      var $= layui.$
-      ,element = layui.element
-      ,laydate = layui.laydate
-      ,layer = layui.layer
-      ,form = layui.form
-      ,table = layui.table;
+    layui.config({
+    base: '../compontents/' //静态资源所在路径
+  }).extend({
+    admin: 'admin' //主入口模块
+  }).use(['element','form','table','layer','admin','laydate'], function(){
+  var $ = layui.jquery
+  ,element = layui.element
+  ,laydate = layui.laydate
+  ,form = layui.form
+  ,setter = layui.setter
+  ,admin = layui.admin
+  ,layer = layui.layer
+  ,table = layui.table;
+
+  var userTable = table.render({
+  elem: '#emptargetset',
+  url: setter.layuiqueryapi,
+  method:'post',
+  where: 	{jsonparam: JSON.stringify([{
+        solve_name_conflict: false,
+    		model: 'crm_achievementtargets',
+    		api: 'read',
+	    	columns: ['count(uid) AS total'],
+	    },{
+    		model: 'crm_achievementtargets',
+        api: 'read',
+        columns:['*', 'employee$$org_employee.empname AS employeename'],
+        association: {  	
+          employee: {},
+        }
+	    }])},
+  cols: [[
+      {type:'checkbox'}
+      ,{field:'employeename', title: '员工', sort: true}
+      ,{field:'kpi', title: '考核目标', sort: true}
+      ,{field:'period', title: '考核周期',templet: '#period'}
+      ,{field:'startdate', title: '开始日期', sort: true}
+      ,{field:'enddate', title: '结束日期'}
+      ,{field:'', title: '操作',align:'center', toolbar: '#targettool'}
+    ]],
+  page: true,
+  done: function(res, curr, count){
+  }
+  });
+
+  //监听工具条
+  table.on('tool(emptager)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'edit'){
+      console.log('edit ',obj);
+      layer.open({
+        type: 1,
+        title:'修改指标',
+        // skin: 'layui-layer-demo', //样式类名
+        closeBtn: 1, //不显示关闭按钮
+        anim: 2,
+        area: ['500px', '400px'],
+        shadeClose: true, //开启遮罩关闭
+        offset: '20px',
+        content: $('#newemptarget')
+      });
+    } else if(obj.event === 'delete'){
+      layer.confirm('真的删除行么', function(index){
+        obj.del();
+        layer.close(index);
+      });
+    }
+  });
+  
+  form.on('submit(ntarget)', function(data){
+    var uidvalue = $('.emplist').attr('uidvalue')
+    ,startdate=data.field.targettime.slice(0,10)
+    ,enddate=data.field.targettime.slice(13,24)
+    employee=uidvalue.split(',');
+    target=[];
+    for (let i = 0; i < employee.length; i++) {
+      var emp = {};
+      emp.employee = employee[i];      
+      emp.period = data.field.period;
+      emp.kpi = data.field.kpi;
+      emp.startdate = startdate;
+      emp.enddate = enddate;
+      emp.model = 'crm_achievementtargets';
+      emp.api = 'create';
+      target.push(emp);
+    }
+    console.log(target);
+    admin.req({
+      url: layui.setter.batchapi //实际使用请改成服务端真实接口
+        ,data: {
+           jsonparam: JSON.stringify(target)
+          }      
+        ,success: function(res){
+          if(res.errorCode === 0){
+            layer.msg('创建成功', {
+              offset: '15px'
+              ,icon: 1
+              ,time: 1000
+            });
+        }
+      }
+        ,error: function(res){
+          //登入成功的提示与跳转
+          layer.msg('创建失败', {
+            offset: '15px'
+            ,icon: 5
+            ,time: 1000
+          });
+        }
+      });
+        return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+  });
+
+  $('.newtarget').on('click',function(){
+    layer.open({
+      type: 1,
+      title:'新建指标',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '400px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      content: $('#newemptarget')
+    });
+  })
+
+ 
+  $('.btnemployee').on('click',function(e){
+    var emplayer = layer.open({
+      type: 1,
+      title:'选择职员',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      maxmin:1,
+      content: $('#employeese')
+    });
+    var empTable = table.render({
+      elem: '#employeetb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      height:357,
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'org_employee',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'org_employee',
+            api: 'read',
+            columns:['*', 'dept$$org_department.deptname AS deptname'],
+            association: {  	
+              dept: {},
+            }
+	        }])},
+          cols: [[
+            {type:'checkbox'}
+            ,{field:'empname', title: '姓名'}
+            ,{field:'deptname', title: '部门', sort: true}
+            ]],
+          page: true,
+          done: function(res, curr, count){
+          
+          }
+          });
+    e.preventDefault();
+    $('.empenter').on('click',function(){
+      var checkStatus = table.checkStatus('employeetb')
+      ,data = checkStatus.data
+      ,uid=[]
+      ,name=[]; 
+      for (let i = 0; i < data.length; i++) {
+        name.push(data[i].empname);
+        uid.push(data[i].uid);
+      }
+      $('.emplist').val(name.join()).attr('uidvalue',uid.join());
+      layer.close(emplayer);
+    })
+    $('.empcancel').on('click',function(){
+      layer.close(emplayer);
+    })
+    return false;
+  });
+
+  $('.btndept').on('click',function(e){
+    var deptlayer = layer.open({
+      type: 1,
+      title:'选择部门',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      maxmin:1,
+      content: $('#deptse')
+    });
+    var empTable = table.render({
+      elem: '#depttb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      height:357,
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'org_department',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'org_department',
+            api: 'read'
+	        }])},
+          cols: [[
+            {type:'checkbox'}
+            ,{field:'deptname', title: '部门', sort: true}
+            ,{field:'deptshortnumber', title: '编号'}
+            ]],
+          page: true,
+          done: function(res, curr, count){
+          
+          }
+          });
+    e.preventDefault();
+    $('.deptenter').on('click',function(){
+      var checkStatus = table.checkStatus('depttb')
+      ,data = checkStatus.data;
+      layer.alert(JSON.stringify(data));
+    })
+    $('.deptcancel').on('click',function(){
+      layer.close(deptlayer)  
+    })
+    return false;
+  });
       
       laydate.render({
       elem: '#test3'
+      ,offset: 't'
       ,range: true
       ,value: '2018-07-01 - 2018-07-31'
+    });
+    laydate.render({
+      elem: '#targettime'
+      ,range: true
+      ,value: admin.getNowDay()+' - '+admin.getYearEndDay()
       });
       //添加考勤组
       $('.add-attapproval').on('click',function(){

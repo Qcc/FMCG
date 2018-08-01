@@ -124,22 +124,27 @@ var cusTable = table.render({
   url: setter.layuiqueryapi,
   method:'post',
   where: 	{jsonparam: JSON.stringify([{
-    		model: 'crm_customer',
-    		api: 'read',
-	    	columns: ['count(uid) AS total'],
-	    },{
-    		model: 'crm_customer',
-        api: 'read',
-	    }])},
+    solve_name_conflict: false,
+    model: 'crm_customer',
+    api: 'read',
+    columns: ['count(uid) AS total'],
+  },{
+    model: 'crm_customer',
+    api: 'read',
+  }])},
   cols: [[
-      {type:'checkbox'}
-      ,{field:'custmname', title: '公司名称'}
-      ,{field:'custmcontact', title: '联系人', sort: true}
-      ,{field:'custmphone', title: '电话', sort: true}
-      ,{field:'custmaddress', title: '地址', sort: true}
-      // ,{field:'', title: '操作',align:'center', toolbar: '#barDemo'}
-    ]],
+    {type:'checkbox'}
+    ,{field:'custmname', title: '公司名称'}
+    ,{field:'custmcontact', title: '联系人', sort: true}
+    ,{field:'custmphone', title: '电话', sort: true}
+    ,{field:'custmaddress', title: '地址', sort: true}
+    // ,{field:'', title: '操作',align:'center', toolbar: '#barDemo'}
+  ]],
   page: true,
+  onSuccess:function(res){
+    console.log('onsuccess ',res);
+    return res;
+  },
   done: function(res, curr, count){
   }
 });

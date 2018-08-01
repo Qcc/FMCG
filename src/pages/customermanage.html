@@ -106,6 +106,7 @@
   url: setter.layuiqueryapi,
   method:'post',
   where: 	{jsonparam: JSON.stringify([{
+        solve_name_conflict: false,
     		model: 'crm_customer',
     		api: 'read',
         columns: ['count(uid) AS total']
