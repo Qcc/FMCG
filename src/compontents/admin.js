@@ -9,7 +9,7 @@ function(e) {
   F = { 
     req: function(option) {
       option.type = option.type || "post";
-      option.dataType = option.data.Type || "json";
+      option.dataType = option.dataType || "json";
       option.crossDomain = true;
       option.xhrFields = {withCredentials: true};
       $.ajax(option);

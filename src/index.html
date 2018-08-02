@@ -476,6 +476,69 @@
     </div>
     <script src="../lib/layui.js"></script>
     <script src="./js/index.js"></script>
+    <script>
+    layui.config({
+    base: '../compontents/' //静态资源所在路径
+  }).extend({
+    admin: 'admin' //主入口模块
+  }).use('admin', function(){
+    var admin = layui.admin
+    ,setter = layui.setter;
+    admin.req({
+      url:setter.root + '/user/isLoggedIn.api'
+      ,success: function(res){
+        if(res.errorCode !== 0 || res.entity ===false){
+          layer.msg('您还未登录，请登录后再操作！', {
+            offset: '200px'
+            ,icon: 5
+            ,time: 1000
+          });
+          setTimeout(() => {
+            location.href = './login.html';
+          }, 2000);
+        }
+      }
+      ,error: function(res){
+        layer.msg('请登录后再操作！', {
+          offset: '200px'
+          ,icon: 5
+          ,time: 1000
+        });
+        setTimeout(() => {
+          location.href = './login.html';
+        }, 2000);
+      }
+    });
+  var whoami = JSON.parse(layui.sessionData(setter.tableName).whoami).uid;
+    admin.req({
+      url:setter.standardapi
+      ,data:{
+        model: 'org_employee',
+        api: 'read',
+        solve_name_conflict: false,
+        jsonparam: JSON.stringify({
+            condition: {
+                  simple: {
+                      item1: {
+                        column: 'user',
+                        cop: '=',
+                        value: whoami
+                      }
+                  }
+            }
+        })
+      }
+      ,success: function(res){
+        layui.sessionData(setter.tableName,{
+              key:'iam'
+              ,value:JSON.stringify(res.entity)
+            });
+      }
+      ,error: function(res){
+      }
+    });
+  });
+    </script>
     </body>
     </html>
           

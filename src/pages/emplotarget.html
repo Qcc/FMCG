@@ -112,27 +112,15 @@
                     </div>
                   </div>
                     <table class="layui-table" id="emptargetset" lay-filter="emptager"></table>
-                    <!-- <table class="layui-table" lay-data="{url:'../../compontents/demodata/emplotarget.json', page:true}" lay-filter="ygmubiao">
-                      <thead>
-                        <tr>
-                            <th lay-data="{type:'checkbox'}"></th>
-                            <th lay-data="{field:'empname', sort: true}">姓名</th>
-                            <th lay-data="{field:'targetreceipts'}">收款目标</th>
-                            <th lay-data="{field:'assessingperiod'}">考核周期</th>
-                            <th lay-data="{field:'startdate'}">考核开始日期</th>
-                            <th lay-data="{field:'enddate'}">考核结束日期</th>
-                            <th lay-data="{field:'', toolbar: '#yuangongmubiao'}">操作</th>
-                        </tr>
-                      </thead>
-                    </table>  -->
               </div>
+              <!-- 添加目标表单 -->
               <div id="newemptarget" style="display:none;padding-right: 50px;">
-                  <form class="layui-form" action="">
+                  <form class="layui-form" action="" lay-filter="targetform">
                       <div class="layui-form-item">
                         <label class="layui-form-label">选择</label>
                         <div class="layui-input-block">
                           <div class="layui-inline">
-                            <input type="text" uidvalue="" required name="employee" lay-verify="selectemployee" autocomplete="off" placeholder="请选择员工/部门" class="layui-input emplist">
+                            <input type="text" uidvalue="" required name="employee" lay-verify="required" autocomplete="off" placeholder="请选择员工/部门" class="layui-input emplist">
                           </div>
                           <div class="layui-inline">
                             <button class="layui-btn layui-btn-primary btnemployee" style="margin-left: -15px;" title="选择员工"><i class="layui-icon">&#xe612;</i></button>
@@ -145,7 +133,7 @@
                       <div class="layui-form-item">
                         <label class="layui-form-label">考核区间</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="targettime"  type="text" id="targettime">
+                            <input class="layui-input" name="targettime"  type="text" id="targett">
                         </div>
                         <div class="layui-form-mid layui-word-aux" style="margin-left: 110px;">在此期间内考核目标会按周期循环</div>
                       </div>
@@ -170,7 +158,56 @@
                       <div class="layui-form-item">
                         <div class="layui-input-block">
                           <button class="layui-btn" lay-submit lay-filter="ntarget">确认</button>
-                          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                          <button type="reset" class="layui-btn layui-btn-primary newrest">重置</button>
+                        </div>
+                      </div>
+                    </form>
+              </div>
+              <!-- 修改目标表单 -->
+              <div id="targetxg" style="display:none;padding-right: 50px;">
+                  <form class="layui-form" action="" lay-filter="targetxg">
+                      <div class="layui-form-item">
+                        <label class="layui-form-label">员工</label>
+                        <div class="layui-input-block">
+                          <div class="layui-inline">
+                            <input type="text" uidvalue="" disabled name="employee" lay-verify="required" autocomplete="off" placeholder="请选择员工/部门" class="layui-input emplist">
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="layui-form-item" style="display: none">
+                            <input type="text" name="uid" >
+                      </div>
+
+                      <div class="layui-form-item">
+                        <label class="layui-form-label">考核区间</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="xgtarget"  type="text" id="xgtargett">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux" style="margin-left: 110px;">在此期间内考核目标会按周期循环</div>
+                      </div>
+                      <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">考核周期</label>
+                        <div class="layui-input-block">
+                            <select name="period" lay-verify="zhouqi">
+                                <option value="3" selected>月</option>
+                                <option value="2">季度</option>
+                                <option value="1">年</option>
+                              </select>
+                        </div>
+                      </div>
+
+                      <div class="layui-form-item">
+                          <label class="layui-form-label">考核指标</label>
+                          <div class="layui-input-inline">
+                              <input type="number" name="kpi" required lay-verify="required" placeholder="请输入收款金额" autocomplete="off" class="layui-input">
+                          </div>
+                        </div>
+
+                      <div class="layui-form-item">
+                        <div class="layui-input-block">
+                          <button class="layui-btn" lay-submit lay-filter="btnxg">保存</button>
+                          <button type="reset" class="layui-btn layui-btn-primary btnxgrest">取消</button>
                         </div>
                       </div>
                     </form>
@@ -236,7 +273,13 @@
         columns:['*', 'employee$$org_employee.empname AS employeename'],
         association: {  	
           employee: {},
-        }
+        },
+        order: [ 
+          {
+           column: "uid",
+           order: "DESC", //可选（默认为ASC）
+          }
+         ], 
 	    }])},
   cols: [[
       {type:'checkbox'}
@@ -257,7 +300,7 @@
     var data = obj.data;
     if(obj.event === 'edit'){
       console.log('edit ',obj);
-      layer.open({
+      var xglayer =layer.open({
         type: 1,
         title:'修改指标',
         // skin: 'layui-layer-demo', //样式类名
@@ -266,17 +309,126 @@
         area: ['500px', '400px'],
         shadeClose: true, //开启遮罩关闭
         offset: '20px',
-        content: $('#newemptarget')
+        content: $('#targetxg')
+      });
+      laydate.render({
+      elem: '#xgtargett'
+      ,range: true
+      ,value: obj.data.startdate + ' - '+obj.data.enddate
+      });
+      form.val("targetxg", {
+        "employee":obj.data.employeename
+        ,"period":obj.data.period
+        ,"kpi":obj.data.kpi
+        ,"uid":obj.data.uid
+        })
+      $('.btnxgrest').on('click',function(){
+        layer.close(xglayer);
+      })
+      form.on('submit(btnxg)', function(data){
+        var startdate=data.field.xgtarget.slice(0,10)
+        ,enddate=data.field.xgtarget.slice(13,24);
+        target={};
+        target.employee = data.employee;      
+        target.period = data.field.period;
+        target.kpi = data.field.kpi;
+        target.startdate = startdate;
+        target.enddate = enddate;
+        admin.req({
+          url: setter.standardapi //实际使用请改成服务端真实接口
+            ,data: {
+              model:'crm_achievementtargets',
+              api:'update',
+              jsonparam: JSON.stringify({
+                entity:target,
+                condition: {
+                  simple: {
+                    item1: {
+                      column: 'uid',
+                      cop: '=',
+                      value: data.field.uid
+                    }
+                  }
+                }
+              })
+              }      
+            ,success: function(res){
+              if(res.errorCode === 0){
+                layer.close(xglayer);
+                //同步更新表格缓存
+                target.period = parseInt(target.period);
+                obj.update({
+                  period:target.period,
+                  kpi:target.kpi,
+                  startdate:target.startdate,
+                  enddate:target.enddate
+                });
+              }
+          }
+            ,error: function(res){
+              //登入成功的提示与跳转
+              layer.msg('修改失败', {
+                offset: '15px'
+                ,icon: 5
+                ,time: 1000
+              });
+            }
+          });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
       });
     } else if(obj.event === 'delete'){
-      layer.confirm('真的删除行么', function(index){
-        obj.del();
-        layer.close(index);
+      layer.confirm('真的删除么', function(index){
+        admin.req({
+        url: setter.standardapi //实际使用请改成服务端真实接口
+        ,data: {
+          model:'crm_achievementtargets',
+          api:'delete',
+          jsonparam: JSON.stringify({
+            condition: {
+              simple: {
+                item1: {
+                  column: 'uid',
+                  cop: '=',
+                  value: obj.data.uid
+                }
+              }
+            }
+          })
+        }  
+        ,success: function(res){
+          if(res.errorCode === 0){
+            obj.del();
+            // userTable.reload();
+          }
+        }
+        ,error: function(res){
+          layer.msg('删除失败', {
+            offset: '15px'
+            ,icon: 5
+            ,time: 1000
+          });
+        }
+      });
+      layer.close(index);
       });
     }
   });
   
-  form.on('submit(ntarget)', function(data){
+  
+
+  $('.newtarget').on('click',function(){
+    var newlayer =layer.open({
+      type: 1,
+      title:'新建指标',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '400px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      content: $('#newemptarget')
+    });
+    form.on('submit(ntarget)', function(data){
     var uidvalue = $('.emplist').attr('uidvalue')
     ,startdate=data.field.targettime.slice(0,10)
     ,enddate=data.field.targettime.slice(13,24)
@@ -293,7 +445,6 @@
       emp.api = 'create';
       target.push(emp);
     }
-    console.log(target);
     admin.req({
       url: layui.setter.batchapi //实际使用请改成服务端真实接口
         ,data: {
@@ -306,7 +457,9 @@
               ,icon: 1
               ,time: 1000
             });
-        }
+          }
+          layer.close(newlayer);
+          userTable.reload();
       }
         ,error: function(res){
           //登入成功的提示与跳转
@@ -318,23 +471,9 @@
         }
       });
         return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-  });
-
-  $('.newtarget').on('click',function(){
-    layer.open({
-      type: 1,
-      title:'新建指标',
-      // skin: 'layui-layer-demo', //样式类名
-      closeBtn: 1, //不显示关闭按钮
-      anim: 2,
-      area: ['500px', '400px'],
-      shadeClose: true, //开启遮罩关闭
-      offset: '20px',
-      content: $('#newemptarget')
     });
   })
 
- 
   $('.btnemployee').on('click',function(e){
     var emplayer = layer.open({
       type: 1,
@@ -451,10 +590,10 @@
       ,value: '2018-07-01 - 2018-07-31'
     });
     laydate.render({
-      elem: '#targettime'
+      elem: '#targett'
       ,range: true
       ,value: admin.getNowDay()+' - '+admin.getYearEndDay()
-      });
+    });
       //添加考勤组
       $('.add-attapproval').on('click',function(){
         addTab(window.parent.layui.element,'新建考勤组','add-app','pages/attsettingsadd.html')
