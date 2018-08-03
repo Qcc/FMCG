@@ -9,67 +9,135 @@
   <link rel="stylesheet" href="../lib/css/layui.css"  media="all">
   <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
    <style>
+     .plan-waper{
+       text-align: center;
+       line-height: 30px;
+       margin: 10px 60px;
+     }
      .plan-title{
        font-size: 20px;
        font-weight: 400;
-       text-align: center
      }
      .plan-author{
-
+       margin: 0 10px;
      }
      .create-time{
-
+       text-align: right;
+       margin-right: 60px;
      }
      .plan-date{
-
+       margin: 0 20px;
      }
      .plan-content{
-
+       text-align: left;
+      margin: 20px 0px;
+      text-indent:30px;
      }
    </style>
 </head>
 <body>
-    <div  id="viewplan">
-      <div class="layui-containe">
-        <div class="plan-title">
-          <span>标题:</span>
-          <span>这是当前任务标题！</span>
-        </div>
-        <div class="plan-author">
-          <span>定制人:</span>
-          <span>王力</span>
-        </div>
-        <div class="create-time">
-          <span>发布时间：</span>
-          <span>2018年8月2日</span>
-        </div>
-        <div class="plan-date">
-          <span>要求完成时间:</span>
-          <span>2018年8月2日 - 2018年8月2日 </span>
-        </div>
-        <div class="plan-content">
-          <span>这是任务内容正文。这是任务内容正文。这是任务内容正文。这是任务内容正文。这是任务内容正文。</span>
-        </div>
-      </div>
-    </div>
+    <table class="layui-table" id="sendplan" lay-filter="sendplan"> </table>
       
+
+    <script type="text/html" id="view">
+      <a class="layui-btn layui-btn-xs" lay-event="view">执行情况</i></a>
+    </script> 
+
+
     <script src="../lib/layui.js"></script>
 
       <script>
-      //Demo
-      layui.use(['layer','laydate','form'], function(){
+     layui.config({
+    base: '../compontents/' //静态资源所在路径
+  }).extend({
+    admin: 'admin' //主入口模块
+  }).use(['element','form','table','layer','admin','laydate'], function(){
         var layer = layui.layer;
-        var laydate = layui.laydate;
+        var table = layui.table;
+        var setter = layui.setter;
+        var admin = layui.admin;
         var $ = layui.$;
+
         
-        laydate.render({
-          elem: '#plandate'
-          ,type:'datetime'
-        });
-        laydate.render({
-          elem: '#plantime'
-          ,type:'datetime'
-        });
+    var plandetil = table.render({
+      elem: '#sendplan',
+      // height: 20%,
+      url: setter.layuiqueryapi,
+      method:'post',
+      where:{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'oa_plantask',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'oa_plantask',
+            api: 'read',
+            columns:["oa_plantask.*","plancreator$$org_employee.empname AS creatorname"],
+            association: {  	
+              plancreator:{}
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
+             }
+            ],
+            // condition:{"simple":{"item1":{"column":"plancreator","cop":"=","value":3500}}}
+          }])
+        },
+      cols: [[
+          {type:'checkbox'}
+          ,{field:'plancreatetime', title: '创建时间', sort: true,templet: '#createtime'}
+          ,{field:'planstartdate', title: '开始时间'}
+          ,{field:'planenddate', title: '结束时间'}
+          ,{field:'plantitle', title: '计划标题', sort: true}
+          ,{field:'plancontent', title: '内容'}
+          ,{field:'weibanli', title: '操作',toolbar: '#view'}
+        ]],
+      page: true,
+      done: function(res, curr, count){
+        sPlantb = true;
+      }
+
+      });
+      
+      table.on('tool(sendplan)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'view'){
+      console.log(data);
+      admin.req({
+          url: setter.standardapi
+            ,data: {
+               model: 'oa_plantask_result',
+               api: 'read',
+               jsonparam: JSON.stringify({
+                columns:["oa_plantask_result.*","planretexector$$org_employee.empname AS empname"],
+                association: { 
+                  planretexector: {},
+                  planretappendixlist:{}
+                },
+                condition:{"simple":{"item1":{"column":"plan","cop":"=","value":data.uid}}}
+               })
+              }      
+            ,success: function(res){
+              if(res.errorCode === 0){
+                plandetil.reload({
+                  height: 400
+                }); 
+              }
+          }
+            ,error: function(res){
+              //登入成功的提示与跳转
+              layer.msg('创建失败', {
+                offset: '15px'
+                ,icon: 5
+                ,time: 1000
+              });
+            }
+          });
+    }
+  });
+
       });
       </script>  
 </body>

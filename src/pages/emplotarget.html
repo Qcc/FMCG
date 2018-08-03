@@ -594,77 +594,77 @@
       ,range: true
       ,value: admin.getNowDay()+' - '+admin.getYearEndDay()
     });
-      //添加考勤组
-      $('.add-attapproval').on('click',function(){
-        addTab(window.parent.layui.element,'新建考勤组','add-app','pages/attsettingsadd.html')
-      })
-      //修改考勤组
-      table.on('tool(kaoqinzu)', function(obj){
-        console.log('1');
-        var data = obj.data;
-        // 循环 tab页面如果已经打开，则切换到对应页面
-        if(obj.event === 'edit'){
-          addTab(window.parent.layui.element,'修改考勤组','edit-app','pages/attsettingsedit.html')
-        }
-        return false;
-      });
-      //修改请假类型
-      table.on('tool(ygmubiao)', function(obj){
-        console.log('2');
-      var data = obj.data;
-      if(obj.event === 'edit'){
-        layer.msg('ID：'+ data + ' 编辑');
-      } else if(obj.event === 'delete'){
-        layer.confirm('真的删除行么', function(index){
-          obj.del();
-          layer.close(index);
-        });
-      }
-      return false;
-      });
+      // //添加考勤组
+      // $('.add-attapproval').on('click',function(){
+      //   addTab(window.parent.layui.element,'新建考勤组','add-app','pages/attsettingsadd.html')
+      // })
+      // //修改考勤组
+      // table.on('tool(kaoqinzu)', function(obj){
+      //   console.log('1');
+      //   var data = obj.data;
+      //   // 循环 tab页面如果已经打开，则切换到对应页面
+      //   if(obj.event === 'edit'){
+      //     addTab(window.parent.layui.element,'修改考勤组','edit-app','pages/attsettingsedit.html')
+      //   }
+      //   return false;
+      // });
+      // //修改请假类型
+      // table.on('tool(ygmubiao)', function(obj){
+      //   console.log('2');
+      // var data = obj.data;
+      // if(obj.event === 'edit'){
+      //   layer.msg('ID：'+ data + ' 编辑');
+      // } else if(obj.event === 'delete'){
+      //   layer.confirm('真的删除行么', function(index){
+      //     obj.del();
+      //     layer.close(index);
+      //   });
+      // }
+      // return false;
+      // });
       
       //已发任务查看执行详情
-  table.on('tool(demoEvent)', function(obj){
-    var data = obj.data;
-    if(obj.event === 'setSign'){
-      layer.prompt({
-        formType: 2
-        ,title: '修改 ID 为 ['+ data.id +'] 的用户签名'
-        ,value: data.sign
-      }, function(value, index){
-        layer.close(index);
+  // table.on('tool(demoEvent)', function(obj){
+  //   var data = obj.data;
+  //   if(obj.event === 'setSign'){
+  //     layer.prompt({
+  //       formType: 2
+  //       ,title: '修改 ID 为 ['+ data.id +'] 的用户签名'
+  //       ,value: data.sign
+  //     }, function(value, index){
+  //       layer.close(index);
         
-        //这里一般是发送修改的Ajax请求
+  //       //这里一般是发送修改的Ajax请求
         
-        //同步更新表格和缓存对应的值
-        obj.update({
-          sign: value
-        });
-      });
-    }
-  });
+  //       //同步更新表格和缓存对应的值
+  //       obj.update({
+  //         sign: value
+  //       });
+  //     });
+  //   }
+  // });
 
   //监听展开操作
-  form.on('switch(sexDemo)', function(obj){
-    layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
-  });
+  // form.on('switch(sexDemo)', function(obj){
+  //   layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+  // });
 
   //iframe中添加首页tab页面
-      function addTab(tab,title,id,url){
-        for (var i = 0; i < window.parent.layui.$('.kt-iframe').length; i++) {
-            if(window.parent.layui.$('.kt-iframe').eq(i).attr('tab-id') == id){
-                tab.tabChange('kt_toptab',id);
-                event.stopPropagation();
-                return;
-            }
-        };
-        tab.tabAdd('kt_toptab', {
-          title: title
-          ,content: '<iframe  tab-id="' + id + '" id=iframe' + id + ' " frameborder="0" src="' + url + '" scrolling="yes" class="kt-iframe"></iframe>'
-          ,id: id
-        });
-        tab.tabChange('kt_toptab', id);
-      }
+      // function addTab(tab,title,id,url){
+      //   for (var i = 0; i < window.parent.layui.$('.kt-iframe').length; i++) {
+      //       if(window.parent.layui.$('.kt-iframe').eq(i).attr('tab-id') == id){
+      //           tab.tabChange('kt_toptab',id);
+      //           event.stopPropagation();
+      //           return;
+      //       }
+      //   };
+      //   tab.tabAdd('kt_toptab', {
+      //     title: title
+      //     ,content: '<iframe  tab-id="' + id + '" id=iframe' + id + ' " frameborder="0" src="' + url + '" scrolling="yes" class="kt-iframe"></iframe>'
+      //     ,id: id
+      //   });
+      //   tab.tabChange('kt_toptab', id);
+      // }
     });
     </script>  
     </body>

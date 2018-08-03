@@ -10,13 +10,34 @@
         <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="../lib/css/layui.css">
         <style>
-        .layui-form-item .layui-input-inline {
-          width: 276px;
-        }
-        </style>
+            .plan-waper{
+              text-align: center;
+              line-height: 30px;
+              margin: 10px 60px;
+            }
+            .plan-title{
+              font-size: 20px;
+              font-weight: 400;
+            }
+            .plan-author{
+              margin: 0 10px;
+            }
+            .create-time{
+              text-align: right;
+              margin-right: 60px;
+            }
+            .plan-date{
+              margin: 0 20px;
+            }
+            .plan-content{
+              text-align: left;
+             margin: 20px 0px;
+             text-indent:30px;
+            }
+          </style>
     </head>
 <body style="overflow-y: scroll;">
-        <div class="layui-tab layui-tab-brief" style="margin: 0px;" lay-filter="docDemoTabBrief">
+        <div class="layui-tab layui-tab-brief" style="margin: 0px;" lay-filter="task">
             <ul class="layui-tab-title">
               <li class="layui-this">收到任务</li>
               <li>已发任务</li>
@@ -81,23 +102,9 @@
                     </div>
                   </div>
                   <!-- 已发送的任务 -->
-                  <table class="layui-table" id="sendplan"></table>
-                   
-                    <table class="layui-table" lay-data="{url:'../../compontents/demodata/planmanager.json'}" lay-filter="demoEvent1">
-                      <thead>
-                        <tr>
-                          <th lay-data="{field:'exector', width:80}">执行人</th>
-                          <th lay-data="{field:'state', width:100}">办理状态</th>
-                          <th lay-data="{field:'starttime', width:200}">办理日期</th>
-                          <th lay-data="{field:'endtime'}">办理结果</th>
-                          <th lay-data="{field:'resultdescription'}">总结</th>
-                          <th lay-data="{field:'appendixlist'}">办理照片</th>
-                          <th lay-data="{field:'startlocation'}">办理位置</th>
-                          <th lay-data="{field:'pingjia'}">创建人点评</th>
-                          <th lay-data="{field:'',toolbar: '#plandetils'}">操作</th>
-                        </tr>
-                      </thead>
-                    </table> 
+                  <table class="layui-table" id="sendplan" lay-filter="sendplan"></table>
+                  <!-- 已发送的任务详情 -->
+                  <table class="layui-table" id="sdview" lay-filter="sdview"></table>
               </div>
               <!-- 任务看板 -->
               <div class="layui-tab-item">
@@ -120,122 +127,79 @@
                             </div>
                         </div>
                       </div>
-                        <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/planmanager.json', page:true, id:'idTest2'}" lay-filter="jiaqi">
-                          <thead>
-                            <tr>
-                              <th lay-data="{field:'createtime',width:200,event: 'setSign',style:'cursor: pointer;'}">创建时间</th>
-                              <th lay-data="{field:'creator',width:100,event: 'setSign',style:'cursor: pointer;'}">创建人</th>
-                              <th lay-data="{field:'plantitle',width:150,event: 'setSign',style:'cursor: pointer;'}">任务标题</th>
-                              <th lay-data="{field:'plancontent',width:150,event: 'setSign',style:'cursor: pointer;'}">任务内容</th>
-                              <th lay-data="{field:'appendixlist',event: 'setSign',style:'cursor: pointer;'}">任务照片</th>
-                              <th lay-data="{field:'exector',width:100,event: 'setSign',style:'cursor: pointer;'}">执行人</th>
-                              <th lay-data="{field:'endtime',width:200,event: 'setSign',style:'cursor: pointer;'}">截至时间</th>
-                              <th lay-data="{field:'weibanli',event: 'setSign',style:'cursor: pointer;'}">未办理</th>
-                            </tr>
-                          </thead>
-                        </table>
-                        <table class="layui-table" lay-data="{url:'../../compontents/demodata/planmanager.json'}" lay-filter="demoEvent1">
-                          <thead>
-                            <tr>
-                                <th lay-data="{field:'exector', width:80}">执行人</th>
-                                <th lay-data="{field:'state', width:100}">办理状态</th>
-                                <th lay-data="{field:'starttime', width:200}">办理日期</th>
-                                <th lay-data="{field:'endtime'}">办理结果</th>
-                                <th lay-data="{field:'resultdescription'}">总结</th>
-                                <th lay-data="{field:'appendixlist'}">办理照片</th>
-                                <th lay-data="{field:'startlocation'}">办理位置</th>
-                                <th lay-data="{field:'pingjia'}">创建人点评</th>
-                            </tr>
-                          </thead>
-                        </table> 
-              </div>
-              <!-- 任务结果配置 -->
-              <div class="layui-tab-item">
-                  <div class="layui-row" style="text-align: right;text-align: right;position: absolute;top: 5px;right: 5px;">
-                      <div class="layui--inline">
-                          <div class="layui-btn-group">
-                              <button class="layui-btn layui-btn-sm add-attapproval">新建</button>
-                              <button class="layui-btn layui-btn-sm add-attapproval">删除</button>
-                            </div>
-                        </div>
-                      </div>
-                        <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/planmanager.json', page:true, id:'idTest2'}" lay-filter="jiaqi">
-                          <thead>
-                            <tr>
-                              <th lay-data="{field:'planname',width:200}">名称</th>
-                              <th lay-data="{field:'shuoming'}">说明</th>
-                              <th lay-data="{field:'',width:150,toolbar:'#type'}">操作</th>
-                            </tr>
-                          </thead>
-                        </table>
+                      <!-- 任务看板 -->
+                        <table class="layui-table" id="taskview"></table>
+                        <!-- 任务执行情况详情 -->
+                        <table class="layui-table" id="taskdetil"></table>
               </div>
             </div>
             <!-- 新建计划任务 -->
             <div id="newplan" style="display: none">
-                <form class="layui-form" action="" lay-filter="planform">
-                  <div class="layui-form-item" style="position: absolute;right: 20px;">
-                      <div class="layui-input-inline">
-                        <button class="layui-btn" lay-submit lay-filter="nplan">新建</button>
-                        <button type="reset" class="layui-btn layui-btn-primary btnxgrest">取消</button>
+                <form class="layui-form" action="" lay-filter="planform" style="margin-right: 40px;">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">执行人</label>
+                            <div class="layui-input-inline">
+                              <input type="text" lay-verify="required" autocomplete="off" placeholder="请选择员工/部门" class="layui-input namelist">
+                            </div>
+                            <div class="layui-input-inline">
+                              <input type="text" name="planretexectors" class="uidlist" style="display: none">
+                            </div>
+                            <div class="layui-input-inline" style="width: 70px">
+                              <button class="layui-btn layui-btn-primary btnaddemp" style="margin-left: -10px;" title="选择执行人"><i class="layui-icon">&#xe612;</i></button>
+                            </div>
+                        </div>
+                        <div class="layui-input-inline" style="position: absolute;right: 20px;">
+                            <button class="layui-btn" lay-submit lay-filter="nplan">新建</button>
+                            <button type="reset" class="layui-btn layui-btn-primary planrest">取消</button>
+                        </div>
                       </div>
-                    </div>
                   
-                  <div class="layui-form-item" style="display: none">
-                      <div class="layui-input-inline">
-                        <input type="text" name="uid" class="uidlist">
-                      </div>
-                  </div>
-                  <div class="layui-form-item">
-                    <label class="layui-form-label">执行人</label>
-                    <div class="layui-input-block" style="width: 400px;">
-                      <div class="layui-input-inline">
-                        <input type="text" name="exector" lay-verify="required" autocomplete="off" placeholder="请选择员工/部门" class="layui-input namelist">
-                      </div>
-                      <div class="layui-input-inline" style="width: 70px">
-                          <button class="layui-btn layui-btn-primary btnaddemp" style="margin-left: -10px;" title="选择执行人"><i class="layui-icon">&#xe612;</i></button>
-                      </div>
-                    </div>
-                  </div>
                   
-                  <div class="layui-form-item">
-                    <label class="layui-form-label">标题</label>
-                    <div class="layui-input-inline">
-                        <input class="layui-input" name="plantitle" lay-verify="required" placeholder="请输入计划标题" type="text" id="xgtargett">
-                    </div>
-                  </div>
-                  
-                  <div class="layui-form-item">
-                    <label class="layui-form-label">计划内容</label>
-                    <div class="layui-input-inline">
-                        <textarea name="plancontent" lay-verify="required" placeholder="请输入计划说明" class="layui-textarea"></textarea>
-                    </div>
-                  </div>
                   <div class="layui-form-item">
                     <label class="layui-form-label">开始时间</label>
                     <div class="layui-input-inline">
-                        <input class="layui-input" lay-verify="required" name="planstartdate" type="text" id="plandate">
+                      <input class="layui-input" lay-verify="required" autocomplete="off" name="planstartdate" type="text" id="plandate">
                     </div>
                   </div>
                   
                   <div class="layui-form-item">
                     <label class="layui-form-label">结束时间</label>
                     <div class="layui-input-inline">
-                        <input class="layui-input" lay-verify="required" name="planenddate" type="text" id="plantime">
+                      <input class="layui-input" lay-verify="required" autocomplete="off" name="planenddate" type="text" id="plantime">
                     </div>
                   </div>
                   
                   <div class="layui-form-item">
-                    <label class="layui-form-label">是否提醒</label>
+                    <label class="layui-form-label">标题</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="ifreminder" title="提醒" value="1" lay-skin="primary" checked>
+                        <input class="layui-input" name="plantitle" lay-verify="required" autocomplete="off" placeholder="请输入计划标题" type="text" id="xgtargett">
+                    </div>
+                  </div>
+                 
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">计划内容</label>
+                    <div class="layui-input-block">
+                        <textarea name="plancontent" lay-verify="required" autocomplete="off" placeholder="请输入计划说明" class="layui-textarea"></textarea>
+                    </div>
+                  </div>
+                 
+                  <div class="layui-form-item">
+                    <div class="layui-inline">
+                      <label class="layui-form-label">是否提醒</label>
+                      <div class="layui-input-inline" style="width: auto">
+                        <input type="checkbox" name="planifreminder" title="提醒" value="1" lay-skin="primary" checked>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label" style="padding-left: 0px;width: 100px;">提前提醒(小时)</label>
+                      <div class="layui-input-inline">
+                        <input class="layui-input" name="planremindertime" value="1" placeholder="小时" type="number" id="xgtargett" style="width: 60px;">
+                      </div>
                     </div>
                   </div>
                   
                   <div class="layui-form-item">
-                    <label class="layui-form-label">提前提醒</label>
-                    <div class="layui-input-inline">
-                      <input class="layui-input" name="remindertime" value="1" placeholder="小时" type="number" id="xgtargett">
-                    </div>
                   </div>
                   </form>
               </div>
@@ -249,30 +213,34 @@
               </div>
               <!-- 查看任务 -->
               <div  id="viewplan" style="display: none;">
-                  <div>
-                    <h3>标题:</h3>
-                    <h3>这是当前任务标题！</h3>
-                  </div>
-                  <div>
-                    <p>定制人:</p>
-                    <p>王力</p>
-                  </div>
-                  <div>
-                    <p>发布时间：</p>
-                    <p>2018年8月2日</p>
-                  </div>
-                  <div>
-                    <p>要求完成时间:</p>
-                    <p>2018年8月2日 - 2018年8月2日 </p>
-                  </div>
-                  <div>
-                    <p>这是任务内容正文。这是任务内容正文。这是任务内容正文。这是任务内容正文。这是任务内容正文。</p>
-                  </div>
+                  <div class="layui-row plan-waper">
+                      <div class="plan-title">
+                        <span class="kttitle"></span>
+                      </div>
+                      <div class="plan-author layui-inline">
+                        <span>定制人:</span>
+                        <span class="ktcreator"></span>
+                      </div>
+                      <div class="plan-date  layui-inline">
+                        <span>要求完成时间:</span>
+                        <span class="ktstime"></span>
+                      </div>
+                      <hr/>
+                      <div class="plan-content">
+                        <span class="ktcontent"></span>
+                      </div>
+                      <div class="create-time">
+                        <span>发布时间：</span>
+                        <span class="ktctime"></span>
+                      </div>
+                    </div>
               </div>
         </div>
     <script type="text/html" id="plan">
       <a class="layui-btn layui-btn-xs" lay-event="view">查看</i></a>
-      <!-- <a class="layui-btn layui-btn-xs" lay-event="edit">办理</i></a> -->
+    </script>                 
+    <script type="text/html" id="view">
+      <a class="layui-btn layui-btn-xs" lay-event="view">执行情况</i></a>
     </script>                 
     <script type="text/html" id="type">
       <a class="layui-btn layui-btn-xs" lay-event="edit">修改</i></a>
@@ -283,13 +251,13 @@
       <a class="layui-btn layui-btn-xs" lay-event="delete">点评</i></a>
     </script>   
     <script type="text/html" id="createtime">
-      {{#  var now = new Date().getTime();var time = now - d.createtime;}}
+      {{#  var now = new Date().getTime();var time = now - d.plancreatetime;}}
       {{#  if(time < 60000){ }}
         <span>{{ parseInt(time/1000) }}秒前</span>
       {{#  } else if(time < 3600000){ }}
-        <span>{{ parseInt(time/6000) }}分钟前</span>
+        <span>{{ parseInt(time/60000) }}分钟前</span>
       {{#  } else if(time < 86400000){ }}
-        <span>{{ parseInt(time/360000) }}小时前</span>
+        <span>{{ parseInt(time/3600000) }}小时前</span>
       {{#  } else { }}
         <span>{{ parseInt(time/86400000) }}天前</span>
       {{#  } }}
@@ -310,52 +278,55 @@
   ,setter = layui.setter
   ,admin = layui.admin
   ,layer = layui.layer
-  ,table = layui.table;
+  ,table = layui.table
+  ,iam = JSON.parse(layui.sessionData(setter.tableName).iam)[0].uid//当前登录员工UID
+  ,sPlantb = false
+  ,allTb = false;
+
   // 收到的任务
-  var iam = JSON.parse(layui.sessionData(setter.tableName).iam)[0].uid;
   var userTable = table.render({
   elem: '#sdplan',
   url: setter.layuiqueryapi,
   method:'post',
-  where: 	{jsonparam: JSON.stringify([{
-        solve_name_conflict: false,
-    		model: 'oa_plantask',
-    		api: 'read',
-	    	columns: ['count(uid) AS total'],
-	    },{
-    		model: 'oa_plantask',
-        api: 'read',
-        columns:['oa_plantask.*', 'exector$$org_employee.empname AS creatorname'],
-        association: {  	
-          creator: {},
-          exector: {},
-          appendixlist: {},
-          customer: {},
-        },
-        order: [ 
-          {
-           column: "uid",
-           order: "DESC", //可选（默认为ASC）
-          }
-         ],
-         condition: {
-           simple: {
-             item1: {
-               column: 'exector',
-               cop: '=',
-               value: iam
+  where:{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'oa_plantask_result',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'oa_plantask_result',
+            api: 'read',
+            columns:['*', 'plan$$oa_plantask.plancontent AS plancontent',
+              'plan$$oa_plantask.plancreatetime AS plancreatetime',
+              'plan__plancreator$$org_employee.empname AS plancreator',
+              'plan$$oa_plantask.plantitle AS plantitle',
+              'plan$$oa_plantask.planstartdate AS planstartdate',
+              'plan$$oa_plantask.planenddate  AS planenddate'],
+            association: {  	
+              plan: {
+                planstartdate:{},
+                planenddate:{},
+                association: {
+                  plancreator: {},
+                }
+              },
+              planretappendixlist:{}
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
              }
-           }
-         }
-	    }])},
+            ],
+            condition:{"simple":{"item1":{"column":"planretexector","cop":"=","value":iam}}}
+          }])
+        },
   cols: [[
-      {type:'checkbox'}
-      ,{field:'createtime', title: '创建时间', sort: true,templet: '#createtime'}
-      ,{field:'creatorname', title: '创建人'}
+      {field:'plancreatetime', title: '创建时间', sort: true,templet: '#createtime'}
+      ,{field:'plancreator', title: '创建人'}
       ,{field:'plantitle', title: '计划标题', sort: true}
       ,{field:'plancontent', title: '内容'}
-      ,{field:'state', title: '状态'}
-      ,{field:'appendixlist', title: '附件'}
+      ,{field:'planappendixlist', title: '附件'}
       ,{field:'', title: '操作',align:'center', toolbar: '#plan'}
     ]],
   page: true,
@@ -373,67 +344,173 @@
       closeBtn: 1, //不显示关闭按钮
       anim: 2,
       area: ['500px', '480px'],
-      shadeClose: true, //开启遮罩关闭
+      shadeClose: false, //开启遮罩关闭
       offset: '20px',
       maxmin:1,
       content: $('#viewplan'),
       success: function(layero, index){
-        console.log(layero, index);
+        $(".kttitle").text(data.plantitle);
+        $(".ktcreator").text(data.plancreator);
+        $(".ktstime").text(data.planstartdate+' ~ '+data.planenddate);
+        $(".ktcontent").text(data.plancontent);
+        $(".ktctime").text(data.plancreatetime);
       }
     });
     layer.full(planlayer);
     }
   });
 
-  // 已发送的任务
-  var userTable = table.render({
-  elem: '#sendplan',
-  url: setter.layuiqueryapi,
-  method:'post',
-  where: 	{jsonparam: JSON.stringify([{
-        solve_name_conflict: false,
-    		model: 'oa_plantask',
-    		api: 'read',
-	    	columns: ['count(uid) AS total'],
-	    },{
-    		model: 'oa_plantask',
-        api: 'read',
-        columns:['oa_plantask.*', 'exector$$org_employee.empname AS creatorname'],
-        association: {  	
-          creator: {},
-          exector: {},
-          appendixlist: {},
-          customer: {},
-        },
-        order: [ 
-          {
-           column: "uid",
-           order: "DESC", //可选（默认为ASC）
-          }
-         ],
-         condition: {
-           simple: {
-             item1: {
-               column: 'creator',
-               cop: '=',
-               value: iam
+  // 切换tab页面
+  element.on('tab(task)', function(data){
+    if(data.index === 1 ){
+      if(sPlantb){
+        return;
+      }
+      // 已发送的任务
+      var userTable = table.render({
+      elem: '#sendplan',
+      url: setter.layuiqueryapi,
+      method:'post',
+      where:{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'oa_plantask',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'oa_plantask',
+            api: 'read',
+            columns:["oa_plantask.*","plancreator$$org_employee.empname AS creatorname"],
+            association: {  	
+              plancreator:{}
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
              }
-           }
-         }
-	    }])},
-  cols: [[
-      {type:'checkbox'}
-      ,{field:'createtime', title: '创建时间', sort: true,templet: '#createtime'}
-      ,{field:'creatorname', title: '执行人'}
-      ,{field:'plantitle', title: '计划标题', sort: true}
-      ,{field:'plancontent', title: '内容'}
-      ,{field:'weibanli', title: '未办理'}
-      ,{field:'yibanli', title: '已办理'}
-    ]],
-  page: true,
-  done: function(res, curr, count){
-  }
+            ],
+            condition:{"simple":{"item1":{"column":"plancreator","cop":"=","value":iam}}}
+          }])
+        },
+      cols: [[
+          {type:'checkbox'}
+          ,{field:'plancreatetime', title: '创建时间', sort: true,templet: '#createtime'}
+          ,{field:'planstartdate', title: '开始时间'}
+          ,{field:'planenddate', title: '结束时间'}
+          ,{field:'plantitle', title: '计划标题', sort: true}
+          ,{field:'plancontent', title: '内容'}
+          ,{field:'weibanli', title: '操作',toolbar: '#view'}
+        ]],
+      page: true,
+      done: function(res, curr, count){
+        sPlantb = true;
+      }
+      });
+            //添加计划任务
+      $('.btnaddplan').on('click',function(){
+        var newlayer =layer.open({
+          type: 1,
+          title:'新建计划任务',
+          // skin: 'layui-layer-demo', //样式类名
+          closeBtn: 1, //不显示关闭按钮
+          maxmin:true,
+          anim: 2,
+          area: ['500px', '400px'],
+          shadeClose: false, //开启遮罩关闭
+          offset: '20px',
+          content: $('#newplan')
+        });
+        layer.full(newlayer);
+        laydate.render({
+          elem: '#plandate'
+          // ,type:'datetime'
+        });
+        laydate.render({
+          elem: '#plantime'
+          // ,type:'datetime'
+        });
+        $('.planrest').on('click',function(){
+          layer.close(newlayer);
+        })
+        form.on('submit(nplan)', function(data){
+        data.field.planretexectors = data.field.planretexectors.split(',').map(Number); 
+        admin.req({
+          url: setter.standardapi
+            ,data: {
+               model: 'oa_plantask',
+               api: 'create',
+               jsonparam: JSON.stringify(data.field)
+              }      
+            ,success: function(res){
+              if(res.errorCode === 0){
+                layer.msg('创建成功', {
+                  offset: '15px'
+                  ,icon: 1
+                  ,time: 1000
+                });
+              }
+              layer.close(newlayer);
+              userTable.reload();
+          }
+            ,error: function(res){
+              //登入成功的提示与跳转
+              layer.msg('创建失败', {
+                offset: '15px'
+                ,icon: 5
+                ,time: 1000
+              });
+            }
+          });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+      });
+    }else if(data.index === 2){
+      if(allTb){
+        return;
+      }
+      // 任务看板
+      var userTable = table.render({
+      elem: '#taskview',
+      url: setter.layuiqueryapi,
+      method:'post',
+      where:{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'oa_plantask',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'oa_plantask',
+            api: 'read',
+            columns:["oa_plantask.*","plancreator$$org_employee.empname AS creatorname"],
+            association: {  	
+              plancreator:{}
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
+             }
+            ],
+          }])
+        },
+      cols: [[
+           {field:'plancreatetime', title: '创建时间',sort: true,templet: '#createtime'}
+           ,{field:'creatorname', title: '创建人'}
+          ,{field:'planstartdate', title: '开始时间'}
+          ,{field:'planenddate', title: '结束时间'}
+          ,{field:'plantitle', title: '计划标题', sort: true}
+          ,{field:'plancontent', title: '内容'}
+          ,{field:'', title: '操作',toolbar: '#view'}
+        ]],
+      page: true,
+      done: function(res, curr, count){
+      allTb = true;
+      }
+      });
+    }
   });
+
+  
 // 添加计划选择员工
 $('.btnaddemp').on('click',function(e){
     var emplayer = layer.open({
@@ -502,143 +579,76 @@ $('.btnaddemp').on('click',function(e){
   ,value: '2018-07-01 - 2018-07-31'
   });
 
-      //添加计划任务
-  $('.btnaddplan').on('click',function(){
-    var newlayer =layer.open({
-      type: 1,
-      title:'新建计划任务',
-      // skin: 'layui-layer-demo', //样式类名
-      closeBtn: 1, //不显示关闭按钮
-      maxmin:true,
-      anim: 2,
-      area: ['500px', '400px'],
-      shadeClose: true, //开启遮罩关闭
-      offset: '20px',
-      content: $('#newplan')
-    });
-    layer.full(newlayer);
-    laydate.render({
-      elem: '#plandate'
-      // ,type:'datetime'
-    });
-    laydate.render({
-      elem: '#plantime'
-      // ,type:'datetime'
-    });
-    form.on('submit(nplan)', function(data){
-    employee=data.field.uid.split(',');
-    target=[];
-    for (let i = 0; i < employee.length; i++) {
-      var emp = {};
-      emp.exector = employee[i];      
-      emp.plantitle = data.field.plantitle;
-      emp.plancontent = data.field.plancontent;
-      emp.planstartdate = data.field.planstartdate;
-      emp.planenddate = data.field.planenddate;
-      emp.ifreminder = data.field.ifreminder === undefined?0:data.field.ifreminder;
-      emp.remindertime = data.field.remindertime;
-      emp.creator = iam;
-      emp.model = 'oa_plantask';
-      emp.api = 'create';
-      target.push(emp);
-    }
-    admin.req({
-      url: setter.batchapi //实际使用请改成服务端真实接口
-        ,data: {
-           jsonparam: JSON.stringify(target)
-          }      
-        ,success: function(res){
-          if(res.errorCode === 0){
-            layer.msg('创建成功', {
-              offset: '15px'
-              ,icon: 1
-              ,time: 1000
-            });
-          }
-          // layer.close(newlayer);
-          // userTable.reload();
-      }
-        ,error: function(res){
-          //登入成功的提示与跳转
-          layer.msg('创建失败', {
-            offset: '15px'
-            ,icon: 5
-            ,time: 1000
-          });
-        }
-      });
-        return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-    });
-  });
+
 
     
-      //修改考勤组
-      table.on('tool(kaoqinzu)', function(obj){
-        console.log('1');
-        var data = obj.data;
-        // 循环 tab页面如果已经打开，则切换到对应页面
-        if(obj.event === 'edit'){
-          addTab(window.parent.layui.element,'修改考勤组','edit-app','pages/attsettingsedit.html')
-        }
-        return false;
-      });
-      //修改请假类型
-      table.on('tool(jiaqi)', function(obj){
-        console.log('2');
-      var data = obj.data;
-      if(obj.event === 'edit'){
-        layer.msg('ID：'+ data + ' 编辑');
-      } else if(obj.event === 'delete'){
-        layer.confirm('真的删除行么', function(index){
-          obj.del();
-          layer.close(index);
-        });
-      }
-      return false;
-      });
+      // //修改考勤组
+      // table.on('tool(kaoqinzu)', function(obj){
+      //   console.log('1');
+      //   var data = obj.data;
+      //   // 循环 tab页面如果已经打开，则切换到对应页面
+      //   if(obj.event === 'edit'){
+      //     addTab(window.parent.layui.element,'修改考勤组','edit-app','pages/attsettingsedit.html')
+      //   }
+      //   return false;
+      // });
+      // //修改请假类型
+      // table.on('tool(jiaqi)', function(obj){
+      //   console.log('2');
+      // var data = obj.data;
+      // if(obj.event === 'edit'){
+      //   layer.msg('ID：'+ data + ' 编辑');
+      // } else if(obj.event === 'delete'){
+      //   layer.confirm('真的删除行么', function(index){
+      //     obj.del();
+      //     layer.close(index);
+      //   });
+      // }
+      // return false;
+      // });
       
       //已发任务查看执行详情
-  table.on('tool(demoEvent)', function(obj){
-    var data = obj.data;
-    if(obj.event === 'setSign'){
-      layer.prompt({
-        formType: 2
-        ,title: '修改 ID 为 ['+ data.id +'] 的用户签名'
-        ,value: data.sign
-      }, function(value, index){
-        layer.close(index);
+  // table.on('tool(demoEvent)', function(obj){
+  //   var data = obj.data;
+  //   if(obj.event === 'setSign'){
+  //     layer.prompt({
+  //       formType: 2
+  //       ,title: '修改 ID 为 ['+ data.id +'] 的用户签名'
+  //       ,value: data.sign
+  //     }, function(value, index){
+  //       layer.close(index);
         
-        //这里一般是发送修改的Ajax请求
+  //       //这里一般是发送修改的Ajax请求
         
-        //同步更新表格和缓存对应的值
-        obj.update({
-          sign: value
-        });
-      });
-    }
-  });
+  //       //同步更新表格和缓存对应的值
+  //       obj.update({
+  //         sign: value
+  //       });
+  //     });
+  //   }
+  // });
 
-  //监听展开操作
-  form.on('switch(sexDemo)', function(obj){
-    layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
-  });
+  // //监听展开操作
+  // form.on('switch(sexDemo)', function(obj){
+  //   layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+  // });
 
-  //iframe中添加首页tab页面
-      function addTab(tab,title,id,url){
-        for (var i = 0; i < window.parent.layui.$('.kt-iframe').length; i++) {
-            if(window.parent.layui.$('.kt-iframe').eq(i).attr('tab-id') == id){
-                tab.tabChange('kt_toptab',id);
-                event.stopPropagation();
-                return;
-            }
-        };
-        tab.tabAdd('kt_toptab', {
-          title: title
-          ,content: '<iframe  tab-id="' + id + '" id=iframe' + id + ' " frameborder="0" src="' + url + '" scrolling="yes" class="kt-iframe"></iframe>'
-          ,id: id
-        });
-        tab.tabChange('kt_toptab', id);
-      }
+  // //iframe中添加首页tab页面
+  //     function addTab(tab,title,id,url){
+  //       for (var i = 0; i < window.parent.layui.$('.kt-iframe').length; i++) {
+  //           if(window.parent.layui.$('.kt-iframe').eq(i).attr('tab-id') == id){
+  //               tab.tabChange('kt_toptab',id);
+  //               event.stopPropagation();
+  //               return;
+  //           }
+  //       };
+  //       tab.tabAdd('kt_toptab', {
+  //         title: title
+  //         ,content: '<iframe  tab-id="' + id + '" id=iframe' + id + ' " frameborder="0" src="' + url + '" scrolling="yes" class="kt-iframe"></iframe>'
+  //         ,id: id
+  //       });
+  //       tab.tabChange('kt_toptab', id);
+  //     }
     });
     </script>  
     </body>
