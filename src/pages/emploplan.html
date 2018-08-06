@@ -22,7 +22,7 @@
             .plan-author{
               margin: 0 10px;
             }
-            .create-time{
+            .create-time, .plan-author{
               text-align: right;
               margin-right: 60px;
             }
@@ -49,15 +49,6 @@
               <div class="layui-tab-item layui-show">
                 <div class="layui-row" style="text-align: right;text-align: right;position: absolute;top: 5px;right: 5px;">
                   <div class="layui-inline">
-                    <!-- <div class="layui-input-inline ">
-                        <form class="layui-form">
-                          <select name="city" lay-verify="kt-" class="layui-input-select">
-                              <option value="01" selected="">未办理</option>
-                              <option value="02">已办理</option>
-                              <option value="03">全部任务</option>
-                            </select>
-                          </form>
-                      </div> -->
                       <div class="layui-input-inline">
                         <div class="layui-inline">
                           <label class="layui-form-label" style="width:60px;padding: 6px 5px 4px 0px;">日期范围</label>
@@ -104,7 +95,7 @@
                   <!-- 已发送的任务 -->
                   <table class="layui-table" id="sendplan" lay-filter="sendplan"></table>
                   <!-- 已发送的任务详情 -->
-                  <table class="layui-table" id="sdview" lay-filter="sdview"></table>
+                  <table class="layui-table" id="sddetils" lay-filter="sddetils"></table>
               </div>
               <!-- 任务看板 -->
               <div class="layui-tab-item">
@@ -122,15 +113,12 @@
                           <div class="layui-btn-group">
                             <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i></button>
                           </div>
-                          <div class="layui-btn-group">
-                              <button class="layui-btn layui-btn-sm add-attapproval">新建</button>
-                            </div>
                         </div>
                       </div>
                       <!-- 任务看板 -->
-                        <table class="layui-table" id="taskview"></table>
+                        <table class="layui-table" id="taskview" lay-filter="kbplan"></table>
                         <!-- 任务执行情况详情 -->
-                        <table class="layui-table" id="taskdetil"></table>
+                        <table class="layui-table" id="kbdetils" lay-filter="kbdetils"></table>
               </div>
             </div>
             <!-- 新建计划任务 -->
@@ -156,6 +144,21 @@
                       </div>
                   
                   
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">拜访客户</label>
+                    <div class="layui-inline">
+                        <div class="layui-input-inline">
+                          <input type="text" lay-verify="required" autocomplete="off" placeholder="请选择客户" class="layui-input cusnamelist">
+                        </div>
+                        <div class="layui-input-inline">
+                          <input type="text" name="plancustomer" class="cuslist" style="display: none">
+                        </div>
+                        <div class="layui-input-inline" style="width: 70px">
+                          <button class="layui-btn layui-btn-primary btnaddcus" style="margin-left: -10px;" title="选择客户"><i class="layui-icon">&#xe613;</i></button>
+                        </div>
+                    </div>
+                  </div>
+
                   <div class="layui-form-item">
                     <label class="layui-form-label">开始时间</label>
                     <div class="layui-input-inline">
@@ -211,16 +214,24 @@
                     <button  class="layui-btn empenter">确定</button>
                   </div>
               </div>
+              <!-- 选择客户表 -->
+              <div  id="plancus" style="display: none;">
+                  <table class="layui-table" id="custb" lay-filter="custb"></table>
+                  <div style="position: relative;right: 20px;text-align: right;">
+                    <button class="layui-btn  layui-btn-primary cuscancel">取消</button>
+                    <button  class="layui-btn cusenter">确定</button>
+                  </div>
+              </div>
               <!-- 查看任务 -->
               <div  id="viewplan" style="display: none;">
                   <div class="layui-row plan-waper">
                       <div class="plan-title">
                         <span class="kttitle"></span>
                       </div>
-                      <div class="plan-author layui-inline">
-                        <span>定制人:</span>
-                        <span class="ktcreator"></span>
-                      </div>
+                      <div class="layui-inline">
+                          <span>拜访客户:</span>
+                          <span class="ktcus"></span>
+                        </div>
                       <div class="plan-date  layui-inline">
                         <span>要求完成时间:</span>
                         <span class="ktstime"></span>
@@ -233,8 +244,12 @@
                         <span>发布时间：</span>
                         <span class="ktctime"></span>
                       </div>
+                      <div class="plan-author">
+                        <span>定制人:</span>
+                        <span class="ktcreator"></span>
+                      </div>
                     </div>
-              </div>
+                  </div>
         </div>
     <script type="text/html" id="plan">
       <a class="layui-btn layui-btn-xs" lay-event="view">查看</i></a>
@@ -249,7 +264,47 @@
     <script type="text/html" id="plandetils">
       <a class="layui-btn layui-btn-xs" lay-event="edit">重办</i></a>
       <a class="layui-btn layui-btn-xs" lay-event="delete">点评</i></a>
-    </script>   
+    </script>  
+  
+    <script type="text/html" id="starttime">
+      {{#  if(d.planretstarttime){ }}
+      {{# var t = new Date(d.planretstarttime).toLocaleString(); }}
+      <span >{{ t }}</span>
+      {{#  } else{ }}
+      <span style="color: #FFB800;">未执行</span>
+      {{#  } }}
+    </script> 
+
+    <script type="text/html" id="endtime">
+      {{#  if(d.planretendtime){ }}
+      {{# var t = new Date(d.planretendtime).toLocaleString(); }}
+      <span >{{ t }}</span>
+      {{#  } else{ }}
+      <span style="color: #FFB800;">未执行</span>
+      {{#  } }}
+    </script>
+
+    <script type="text/html" id="state">
+      {{#  if(d.planretstate === 0){ }}
+        <span style="color: #FFB800;">未执行</span>
+      {{#  } else if(d.planretstate === 1){ }}
+        <span style="color: #5FB878;">执行中</span>
+      {{#  } else if(d.planretstate === 2){ }}
+        <span style="color: #c2c2c2;">已经执</span>
+      {{#  } else { }}
+        <span>{{ parseInt(time/86400000) }}天前</span>
+      {{#  } }}
+    </script>    
+    
+    <script type="text/html" id="img">
+      {{#  if(d.picpath){ }}
+      {{# var path = layui.admin.base64decode(d.picpath);path = layui.setter.root + path;}}
+        <img src= {{path}}></span>
+      {{#  } else { }}
+        <span>无</span>
+      {{#  } }}
+    </script>    
+    
     <script type="text/html" id="createtime">
       {{#  var now = new Date().getTime();var time = now - d.plancreatetime;}}
       {{#  if(time < 60000){ }}
@@ -282,7 +337,6 @@
   ,iam = JSON.parse(layui.sessionData(setter.tableName).iam)[0].uid//当前登录员工UID
   ,sPlantb = false
   ,allTb = false;
-
   // 收到的任务
   var userTable = table.render({
   elem: '#sdplan',
@@ -301,13 +355,15 @@
               'plan__plancreator$$org_employee.empname AS plancreator',
               'plan$$oa_plantask.plantitle AS plantitle',
               'plan$$oa_plantask.planstartdate AS planstartdate',
-              'plan$$oa_plantask.planenddate  AS planenddate'],
+              'plan$$oa_plantask.planenddate  AS planenddate',
+              'plan__plancustomer$$crm_customer.custmname AS plancustomer'],
             association: {  	
               plan: {
                 planstartdate:{},
                 planenddate:{},
                 association: {
-                  plancreator: {},
+                  plancreator:{},
+                  plancustomer: {},
                 }
               },
               planretappendixlist:{}
@@ -324,6 +380,7 @@
   cols: [[
       {field:'plancreatetime', title: '创建时间', sort: true,templet: '#createtime'}
       ,{field:'plancreator', title: '创建人'}
+      ,{field:'plancustomer', title: '拜访客户'}
       ,{field:'plantitle', title: '计划标题', sort: true}
       ,{field:'plancontent', title: '内容'}
       ,{field:'planappendixlist', title: '附件'}
@@ -339,7 +396,7 @@
     if(obj.event === 'view'){
       var planlayer = layer.open({
       type: 1,
-      title:'查看任务',
+      title:'查看拜访任务',
       // skin: 'layui-layer-demo', //样式类名
       closeBtn: 1, //不显示关闭按钮
       anim: 2,
@@ -350,10 +407,11 @@
       content: $('#viewplan'),
       success: function(layero, index){
         $(".kttitle").text(data.plantitle);
+        $(".ktcus").text(data.plancustomer);
         $(".ktcreator").text(data.plancreator);
         $(".ktstime").text(data.planstartdate+' ~ '+data.planenddate);
         $(".ktcontent").text(data.plancontent);
-        $(".ktctime").text(data.plancreatetime);
+        $(".ktctime").text(new Date(data.plancreatetime).toLocaleString());
       }
     });
     layer.full(planlayer);
@@ -367,8 +425,9 @@
         return;
       }
       // 已发送的任务
-      var userTable = table.render({
+      var splan = table.render({
       elem: '#sendplan',
+      height: ($(document).height() - 40)/2,
       url: setter.layuiqueryapi,
       method:'post',
       where:{jsonparam: JSON.stringify([{
@@ -379,8 +438,10 @@
 	        },{
         		model: 'oa_plantask',
             api: 'read',
-            columns:["oa_plantask.*","plancreator$$org_employee.empname AS creatorname"],
+            columns:["oa_plantask.*","plancreator$$org_employee.empname AS creatorname",
+            'plancustomer$$crm_customer.custmname AS customer'],
             association: {  	
+              plancustomer: {},
               plancreator:{}
             },
             order: [ 
@@ -395,6 +456,7 @@
       cols: [[
           {type:'checkbox'}
           ,{field:'plancreatetime', title: '创建时间', sort: true,templet: '#createtime'}
+          ,{field:'customer', title: '拜访客户'}
           ,{field:'planstartdate', title: '开始时间'}
           ,{field:'planenddate', title: '结束时间'}
           ,{field:'plantitle', title: '计划标题', sort: true}
@@ -410,7 +472,7 @@
       $('.btnaddplan').on('click',function(){
         var newlayer =layer.open({
           type: 1,
-          title:'新建计划任务',
+          title:'新建拜访计划任务',
           // skin: 'layui-layer-demo', //样式类名
           closeBtn: 1, //不显示关闭按钮
           maxmin:true,
@@ -450,7 +512,7 @@
                 });
               }
               layer.close(newlayer);
-              userTable.reload();
+              splan.reload();
           }
             ,error: function(res){
               //登入成功的提示与跳转
@@ -465,12 +527,14 @@
         });
       });
     }else if(data.index === 2){
+      console.log(data);
       if(allTb){
         return;
       }
       // 任务看板
-      var userTable = table.render({
+      var plandetil = table.render({
       elem: '#taskview',
+      height: ($(document).height() - 40)/2,
       url: setter.layuiqueryapi,
       method:'post',
       where:{jsonparam: JSON.stringify([{
@@ -481,8 +545,10 @@
 	        },{
         		model: 'oa_plantask',
             api: 'read',
-            columns:["oa_plantask.*","plancreator$$org_employee.empname AS creatorname"],
-            association: {  	
+            columns:["oa_plantask.*","plancreator$$org_employee.empname AS creatorname",
+            'plancustomer$$crm_customer.custmname AS customer'],
+            association: {
+              plancustomer: {},
               plancreator:{}
             },
             order: [ 
@@ -491,21 +557,120 @@
               order: "DESC", //可选（默认为ASC）
              }
             ],
+            // condition:{"simple":{"item1":{"column":"plancreator","cop":"=","value":iam}}}
           }])
         },
       cols: [[
-           {field:'plancreatetime', title: '创建时间',sort: true,templet: '#createtime'}
-           ,{field:'creatorname', title: '创建人'}
+          {type:'checkbox'}
+          ,{field:'creatorname', title: '创建人'}
+          ,{field:'plancreatetime', title: '创建时间', sort: true,templet: '#createtime'}
+          ,{field:'customer', title: '拜访客户'}
           ,{field:'planstartdate', title: '开始时间'}
           ,{field:'planenddate', title: '结束时间'}
           ,{field:'plantitle', title: '计划标题', sort: true}
           ,{field:'plancontent', title: '内容'}
-          ,{field:'', title: '操作',toolbar: '#view'}
+          ,{field:'weibanli', title: '操作',toolbar: '#view'}
         ]],
       page: true,
       done: function(res, curr, count){
-      allTb = true;
+        allTb = true;
       }
+
+      });
+    }
+  });
+
+  // 显示任务看板执行详细情况  
+  table.on('tool(kbplan)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'view'){
+      admin.req({
+        url: setter.standardapi
+        ,data: {
+           model: 'oa_plantask_result',
+           api: 'read',
+           jsonparam: JSON.stringify({
+            columns:["oa_plantask_result.*","planretexector$$org_employee.empname AS excname",
+            'planretappendixlist$$bas_resource.resourcepath AS picpath'],
+            association: { 
+              planretexector: {},
+              planretappendixlist:{
+                association_column:"resourcegroupnumber",
+				        association_model:"bas_resource"
+              }
+            },
+            condition:{"simple":{"item1":{"column":"plan","cop":"=","value":data.uid}}}
+           })
+          }      
+        ,success: function(res){
+          if(res.errorCode === 0){
+            var sdview = table.render({
+              elem: '#kbdetils',
+              data:res.entity,
+              cols: [[
+                  {type:'checkbox'}
+                  ,{field:'excname', title: '执行人', sort: true}
+                  ,{field:'planretstate', title: '状态', sort: true,templet:'#state'}
+                  ,{field:'planretstarttime', title: '开始时间',templet: '#starttime'}
+                  ,{field:'planretendtime', title: '结束时间',templet: '#endtime'}
+                  ,{field:'planretdescription', title: '结果说明'}
+                  ,{field:'picpath', title: '附件',templet: '#img'}
+                ]],
+              done: function(res, curr, count){
+              }
+            })
+          }
+        }
+        ,error: function(res){
+         
+        }
+      });
+    }
+  });
+      // 显示已发送任务执行详细情况  
+      table.on('tool(sendplan)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'view'){
+      admin.req({
+        url: setter.standardapi
+        ,data: {
+           model: 'oa_plantask_result',
+           api: 'read',
+           jsonparam: JSON.stringify({
+            columns:["oa_plantask_result.*","planretexector$$org_employee.empname AS excname",
+            'planretappendixlist$$bas_resource.resourcepath AS picpath'],
+            association: { 
+              planretexector: {},
+              planretappendixlist:{
+                association_column:"resourcegroupnumber",
+				        association_model:"bas_resource"
+              }
+            },
+            condition:{"simple":{"item1":{"column":"plan","cop":"=","value":data.uid}}}
+           })
+          }      
+        ,success: function(res){
+          if(res.errorCode === 0){
+            var sdview = table.render({
+              elem: '#sddetils',
+              data:res.entity,
+              cols: [[
+                  {type:'checkbox'}
+                  ,{field:'excname', title: '执行人', sort: true}
+                  ,{field:'planretstate', title: '状态', sort: true,templet:'#state'}
+                  ,{field:'planretstarttime', title: '开始时间',templet: '#starttime'}
+                  ,{field:'planretendtime', title: '结束时间',templet: '#endtime'}
+                  ,{field:'planretdescription', title: '结果说明'}
+                  ,{field:'picpath', title: '附件',templet: '#img'}
+                ]],
+              done: function(res, curr, count){
+              }
+            })
+          }
+        }
+        ,error: function(res){
+         
+        }
       });
     }
   });
@@ -569,6 +734,68 @@ $('.btnaddemp').on('click',function(e){
     })
     $('.empcancel').on('click',function(){
       layer.close(emplayer);
+    })
+    return false;
+  });
+// 添加计划选择客户
+$('.btnaddcus').on('click',function(e){
+    var cuslayer = layer.open({
+      type: 1,
+      title:'选择客户',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      maxmin:1,
+      content: $('#plancus')
+    });
+    var empTable = table.render({
+      elem: '#custb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      height:357,
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'crm_customer',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'crm_customer',
+            api: 'read'
+	        }])},
+          cols: [[
+            {type:'checkbox'}
+            ,{field:'custmname', title: '公司名称'}
+            ,{field:'custmcontact', title: '联系人', sort: true}
+            ]],
+          page: true,
+          done: function(res, curr, count){
+          
+          }
+    });
+    e.preventDefault();
+    $('.cusenter').on('click',function(){
+      var checkStatus = table.checkStatus('custb')
+      ,data = checkStatus.data
+      ,uid=[]
+      ,name=[];
+      if(data.length > 1){
+        layer.msg('只能选择一家客户');
+        return;
+      } 
+      console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        name.push(data[i].custmname);
+        uid.push(data[i].uid);
+      }
+      $('.cusnamelist').val(name.join())
+      $('.cuslist').val(uid.join())
+      layer.close(cuslayer);
+    })
+    $('.cuscancel').on('click',function(){
+      layer.close(cuslayer);
     })
     return false;
   });

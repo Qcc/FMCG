@@ -10,18 +10,23 @@
         <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="../lib/css/layui.css">
         <link rel="stylesheet" href="../css/attendance.min.css">
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
+      <style>
+        .BMap_cpyCtrl {
+            display: none;
+        }
+        .anchorBL {
+            display: none;
+        }
+
+      </style>
     </head>
     <body style="overflow-y: scroll;">
       <div class="layui-tab layui-tab-brief" style="margin: 0px;" lay-filter="docDemoTabBrief">
           <ul class="layui-tab-title">
             <li class="layui-this">考勤组设置</li>
-            <li>请假类型设置</li>
-            <li>考勤流程设置</li>
+            <!-- <li>请假类型设置</li>
+            <li>考勤流程设置</li> -->
           </ul>
           <div class="layui-tab-content" style="height: 100px;">
             <!-- 考勤组设置 -->
@@ -38,24 +43,12 @@
                     </div>
                   </div>
               <div class="layui-btn-group">
-                <button class="layui-btn layui-btn-sm add-attapproval">新建</button>
+                <button class="layui-btn layui-btn-sm addkq">新建</button>
               </div>
             </div>
-              <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/attsettings.json', page:true, id:'idTest2'}" lay-filter="kaoqinzu">
-                <thead>
-                  <tr>
-                    <th lay-data="{field:'kaoqinzu', sort: true}">考勤组</th>
-                    <th lay-data="{field:'longitude',width:200}">考勤地点</th>
-                    <th lay-data="{field:'kaoqinrenyuan',width:120}">考勤人员</th>
-                    <th lay-data="{field:'validrange',width:110}">管理范围</th>
-                    <th lay-data="{field:'time'}">最后操作时间</th>
-                    <th lay-data="{field:'employee'}">操作人</th>
-                    <th lay-data="{field:'',toolbar: '#attsetting'}">操作</th>
-                  </tr>
-                </thead>
-              </table>
+              <table class="layui-table"  lay-filter="kqtb" id="kqtb"></table>
             </div>
-            <div class="layui-tab-item">
+            <!-- <div class="layui-tab-item">
                 <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
                     <button class="layui-btn layui-btn-sm">新增</button>
                 </div>
@@ -69,69 +62,517 @@
                       </tr>
                     </thead>
                   </table>
-            </div>
-            <div class="layui-tab-item">流程配置</div>
+            </div> -->
+            <!-- <div class="layui-tab-item">流程配置</div> -->
           </div>
       </div>
-  <script type="text/html" id="attsetting">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</i></a>
-  </script>                 
-  <script type="text/html" id="type">
+      <!-- 添加考勤组 -->
+      <div id="newkq"  style="display: none;">
+        <form class="layui-form" action="">
+          <div class="layui-row">
+            <div class="layui-col-xs6">
+              <div class="layui-form-item">
+                <label class="layui-form-label">考勤组名称</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入名称" class="layui-input">
+                </div>
+              </div>
+            </div>
+            <div class="layui-col-xs6"  style="text-align: right;padding-right: 20px;">
+              <div class="layui-form-item">
+                <button  class="layui-btn layui-btn-primary kqreset">取消</button>
+                <button  lay-submit class="layui-btn kqadd" lay-filter="kqadd">保存</button>
+              </div>
+            </div>
+          </div>
+ 
+            <div class="layui-form-item">
+                <label class="layui-form-label">考勤时间</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" value="1" name="monday" title="星期一" lay-skin="primary" checked>
+                    <input type="checkbox" value="1" name="tuesday" title="星期二" lay-skin="primary" checked> 
+                    <input type="checkbox" value="1" name="wednesday" title="星期三" lay-skin="primary" checked> 
+                    <input type="checkbox" value="1" name="thursday" title="星期四" lay-skin="primary" checked> 
+                    <input type="checkbox" value="1" name="friday" title="星期五" lay-skin="primary" checked> 
+                    <input type="checkbox" value="1" name="saturday" title="星期六" lay-skin="primary"> 
+                    <input type="checkbox" value="1" name="sunday" title="星期日" lay-skin="primary"> 
+                </div>
+            </div>
+            
+            <div class="layui-inline">
+              <div class="layui-form-item">
+                <label class="layui-form-label" title="用来定义有效工作时间，可只指定上午上班和下午下班。">工作时间</label>
+                <div class="layui-input-block">
+                  <div class="layui-inline" style="width: 100px;">
+                    <input type="text" lay-verify="required" placeholder='上午上班' name="amworkingtime" class="layui-input" id="am1">
+                    </div>
+                    <div class="layui-inline" style="width: 100px;">
+                      <input type="text" placeholder='上午下班' name="amoffworkingtime" class="layui-input" id="am2">
+                    </div>
+                  </div>
+                  <div class="layui-input-block">
+                    <div class="layui-inline" style="width: 100px;">
+                      <input type="text" placeholder='下午上班' name="pmworkingtime" class="layui-input" id="pm1">
+                    </div>
+                    <div class="layui-inline" style="width: 100px;">
+                      <input type="text" lay-verify="required" placeholder='上午下班' name="pmoffworkingtime" class="layui-input" id="pm2">
+                    </div>
+                  </div>
+               </div>
+              </div>
+              
+              <div class="layui-inline">
+                <div class="layui-form-item">
+                  <label class="layui-form-label" title="用来指定允许加班的时间段。">有效加班</label>
+                  <div class="layui-input-block" style="width: 100px;">
+                    <div class="layui-inline">
+                      <input type="text" lay-verify="required" placeholder='加班开始' name="overtime" class="layui-input" id="over1">
+                    </div>
+                  </div>
+                  <div class="layui-input-block" style="width: 100px;">
+                    <div class="layui-inline">
+                      <input type="text" lay-verify="required" placeholder='加班结束' name="offovertime" class="layui-input" id="over2">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="layui-inline">
+                <div class="layui-form-item">
+                  <label class="layui-form-label" title="用来指定允许打卡的时间段，防止随意打卡。">有效打卡</label>
+                  <div class="layui-input-block" style="width: 100px;">
+                    <div class="layui-inline">
+                      <input type="text" placeholder='最早打卡' name="earliestworkingtime" class="layui-input" id="earl">
+                    </div>
+                  </div>
+                  <div class="layui-input-block" style="width: 100px;">
+                    <div class="layui-inline">
+                      <input type="text" placeholder='最晚打卡' name="latestoffworkingtime" class="layui-input" id="late">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="layui-form-item">
+                  <label class="layui-form-label" title="通过地图选择指定的考勤地点">考勤地点</label>
+                  <div class="layui-input-inline">
+                    <input type="text" name="longitude" autocomplete="off" placeholder="请选择考勤地点" class="layui-input longitude" style="display: none">
+                    <input type="text" name="latitude" autocomplete="off" placeholder="请选择考勤地点" class="layui-input latitude" style="display: none">
+                    <input type="text" lay-verify="required" autocomplete="off" placeholder="请选择考勤地点" class="layui-input position">
+                  </div>
+                  <div class="layui-input-inline">
+                      <button  class="layui-btn layui-btn-primary btnmap">地图</button>
+                  </div>
+              </div>
+              
+              <div class="layui-form-item">
+                  <label class="layui-form-label" title="在有效范围内(单位是米)才能正常考勤打卡。">有效范围</label>
+                  <div class="layui-input-inline">
+                    <input type="number" lay-verify="required" name="validrange" autocomplete="off" placeholder="请输入有效范围" class="layui-input">
+                  </div>
+              </div>
+
+              <div class="layui-form-item">
+                  <label class="layui-form-label" >考勤人员</label>
+                  <div class="layui-input-inline">
+                    <input type="text" autocomplete="off" placeholder="请选择考勤人员" class="layui-input namelist">
+                    <input type="text" name="employee" class="uidlist" style="display: none">
+                  </div>
+                  <div class="layui-input-inline">
+                      <button class="layui-btn layui-btn-primary btnemp">人员</button>
+                  </div>
+              </div>
+
+              <div class="layui-form-item">
+                  <label class="layui-form-label" title="通过地图选择指定的考勤地点">考勤部门</label>
+                  <div class="layui-input-inline">
+                    <input type="text"  autocomplete="off" placeholder="请选择考勤部门" class="layui-input deptlist">
+                    <input type="text"  name="department" class="deptuid" style="display: none">
+                  </div>
+                  <div class="layui-input-inline">
+                    <button  class="layui-btn layui-btn-primary btndept">部门</button>
+                  </div>
+                  
+              </div>
+              <div class="layui-form-mid layui-word-aux layui-input-block">
+                  以上分配方式只能二选一提交，包含某个员工时，考勤组的优先级顺序指定人员>指定部门>指定公司>默认考勤组
+              </div>
+          </form>  
+      </div>
+        <!-- 添加考勤设置结束 -->
+
+  <!-- 选择员工表 -->
+  <div  id="empkq" style="display: none;">
+    <table class="layui-table" id="emptb"></table>
+    <div style="position: relative;right: 20px;text-align: right;">
+      <button class="layui-btn  layui-btn-primary empcancel">取消</button>
+      <button  class="layui-btn empenter">确定</button>
+    </div>
+</div>
+<!-- 选择部门表 -->
+<div  id="deptkq" style="display: none;">
+    <table class="layui-table" id="depttb" lay-filter="depttb"></table>
+    <div style="position: relative;right: 20px;text-align: right;">
+      <button class="layui-btn  layui-btn-primary deptcancel">取消</button>
+      <button  class="layui-btn deptenter">确定</button>
+    </div>
+</div>
+<!-- 地图实例 -->
+<div  id="baidu" style="width: 100%;height: 100%;display: none;">
+  <div id="map" style="margin-bottom: -40px;overflow:hidden"></div>
+  <div style="position: relative;right: 20px;text-align: right;">
+    <button class="layui-btn  layui-btn-primary mapcancel">取消</button>
+    <button  class="layui-btn mapenter">确定</button>
+  </div>
+</div>
+
+  <script type="text/html" id="kqxg">
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</i></a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</i></a>
   </script>                 
   <script src="../lib/layui.js"></script>
-  <!-- <script src="../js/attendance.js"></script> -->
-  <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+  
   <script>
-  layui.use(['element', 'table'], function(){
-    var $= layui.$
-    ,element = layui.element
-    ,table = layui.table;
-    
+  layui.config({
+    base: '../compontents/' //静态资源所在路径
+  }).extend({
+    admin: 'admin' //主入口模块
+  }).use(['element','form','table','layer','admin','laydate'], function(){
+  var $ = layui.jquery
+  ,element = layui.element
+  ,laydate = layui.laydate
+  ,form = layui.form
+  ,setter = layui.setter
+  ,admin = layui.admin
+  ,layer = layui.layer
+  ,table = layui.table;
+
+  // 考勤任务表
+  var kqTable = table.render({
+  elem: '#kqtb',
+  url: setter.layuiqueryapi,
+  method:'post',
+  where:{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'oa_attendancesetting',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'oa_attendancesetting',
+            api: 'read',
+            // columns:['*', 'plan$$oa_plantask.plancontent AS plancontent'],
+            association: {  	
+              employee: {},
+              department:{}
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
+             }
+            ]
+          }])
+        },
+  cols: [[
+      {field:'name', title: '考勤组名称', sort: true,templet: '#createtime'}
+      ,{field:'employee', title: '考勤人员'}
+      ,{field:'department', title: '考勤部门'}
+      ,{field:'', title: '操作',align:'center', toolbar: '#kqxg'}
+    ]],
+  page: true,
+  done: function(res, curr, count){
+  }
+  });
+
     //添加考勤组
-    $('.add-attapproval').on('click',function(){
-      addTab(window.parent.layui.element,'新建考勤组','add-app','pages/attsettingsadd.html')
+    $('.addkq').on('click',function(){
+      var adlayer =layer.open({
+        type: 1,
+        title:'新建考勤组',
+        // skin: 'layui-layer-demo', //样式类名
+        closeBtn: 1, //不显示关闭按钮
+        maxmin:true,
+        anim: 2,
+        area: ['500px', '400px'],
+        shadeClose: false, //开启遮罩关闭
+        // offset: '20px',
+        content: $('#newkq')
+      });
+      layer.full(adlayer);
+      laydate.render({
+      elem: '#am1'
+      ,type: 'time'
+      });
+    laydate.render({
+      elem: '#am2'
+      ,type: 'time'
+      });
+    laydate.render({
+      elem: '#pm1'
+      ,type: 'time'
+      });
+    laydate.render({
+      elem: '#pm2'
+      ,type: 'time'
+      });
+    laydate.render({
+      elem: '#over1'
+      ,type: 'time'
+      });
+    laydate.render({
+      elem: '#over2'
+      ,type: 'time'
+      });
+    laydate.render({
+      elem: '#earl'
+      ,type: 'time'
+      });
+    laydate.render({
+      elem: '#late'
+      ,type: 'time'
+      });
+  // 添加地图
+  $('.btnmap').on('click',function(e){
+    var maplayer = layer.open({
+      type: 1,
+      title:'选择考勤地点',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: false, //开启遮罩关闭
+      offset: '20px',
+      maxmin:0,
+      content: $('#baidu')
+    });
+    $('#map').css('width',$('#baidu').width());
+    $('#map').css('height',$('#baidu').height());
+	  loadJScript();  //异步加载地图 
+    $(".mapenter,.mapcancel").on('click',function(){
+      layer.close(maplayer);
+    });
+    e.preventDefault();
+  });
+      
+      // 添加考勤人员选择员工
+$('.btnemp').on('click',function(e){
+    var emplayer = layer.open({
+      type: 1,
+      title:'选择职员',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      maxmin:1,
+      content: $('#empkq')
+    });
+    var empTable = table.render({
+      elem: '#emptb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      height:357,
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'org_employee',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'org_employee',
+            api: 'read',
+            // columns:['*', 'dept$$org_department.deptname AS deptname'],
+	        }])},
+          cols: [[
+            {type:'checkbox'}
+            ,{field:'empname', title: '姓名'}
+            ,{field:'empnumber', title: '工号', sort: true}
+            ]],
+          page: true,
+          done: function(res, curr, count){
+          }
+          });
+    e.preventDefault();
+    $('.empenter').on('click',function(){
+      var checkStatus = table.checkStatus('emptb')
+      ,data = checkStatus.data
+      ,uid=[]
+      ,name=[]; 
+      for (let i = 0; i < data.length; i++) {
+        name.push(data[i].empname);
+        uid.push(data[i].uid);
+      }
+      $('.namelist').val(name.join())
+      $('.uidlist').val(uid.join())
+      $('.btndept').addClass('layui-btn-disabled').attr('disabled',true);
+      layer.close(emplayer);
     })
+    $('.empcancel').on('click',function(){
+      layer.close(emplayer);
+    })
+    return false;
+  });
+
+  // 添加考勤选择部门
+$('.btndept').on('click',function(e){
+    var deptlayer = layer.open({
+      type: 1,
+      title:'选择部门',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      maxmin:1,
+      content: $('#deptkq')
+    });
+    var empTable = table.render({
+      elem: '#depttb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      height:357,
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'org_department',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'org_department',
+            api: 'read'
+	        }])},
+          cols: [[
+            {type:'checkbox'}
+            ,{field:'deptshortnumber', title: '部门编号'}
+            ,{field:'deptname', title: '部门名称', sort: true}
+            ]],
+          page: true,
+          done: function(res, curr, count){
+          }
+          });
+    e.preventDefault();
+    $('.deptenter').on('click',function(){
+      var checkStatus = table.checkStatus('depttb')
+      ,data = checkStatus.data
+      ,uid=[]
+      ,deptname=[]; 
+      for (let i = 0; i < data.length; i++) {
+        deptname.push(data[i].deptname);
+        uid.push(data[i].uid);
+      }
+      $('.deptlist').val(deptname.join())
+      $('.deptuid').val(uid.join())
+      $('.btnemp').addClass('layui-btn-disabled').attr('disabled',true);
+      layer.close(deptlayer);
+    })
+    $('.deptcancel').on('click',function(){
+      layer.close(deptlayer);
+    })
+    return false;
+  });
+  // 取消添加考勤设置
+      $('.kqreset').on('click',function(){
+        layer.close(adlayer);
+      })
+      //确定提交表单
+      form.on('submit(kqadd)', function(data){
+        console.log(data.field);
+      var data = data.field,
+      target = [],
+      datafield = [];
+      if(data.employee){
+        data.employee = data.employee.split(',').map(Number); 
+        target = data.employee;
+        for (let i = 0; i < target.length; i++) {
+           data.employee = target[i];
+          datafield.push(data);
+        }
+      }else if(data.department){
+        data.department = data.department.split(',').map(Number); 
+        target = data.department;
+        for (let i = 0; i < target.length; i++) {
+           data.department = target[i];
+          datafield.push(data);
+        }
+      }
+        console.log(datafield);
+      admin.req({
+        url: setter.batchapi
+          ,data: {
+             model: 'oa_attendancesetting',
+             api: 'create',
+             jsonparam: JSON.stringify(datafield)
+            }      
+          ,success: function(res){
+            if(res.errorCode === 0){
+              layer.msg('创建成功', {
+                offset: '15px'
+                ,icon: 1
+                ,time: 1000
+              });
+            }
+            // layer.close(adlayer);
+            // kqTable.reload();
+        }
+          ,error: function(res){
+            //登入成功的提示与跳转
+            layer.msg('创建失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+          return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+      });
+    });
     //修改考勤组
     table.on('tool(kaoqinzu)', function(obj){
       var data = obj.data;
-      // 循环 tab页面如果已经打开，则切换到对应页面
-      if(obj.event === 'edit'){
-        addTab(window.parent.layui.element,'修改考勤组','edit-app','pages/attsettingsedit.html')
-      }
+      // // 循环 tab页面如果已经打开，则切换到对应页面
+      // if(obj.event === 'edit'){
+      //   addTab(window.parent.layui.element,'修改考勤组','edit-app','pages/attsettingsedit.html')
+      // }
       return false;
     });
-    //修改请假类型
-    table.on('tool(jiaqi)', function(obj){
-    var data = obj.data;
-    if(obj.event === 'edit'){
-      layer.msg('ID：'+ data + ' 编辑');
-    } else if(obj.event === 'delete'){
-      layer.confirm('真的删除行么', function(index){
-        obj.del();
-        layer.close(index);
-      });
-    }
-    return false;
-    });
-
-    function addTab(tab,title,id,url){
-      for (var i = 0; i < window.parent.layui.$('.kt-iframe').length; i++) {
-          if(window.parent.layui.$('.kt-iframe').eq(i).attr('tab-id') == id){
-              tab.tabChange('kt_toptab',id);
-              event.stopPropagation();
-              return;
-          }
-      };
-      tab.tabAdd('kt_toptab', {
-        title: title
-        ,content: '<iframe  tab-id="' + id + '" id=iframe' + id + ' " frameborder="0" src="' + url + '" scrolling="yes" class="kt-iframe"></iframe>'
-        ,id: id
-      });
-      tab.tabChange('kt_toptab', id);
-    }
+    
   });
+
+     //百度地图API功能
+	function loadJScript() {
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.src = "http://api.map.baidu.com/api?v=2.0&ak=uoPVCaXO00GYAdgSWI8IhehZIIELGGls&callback=init";
+		document.body.appendChild(script);
+	}
+  //百度地图初始化回调
+  function init() {
+		var map = new BMap.Map("map");          // 创建地图实例  
+      var geoc = new BMap.Geocoder();   //地址解析对象
+      var geolocation = new BMap.Geolocation(); //进行浏览器定位
+      geolocation.getCurrentPosition(function(r){
+        // 定位成功事件
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+        var point = new BMap.Point(r.point.lng, +r.point.lat);
+          map.centerAndZoom(point, 17); // 初始化地图，设置中心点坐标和地图级别  
+          map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
+	      map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+        }     
+      },{enableHighAccuracy: true})
+      map.addEventListener("click",function(e){
+        map.clearOverlays();
+        var point = new BMap.Point(e.point.lng,e.point.lat);  // 创建点坐标 
+	      // var marker = new BMap.Marker(point);  // 创建标注
+        geoc.getLocation(point, function (rs) {
+          var addComp = rs.addressComponents;
+          var infoWindow = new BMap.InfoWindow(addComp.district + addComp.street + addComp.streetNumber);  // 创建信息窗口对象
+	        map.openInfoWindow(infoWindow,point); //开启信息窗口
+        $(".longitude").val(e.point.lng);
+        $(".latitude").val(e.point.lat);
+        $(".position").text(addComp.district + addComp.street + addComp.streetNumber);
+        });
+      });
+	    }
   </script>
   
 </body>
