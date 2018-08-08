@@ -48,27 +48,11 @@
             </div>
               <table class="layui-table"  lay-filter="kqtb" id="kqtb"></table>
             </div>
-            <!-- <div class="layui-tab-item">
-                <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
-                    <button class="layui-btn layui-btn-sm">新增</button>
-                </div>
-                  <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/attsettings.json', page:true, id:'idTest2'}" lay-filter="jiaqi">
-                    <thead>
-                      <tr>
-                        <th lay-data="{field:'qingjialeixing',width:200, sort: true}">请假类型名称</th>
-                        <th lay-data="{field:'daixin',width:200}">是否带薪假</th>
-                        <th lay-data="{field:'beizhu'}">备注</th>
-                        <th lay-data="{field:'',toolbar: '#type',width:200}">操作</th>
-                      </tr>
-                    </thead>
-                  </table>
-            </div> -->
-            <!-- <div class="layui-tab-item">流程配置</div> -->
           </div>
       </div>
       <!-- 添加考勤组 -->
-      <div id="newkq"  style="display: none;">
-        <form class="layui-form" action="">
+      <div id="newkq"  style="display: none;" >
+        <form class="layui-form" action="" lay-filter="newkq">
           <div class="layui-row">
             <div class="layui-col-xs6">
               <div class="layui-form-item">
@@ -156,19 +140,23 @@
               <div class="layui-form-item">
                   <label class="layui-form-label" title="通过地图选择指定的考勤地点">考勤地点</label>
                   <div class="layui-input-inline">
-                    <input type="text" name="longitude" autocomplete="off" placeholder="请选择考勤地点" class="layui-input longitude" style="display: none">
-                    <input type="text" name="latitude" autocomplete="off" placeholder="请选择考勤地点" class="layui-input latitude" style="display: none">
-                    <input type="text" lay-verify="required" autocomplete="off" placeholder="请选择考勤地点" class="layui-input position">
+                    <input type="text" lay-verify="required" id="position" autocomplete="off" placeholder="请选择考勤地点" class="layui-input">
                   </div>
                   <div class="layui-input-inline">
-                      <button  class="layui-btn layui-btn-primary btnmap">地图</button>
+                    <button  class="layui-btn layui-btn-primary btnmap">地图</button>
                   </div>
-              </div>
+                  <div class="layui-input-inline">
+                    <input type="number" name="longitude" id="longitude"  class="layui-input" style="visibility:hidden;">
+                  </div>
+                  <div class="layui-input-inline">
+                    <input type="number" name="latitude" id="latitude"  class="layui-input" style="visibility:hidden;">
+                  </div>
+                </div>
               
               <div class="layui-form-item">
                   <label class="layui-form-label" title="在有效范围内(单位是米)才能正常考勤打卡。">有效范围</label>
                   <div class="layui-input-inline">
-                    <input type="number" lay-verify="required" name="validrange" autocomplete="off" placeholder="请输入有效范围" class="layui-input">
+                    <input type="number" lay-verify="required" name="validrange" autocomplete="off" placeholder="请输入有效范围(米)" class="layui-input">
                   </div>
               </div>
 
@@ -176,21 +164,25 @@
                   <label class="layui-form-label" >考勤人员</label>
                   <div class="layui-input-inline">
                     <input type="text" autocomplete="off" placeholder="请选择考勤人员" class="layui-input namelist">
-                    <input type="text" name="employee" class="uidlist" style="display: none">
                   </div>
                   <div class="layui-input-inline">
-                      <button class="layui-btn layui-btn-primary btnemp">人员</button>
+                    <button class="layui-btn layui-btn-primary btnemp">人员</button>
                   </div>
-              </div>
+                  <div class="layui-input-inline">
+                    <input type="text" name="employee" class="uidlist" style="visibility:hidden;">
+                  </div>
+                </div>
 
               <div class="layui-form-item">
                   <label class="layui-form-label" title="通过地图选择指定的考勤地点">考勤部门</label>
                   <div class="layui-input-inline">
                     <input type="text"  autocomplete="off" placeholder="请选择考勤部门" class="layui-input deptlist">
-                    <input type="text"  name="department" class="deptuid" style="display: none">
                   </div>
                   <div class="layui-input-inline">
                     <button  class="layui-btn layui-btn-primary btndept">部门</button>
+                  </div>
+                  <div class="layui-input-inline">
+                    <input type="text"  name="department" class="deptuid" style="visibility:hidden;">
                   </div>
                   
               </div>
@@ -260,7 +252,7 @@
 	        },{
         		model: 'oa_attendancesetting',
             api: 'read',
-            // columns:['*', 'plan$$oa_plantask.plancontent AS plancontent'],
+            columns:['*', 'department$$org_department.deptname AS dept','employee$$org_employee.empname AS employeename'],
             association: {  	
               employee: {},
               department:{}
@@ -275,8 +267,8 @@
         },
   cols: [[
       {field:'name', title: '考勤组名称', sort: true,templet: '#createtime'}
-      ,{field:'employee', title: '考勤人员'}
-      ,{field:'department', title: '考勤部门'}
+      ,{field:'employeename', title: '考勤人员'}
+      ,{field:'dept', title: '考勤部门'}
       ,{field:'', title: '操作',align:'center', toolbar: '#kqxg'}
     ]],
   page: true,
@@ -476,31 +468,36 @@ $('.btndept').on('click',function(e){
       })
       //确定提交表单
       form.on('submit(kqadd)', function(data){
-        console.log(data.field);
       var data = data.field,
       target = [],
       datafield = [];
+      data.model = 'oa_attendancesetting';
+      data.api = 'create';
+      // data.latitude = parseFloat(data.latitude);
+      // data.longitude = parseFloat(data.longitude);
+      // data.validrange = parseInt(data.validrange);
       if(data.employee){
         data.employee = data.employee.split(',').map(Number); 
+        delete data.department;
         target = data.employee;
         for (let i = 0; i < target.length; i++) {
-           data.employee = target[i];
+          data.employee = target[i];
           datafield.push(data);
         }
       }else if(data.department){
         data.department = data.department.split(',').map(Number); 
+        delete data.employee;
         target = data.department;
         for (let i = 0; i < target.length; i++) {
-           data.department = target[i];
+          data.department = target[i];
           datafield.push(data);
         }
       }
-        console.log(datafield);
       admin.req({
         url: setter.batchapi
           ,data: {
-             model: 'oa_attendancesetting',
-             api: 'create',
+            //  model: 'oa_attendancesetting',
+            //  api: 'create',
              jsonparam: JSON.stringify(datafield)
             }      
           ,success: function(res){
@@ -527,12 +524,281 @@ $('.btndept').on('click',function(e){
       });
     });
     //修改考勤组
-    table.on('tool(kaoqinzu)', function(obj){
+    table.on('tool(kqtb)', function(obj){
       var data = obj.data;
-      // // 循环 tab页面如果已经打开，则切换到对应页面
-      // if(obj.event === 'edit'){
-      //   addTab(window.parent.layui.element,'修改考勤组','edit-app','pages/attsettingsedit.html')
-      // }
+      // 修改考勤设置
+      if(obj.event === 'edit'){
+        var adlayer =layer.open({
+        type: 1,
+        title:'修改考勤组',
+        // skin: 'layui-layer-demo', //样式类名
+        closeBtn: 1, //不显示关闭按钮
+        maxmin:true,
+        anim: 2,
+        area: ['500px', '400px'],
+        shadeClose: false, //开启遮罩关闭
+        // offset: '20px',
+        content: $('#newkq')
+      });
+      layer.full(adlayer);
+      laydate.render({
+      elem: '#am1'
+      ,type: 'time'
+      ,value:data.amworkingtime
+      });
+    laydate.render({
+      elem: '#am2'
+      ,type: 'time'
+      ,value:data.amoffworkingtime
+      });
+    laydate.render({
+      elem: '#pm1'
+      ,type: 'time'
+      ,value:data.pmworkingtime
+      });
+    laydate.render({
+      elem: '#pm2'
+      ,type: 'time'
+      ,value:data.pmoffworkingtime
+      });
+    laydate.render({
+      elem: '#over1'
+      ,type: 'time'
+      ,value:data.overtime
+      });
+    laydate.render({
+      elem: '#over2'
+      ,type: 'time'
+      ,value:data.offovertime
+      });
+    laydate.render({
+      elem: '#earl'
+      ,type: 'time'
+      ,value:data.earliestworkingtime
+      });
+    laydate.render({
+      elem: '#late'
+      ,type: 'time'
+      ,value:data.latestoffworkingtime
+      });
+      form.val("newkq", {
+        name:"山东寿光",
+        department:246,
+        dept:"财务部",
+        latitude:22.5449,
+        longitude:114.005,
+        validrange:90,
+        monday:0,
+        tuesday:1,
+        wednesday:1,
+        thursday:1,
+        friday:data.friday,
+        saturday:data.saturday,
+        sunday:data.sunday
+      });
+  // 添加地图
+  $('.btnmap').on('click',function(e){
+    var maplayer = layer.open({
+      type: 1,
+      title:'选择考勤地点',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: false, //开启遮罩关闭
+      offset: '20px',
+      maxmin:0,
+      content: $('#baidu')
+    });
+    $('#map').css('width',$('#baidu').width());
+    $('#map').css('height',$('#baidu').height());
+	  loadJScript();  //异步加载地图 
+    $(".mapenter,.mapcancel").on('click',function(){
+      layer.close(maplayer);
+    });
+    e.preventDefault();
+  });
+      
+      // 修改考勤人员选择员工
+$('.btnemp').on('click',function(e){
+    var emplayer = layer.open({
+      type: 1,
+      title:'选择职员',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      maxmin:1,
+      content: $('#empkq')
+    });
+    var empTable = table.render({
+      elem: '#emptb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      height:357,
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'org_employee',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'org_employee',
+            api: 'read',
+            // columns:['*', 'dept$$org_department.deptname AS deptname'],
+	        }])},
+          cols: [[
+            {type:'checkbox'}
+            ,{field:'empname', title: '姓名'}
+            ,{field:'empnumber', title: '工号', sort: true}
+            ]],
+          page: true,
+          done: function(res, curr, count){
+          }
+          });
+    e.preventDefault();
+    $('.empenter').on('click',function(){
+      var checkStatus = table.checkStatus('emptb')
+      ,data = checkStatus.data
+      ,uid=[]
+      ,name=[]; 
+      for (let i = 0; i < data.length; i++) {
+        name.push(data[i].empname);
+        uid.push(data[i].uid);
+      }
+      $('.namelist').val(name.join())
+      $('.uidlist').val(uid.join())
+      $('.btndept').addClass('layui-btn-disabled').attr('disabled',true);
+      layer.close(emplayer);
+    })
+    $('.empcancel').on('click',function(){
+      layer.close(emplayer);
+    })
+    return false;
+  });
+
+  // 修改考勤选择部门
+$('.btndept').on('click',function(e){
+    var deptlayer = layer.open({
+      type: 1,
+      title:'选择部门',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      maxmin:1,
+      content: $('#deptkq')
+    });
+    var empTable = table.render({
+      elem: '#depttb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      height:357,
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'org_department',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'org_department',
+            api: 'read'
+	        }])},
+          cols: [[
+            {type:'checkbox'}
+            ,{field:'deptshortnumber', title: '部门编号'}
+            ,{field:'deptname', title: '部门名称', sort: true}
+            ]],
+          page: true,
+          done: function(res, curr, count){
+          }
+          });
+    e.preventDefault();
+    $('.deptenter').on('click',function(){
+      var checkStatus = table.checkStatus('depttb')
+      ,data = checkStatus.data
+      ,uid=[]
+      ,deptname=[]; 
+      for (let i = 0; i < data.length; i++) {
+        deptname.push(data[i].deptname);
+        uid.push(data[i].uid);
+      }
+      $('.deptlist').val(deptname.join())
+      $('.deptuid').val(uid.join())
+      $('.btnemp').addClass('layui-btn-disabled').attr('disabled',true);
+      layer.close(deptlayer);
+    })
+    $('.deptcancel').on('click',function(){
+      layer.close(deptlayer);
+    })
+    return false;
+  });
+  // 取消添加考勤设置
+      $('.kqreset').on('click',function(){
+        layer.close(adlayer);
+      })
+      //确定提交表单
+      form.on('submit(kqadd)', function(data){
+      var data = data.field,
+      target = [],
+      datafield = [];
+      data.model = 'oa_attendancesetting';
+      data.api = 'create';
+      // data.latitude = parseFloat(data.latitude);
+      // data.longitude = parseFloat(data.longitude);
+      // data.validrange = parseInt(data.validrange);
+      if(data.employee){
+        data.employee = data.employee.split(',').map(Number); 
+        delete data.department;
+        target = data.employee;
+        for (let i = 0; i < target.length; i++) {
+          data.employee = target[i];
+          datafield.push(data);
+        }
+      }else if(data.department){
+        data.department = data.department.split(',').map(Number); 
+        delete data.employee;
+        target = data.department;
+        for (let i = 0; i < target.length; i++) {
+          data.department = target[i];
+          datafield.push(data);
+        }
+      }
+      admin.req({
+        url: setter.batchapi
+          ,data: {
+            //  model: 'oa_attendancesetting',
+            //  api: 'create',
+             jsonparam: JSON.stringify(datafield)
+            }      
+          ,success: function(res){
+            if(res.errorCode === 0){
+              layer.msg('修改成功', {
+                offset: '15px'
+                ,icon: 1
+                ,time: 1000
+              });
+            }
+            // layer.close(adlayer);
+            // kqTable.reload();
+        }
+          ,error: function(res){
+            //登入成功的提示与跳转
+            layer.msg('创建失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+          return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+      });
+      }else if(obj.event === 'delete'){
+        //删除考勤设置
+        console.log(obj);
+      }
       return false;
     });
     
@@ -547,7 +813,7 @@ $('.btndept').on('click',function(e){
 	}
   //百度地图初始化回调
   function init() {
-		var map = new BMap.Map("map");          // 创建地图实例  
+    var map = new BMap.Map("map");          // 创建地图实例  
       var geoc = new BMap.Geocoder();   //地址解析对象
       var geolocation = new BMap.Geolocation(); //进行浏览器定位
       geolocation.getCurrentPosition(function(r){
@@ -567,12 +833,13 @@ $('.btndept').on('click',function(e){
           var addComp = rs.addressComponents;
           var infoWindow = new BMap.InfoWindow(addComp.district + addComp.street + addComp.streetNumber);  // 创建信息窗口对象
 	        map.openInfoWindow(infoWindow,point); //开启信息窗口
-        $(".longitude").val(e.point.lng);
-        $(".latitude").val(e.point.lat);
-        $(".position").text(addComp.district + addComp.street + addComp.streetNumber);
+        document.getElementById("longitude").value = e.point.lng;
+        document.getElementById("latitude").value = e.point.lat;
+        document.getElementById("position").value = addComp.district + addComp.street + addComp.streetNumber;
         });
       });
 	    }
+
   </script>
   
 </body>
