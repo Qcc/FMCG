@@ -219,7 +219,7 @@
 </div>
 
   <script type="text/html" id="kqxg">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</i></a>
+    <!-- <a class="layui-btn layui-btn-xs" lay-event="edit">修改</i></a> -->
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</i></a>
   </script>                 
   <script src="../lib/layui.js"></script>
@@ -266,7 +266,7 @@
           }])
         },
   cols: [[
-      {field:'name', title: '考勤组名称', sort: true,templet: '#createtime'}
+      {field:'name', title: '考勤组名称', sort: true}
       ,{field:'employeename', title: '考勤人员'}
       ,{field:'dept', title: '考勤部门'}
       ,{field:'', title: '操作',align:'center', toolbar: '#kqxg'}
@@ -473,16 +473,13 @@ $('.btndept').on('click',function(e){
       datafield = [];
       data.model = 'oa_attendancesetting';
       data.api = 'create';
-      // data.latitude = parseFloat(data.latitude);
-      // data.longitude = parseFloat(data.longitude);
-      // data.validrange = parseInt(data.validrange);
       if(data.employee){
         data.employee = data.employee.split(',').map(Number); 
         delete data.department;
         target = data.employee;
         for (let i = 0; i < target.length; i++) {
           data.employee = target[i];
-          datafield.push(data);
+          datafield.push(JSON.parse(JSON.stringify(data)));
         }
       }else if(data.department){
         data.department = data.department.split(',').map(Number); 
@@ -490,14 +487,12 @@ $('.btndept').on('click',function(e){
         target = data.department;
         for (let i = 0; i < target.length; i++) {
           data.department = target[i];
-          datafield.push(data);
+          datafield.push(JSON.parse(JSON.stringify(data)));
         }
       }
       admin.req({
         url: setter.batchapi
           ,data: {
-            //  model: 'oa_attendancesetting',
-            //  api: 'create',
              jsonparam: JSON.stringify(datafield)
             }      
           ,success: function(res){
@@ -508,8 +503,8 @@ $('.btndept').on('click',function(e){
                 ,time: 1000
               });
             }
-            // layer.close(adlayer);
-            // kqTable.reload();
+            layer.close(adlayer);
+            kqTable.reload();
         }
           ,error: function(res){
             //登入成功的提示与跳转
@@ -523,283 +518,44 @@ $('.btndept').on('click',function(e){
           return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
       });
     });
-    //修改考勤组
+    //删除考勤组
     table.on('tool(kqtb)', function(obj){
       var data = obj.data;
-      // 修改考勤设置
-      if(obj.event === 'edit'){
-        var adlayer =layer.open({
-        type: 1,
-        title:'修改考勤组',
-        // skin: 'layui-layer-demo', //样式类名
-        closeBtn: 1, //不显示关闭按钮
-        maxmin:true,
-        anim: 2,
-        area: ['500px', '400px'],
-        shadeClose: false, //开启遮罩关闭
-        // offset: '20px',
-        content: $('#newkq')
-      });
-      layer.full(adlayer);
-      laydate.render({
-      elem: '#am1'
-      ,type: 'time'
-      ,value:data.amworkingtime
-      });
-    laydate.render({
-      elem: '#am2'
-      ,type: 'time'
-      ,value:data.amoffworkingtime
-      });
-    laydate.render({
-      elem: '#pm1'
-      ,type: 'time'
-      ,value:data.pmworkingtime
-      });
-    laydate.render({
-      elem: '#pm2'
-      ,type: 'time'
-      ,value:data.pmoffworkingtime
-      });
-    laydate.render({
-      elem: '#over1'
-      ,type: 'time'
-      ,value:data.overtime
-      });
-    laydate.render({
-      elem: '#over2'
-      ,type: 'time'
-      ,value:data.offovertime
-      });
-    laydate.render({
-      elem: '#earl'
-      ,type: 'time'
-      ,value:data.earliestworkingtime
-      });
-    laydate.render({
-      elem: '#late'
-      ,type: 'time'
-      ,value:data.latestoffworkingtime
-      });
-      form.val("newkq", {
-        name:"山东寿光",
-        department:246,
-        dept:"财务部",
-        latitude:22.5449,
-        longitude:114.005,
-        validrange:90,
-        monday:0,
-        tuesday:1,
-        wednesday:1,
-        thursday:1,
-        friday:data.friday,
-        saturday:data.saturday,
-        sunday:data.sunday
-      });
-  // 添加地图
-  $('.btnmap').on('click',function(e){
-    var maplayer = layer.open({
-      type: 1,
-      title:'选择考勤地点',
-      // skin: 'layui-layer-demo', //样式类名
-      closeBtn: 1, //不显示关闭按钮
-      anim: 2,
-      area: ['500px', '480px'],
-      shadeClose: false, //开启遮罩关闭
-      offset: '20px',
-      maxmin:0,
-      content: $('#baidu')
-    });
-    $('#map').css('width',$('#baidu').width());
-    $('#map').css('height',$('#baidu').height());
-	  loadJScript();  //异步加载地图 
-    $(".mapenter,.mapcancel").on('click',function(){
-      layer.close(maplayer);
-    });
-    e.preventDefault();
-  });
-      
-      // 修改考勤人员选择员工
-$('.btnemp').on('click',function(e){
-    var emplayer = layer.open({
-      type: 1,
-      title:'选择职员',
-      // skin: 'layui-layer-demo', //样式类名
-      closeBtn: 1, //不显示关闭按钮
-      anim: 2,
-      area: ['500px', '480px'],
-      shadeClose: true, //开启遮罩关闭
-      offset: '20px',
-      maxmin:1,
-      content: $('#empkq')
-    });
-    var empTable = table.render({
-      elem: '#emptb',
-      url: setter.layuiqueryapi,
-      method:'post',
-      height:357,
-      where: 	{jsonparam: JSON.stringify([{
-            solve_name_conflict: false,
-        		model: 'org_employee',
-        		api: 'read',
-	        	columns: ['count(uid) AS total'],
-	        },{
-        		model: 'org_employee',
-            api: 'read',
-            // columns:['*', 'dept$$org_department.deptname AS deptname'],
-	        }])},
-          cols: [[
-            {type:'checkbox'}
-            ,{field:'empname', title: '姓名'}
-            ,{field:'empnumber', title: '工号', sort: true}
-            ]],
-          page: true,
-          done: function(res, curr, count){
-          }
-          });
-    e.preventDefault();
-    $('.empenter').on('click',function(){
-      var checkStatus = table.checkStatus('emptb')
-      ,data = checkStatus.data
-      ,uid=[]
-      ,name=[]; 
-      for (let i = 0; i < data.length; i++) {
-        name.push(data[i].empname);
-        uid.push(data[i].uid);
-      }
-      $('.namelist').val(name.join())
-      $('.uidlist').val(uid.join())
-      $('.btndept').addClass('layui-btn-disabled').attr('disabled',true);
-      layer.close(emplayer);
-    })
-    $('.empcancel').on('click',function(){
-      layer.close(emplayer);
-    })
-    return false;
-  });
-
-  // 修改考勤选择部门
-$('.btndept').on('click',function(e){
-    var deptlayer = layer.open({
-      type: 1,
-      title:'选择部门',
-      // skin: 'layui-layer-demo', //样式类名
-      closeBtn: 1, //不显示关闭按钮
-      anim: 2,
-      area: ['500px', '480px'],
-      shadeClose: true, //开启遮罩关闭
-      offset: '20px',
-      maxmin:1,
-      content: $('#deptkq')
-    });
-    var empTable = table.render({
-      elem: '#depttb',
-      url: setter.layuiqueryapi,
-      method:'post',
-      height:357,
-      where: 	{jsonparam: JSON.stringify([{
-            solve_name_conflict: false,
-        		model: 'org_department',
-        		api: 'read',
-	        	columns: ['count(uid) AS total'],
-	        },{
-        		model: 'org_department',
-            api: 'read'
-	        }])},
-          cols: [[
-            {type:'checkbox'}
-            ,{field:'deptshortnumber', title: '部门编号'}
-            ,{field:'deptname', title: '部门名称', sort: true}
-            ]],
-          page: true,
-          done: function(res, curr, count){
-          }
-          });
-    e.preventDefault();
-    $('.deptenter').on('click',function(){
-      var checkStatus = table.checkStatus('depttb')
-      ,data = checkStatus.data
-      ,uid=[]
-      ,deptname=[]; 
-      for (let i = 0; i < data.length; i++) {
-        deptname.push(data[i].deptname);
-        uid.push(data[i].uid);
-      }
-      $('.deptlist').val(deptname.join())
-      $('.deptuid').val(uid.join())
-      $('.btnemp').addClass('layui-btn-disabled').attr('disabled',true);
-      layer.close(deptlayer);
-    })
-    $('.deptcancel').on('click',function(){
-      layer.close(deptlayer);
-    })
-    return false;
-  });
-  // 取消添加考勤设置
-      $('.kqreset').on('click',function(){
-        layer.close(adlayer);
-      })
-      //确定提交表单
-      form.on('submit(kqadd)', function(data){
-      var data = data.field,
-      target = [],
-      datafield = [];
-      data.model = 'oa_attendancesetting';
-      data.api = 'create';
-      // data.latitude = parseFloat(data.latitude);
-      // data.longitude = parseFloat(data.longitude);
-      // data.validrange = parseInt(data.validrange);
-      if(data.employee){
-        data.employee = data.employee.split(',').map(Number); 
-        delete data.department;
-        target = data.employee;
-        for (let i = 0; i < target.length; i++) {
-          data.employee = target[i];
-          datafield.push(data);
-        }
-      }else if(data.department){
-        data.department = data.department.split(',').map(Number); 
-        delete data.employee;
-        target = data.department;
-        for (let i = 0; i < target.length; i++) {
-          data.department = target[i];
-          datafield.push(data);
-        }
-      }
-      admin.req({
-        url: setter.batchapi
+      if(obj.event === 'delete'){
+        layer.confirm('真的删除么', function(index){
+          admin.req({
+          url: setter.standardapi //实际使用请改成服务端真实接口
           ,data: {
-            //  model: 'oa_attendancesetting',
-            //  api: 'create',
-             jsonparam: JSON.stringify(datafield)
-            }      
+            model:'oa_attendancesetting',
+            api:'delete',
+            jsonparam: JSON.stringify({
+              condition: {
+                simple: {
+                  item1: {
+                    column: 'uid',
+                    cop: '=',
+                    value: obj.data.uid
+                  }
+                }
+              }
+            })
+          }  
           ,success: function(res){
             if(res.errorCode === 0){
-              layer.msg('修改成功', {
-                offset: '15px'
-                ,icon: 1
-                ,time: 1000
-              });
+              obj.del();
             }
-            // layer.close(adlayer);
-            // kqTable.reload();
-        }
+          }
           ,error: function(res){
-            //登入成功的提示与跳转
-            layer.msg('创建失败', {
+            layer.msg('删除失败', {
               offset: '15px'
               ,icon: 5
               ,time: 1000
             });
           }
         });
-          return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-      });
-      }else if(obj.event === 'delete'){
-        //删除考勤设置
-        console.log(obj);
-      }
-      return false;
+        layer.close(index);
+        });
+      } 
     });
     
   });

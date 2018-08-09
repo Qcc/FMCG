@@ -106,6 +106,14 @@ function Base64() {
   }
 };
 
+function double(n){
+  if(n < 10){
+    return '0'+n;
+  }else{
+    return n;
+  }
+}
+
 layui.extend({
   setter: "config",
 }).define(["setter", "layer"],
@@ -120,6 +128,18 @@ function(e) {
       option.crossDomain = true;
       option.xhrFields = {withCredentials: true};
       $.ajax(option);
+    },
+    formatDateTime(t){
+      if(t === '' || t === undefined)return ''; 
+      t = parseInt(t);
+      var d = new Date(t);
+      var year = d.getFullYear()
+          ,month = d.getMonth() + 1
+          ,day = d.getDate()
+          ,hours = d.getHours()
+          ,min = d.getMinutes()
+          ,seconds = d.getSeconds();
+      return year+'-'+double(month)+'-'+double(day)+' '+double(hours)+':'+double(min)+':'+double(seconds)
     },
     getNowDay:function(){
       var time = new Date();

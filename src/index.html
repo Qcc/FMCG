@@ -537,6 +537,23 @@
       ,error: function(res){
       }
     });
+    //写入配置文件
+    admin.req({
+      url:setter.standardapi
+      ,data:{
+        model: 'bas_enum',
+        api: 'read',
+        solve_name_conflict: false
+      }
+      ,success: function(res){
+        layui.sessionData(setter.tableName,{
+              key:'basenum'
+              ,value:JSON.stringify(res.entity)
+            });
+      }
+      ,error: function(res){
+      }
+    });
   });
     </script>
     </body>

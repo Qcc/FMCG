@@ -785,7 +785,6 @@ $('.btnaddcus').on('click',function(e){
         layer.msg('只能选择一家客户');
         return;
       } 
-      console.log(data);
       for (let i = 0; i < data.length; i++) {
         name.push(data[i].custmname);
         uid.push(data[i].uid);

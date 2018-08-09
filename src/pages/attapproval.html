@@ -10,29 +10,49 @@
         <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="../lib/css/layui.css">
         <style>
-        .layui-form .layui-select-title>input{
-            height: 28px;
-            width: 110px;
-        }
-        .layui-form .layui-anim{
-            top: 30px;
-        }
-        </style>
+            .plan-waper{
+              text-align: center;
+              line-height: 30px;
+              margin: 10px 60px;
+            }
+            .plan-title{
+              font-size: 20px;
+              font-weight: 400;
+            }
+            .plan-author{
+              margin: 0 10px;
+            }
+            .create-time, .plan-author{
+              text-align: right;
+              margin-right: 60px;
+            }
+            .qj-date{
+              text-align: left;
+            }
+            .plan-date{
+              margin: 0 20px;
+            }
+            .plan-content{
+              text-align: left;
+             margin: 20px 0px;
+             text-indent:30px;
+            }
+          </style>
     </head>
     <body style="overflow-y: scroll;">
-      <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="margin: 0px;">
+      <div class="layui-tab layui-tab-brief" lay-filter="task" style="margin: 0px;">
         <ul class="layui-tab-title">
           <li class="layui-this">我的申请</li>
           <li>我的审批</li>
-          <li>全部申请</li>
-          <li>抄送我的</li>
+          <!-- <li>全部申请</li> -->
+          <!-- <li>抄送我的</li> -->
         </ul>
         <div class="layui-tab-content" style="padding: 0px;">
           <div class="layui-tab-item layui-show">
               <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
               <!-- <div class="layui-col-xs6"> -->
                 <div class="layui-inline">
-                  <form class="layui-form" action="">
+                  <!-- <form class="layui-form" action="">
                     <div class="layui-input-inline">
                       <select name="city" lay-verify="kt-" class="layui-input kt-select">
                           <option value="01" selected="">请假申请</option>
@@ -40,183 +60,630 @@
                           <option value="03">外出申请</option>
                           <option value="04">出差申请</option>
                         </select>
-                    </div>
+                    </div> -->
                   <div class="layui-inline">
                     <label class="layui-form-label" style="padding: 6px 5px 4px 0px;">日期范围</label>
                     <div class="layui-input-inline">
                       <input type="text" class="layui-input" id="test1" placeholder="YY-MM-DD" style="height: 30px;">
                     </div>
                   </div>
-                </form>
+                <!-- </form> -->
               </div>
               <!-- <div class="layui-col-xs6" style="text-align: right;"> -->
                 <div class="layui-btn-group">
-                  <button class="layui-btn layui-btn-sm">导出</button>
-                  <button class="layui-btn layui-btn-sm">筛选</button>
+                  <button class="layui-btn layui-btn-sm btnsq">申请</button>
+                  <!-- <button class="layui-btn layui-btn-sm">筛选</button> -->
                 </div>
               <!-- </div> -->
             </div>
             <!-- 我的申请 -->
-            <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/attapproval.json',height: 'full-85', page:true, id:'idTest'}" lay-filter="demo">
-              <thead>
-                <tr>
-                  <th lay-data="{field:'applicationtime',width:185, sort: true}" >申请时间</th>
-                  <th lay-data="{field:'starttime',width:185}" >开始时间</th>
-                  <th lay-data="{field:'endtime',width:185}" >结束时间</th>
-                  <th lay-data="{field:'day'}" >请假天数</th>
-                  <th lay-data="{field:'type'}" >请假类型</th>
-                  <th lay-data="{field:'content'}" >请假事由</th>
-                  <th lay-data="{field:'tupian'}" >图片</th>
-                </tr>
-              </thead>
-            </table>
+            <table class="layui-table" id="sqtb" lay-filter="sqtb"></table>
             
           </div>
           
           <!-- 我的审批 -->
           <div class="layui-tab-item">
               <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
-                  <!-- <div class="layui-col-xs6"> -->
                     <div class="layui-inline">
                       <label class="layui-form-label" style="padding: 6px 5px 4px 0px;">日期范围</label>
                       <div class="layui-input-inline">
                         <input type="text" class="layui-input" id="test2" placeholder="YY-MM-DD" style="height: 30px;">
                       </div>
                     </div>
-                  <!-- </div> -->
-                  <!-- <div class="layui-col-xs6" style="text-align: right;"> -->
-                    <div class="layui-btn-group">
+                    <!-- <div class="layui-btn-group">
                       <button class="layui-btn layui-btn-sm">导出</button>
                       <button class="layui-btn layui-btn-sm">筛选</button>
-                    </div>
-                  <!-- </div> -->
+                    </div> -->
                 </div>
-                <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/attapproval.json',page:true, id:'kt-pproval'}" lay-filter="kt-pproval">
-                  <thead>
-                    <tr>
-                      <th lay-data="{field:'applicationtime', sort: true,width:187}">申请时间</th>
-                      <th lay-data="{field:'type'}">请假类型</th>
-                      <th lay-data="{field:'empname'}">申请人</th>
-                      <th lay-data="{field:'content'}">请假事由</th>
-                      <th lay-data="{field:'account'}">抄送人</th>
-                      <th lay-data="{field:'',toolbar: '#shenpi'}">操作</th>
-                    </tr>
-                  </thead>
-                </table>
-          </div>
-          <!-- 全部申请 -->
-          <div class="layui-tab-item">
-              <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
-                  <!-- <div class="layui-col-xs6"> -->
-                    <div class="layui-inline">
-                      <label class="layui-form-label" style="padding: 6px 5px 4px 0px;">日期范围</label>
-                      <div class="layui-input-inline">
-                        <input type="text" class="layui-input" id="test3" placeholder="YY-MM-DD" style="height: 30px;">
-                      </div>
-                    </div>
-                  <!-- </div> -->
-                  <!-- <div class="layui-col-xs6" style="text-align: right;"> -->
-                    <div class="layui-btn-group">
-                      <button class="layui-btn layui-btn-sm">导出</button>
-                      <button class="layui-btn layui-btn-sm">筛选</button>
-                    </div>
-                  <!-- </div> -->
-                </div>
-                <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/attapproval.json',page:true, id:'idTest2'}" lay-filter="demo">
-                  <thead>
-                    <tr>
-                      <th lay-data="{field:'applicationtime', sort: true,fixed:'left',width:187}">申请时间</th>
-                      <th lay-data="{field:'empname'}">姓名</th>
-                      <th lay-data="{field:'account'}">帐号</th>
-                      <th lay-data="{field:'deptname'}">部门</th>
-                      <th lay-data="{field:'post'}">职务</th>
-                      <th lay-data="{field:'type'}">请假类型</th>
-                      <th lay-data="{field:'account'}">抄送人</th>
-                      <th lay-data="{field:'countid',width:87}">流水号</th>
-                      <th lay-data="{field:'state'}">状态</th>
-                      <th lay-data="{field:'auditor'}">审批人</th>
-                      <th lay-data="{field:'approvalcontent',width:87}">审批意见</th>
-                    </tr>
-                  </thead>
-                </table>
-          </div>
-          <!-- 抄送我的 -->
-          <div class="layui-tab-item">
-              <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
-                  <!-- <div class="layui-col-xs6"> -->
-                    <div class="layui-inline">
-                      <label class="layui-form-label" style="padding: 6px 5px 4px 0px;">日期范围</label>
-                      <div class="layui-input-inline">
-                        <input type="text" class="layui-input" id="test3" placeholder="YY-MM-DD" style="height: 30px;">
-                      </div>
-                    </div>
-                  <!-- </div> -->
-                  <!-- <div class="layui-col-xs6" style="text-align: right;"> -->
-                    <div class="layui-btn-group">
-                      <button class="layui-btn layui-btn-sm">导出</button>
-                      <button class="layui-btn layui-btn-sm">筛选</button>
-                    </div>
-                  <!-- </div> -->
-                </div>
-                <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/attapproval.json',page:true, id:'idTest2'}" lay-filter="demo">
-                  <thead>
-                    <tr>
-                      <th lay-data="{field:'applicationtime', sort: true,fixed:'left',width:187}">申请时间</th>
-                      <th lay-data="{field:'empname',width:60}">姓名</th>
-                      <th lay-data="{field:'starttime',width:187}">开始时间</th>
-                      <th lay-data="{field:'endtime',width:187}">结束时间</th>
-                      <th lay-data="{field:'day'}">请假天数</th>
-                      <th lay-data="{field:'type'}">请假类型</th>
-                      <th lay-data="{field:'content',width:87}">外出事由</th>
-                      <th lay-data="{field:'auditor'}">审批人</th>
-                      <th lay-data="{field:'state'}">状态</th>
-                    </tr>
-                  </thead>
-                </table>
+                <table class="layui-table" id="sptable" lay-filter="sptable"></table>
           </div>
         </div>
       </div> 
+      <!-- 添加考勤事务 -->
+     <div id="newkq" style="display: none;margin-right: 40px">
+      <form class="layui-form" action="" lay-filter="newkq">
+        <div class="layui-form-item">
+          <label class="layui-form-label">请假类型</label>
+          <div class="layui-input-inline">
+            <select name="type" lay-verify="required">
+              <option value=""></option>
+              <option value="1">请假申请</option>
+              <option value="2">加班申请</option>
+              <option value="3">外出申请</option>
+              <option value="4">出差申请</option>
+            </select>
+          </div>
+        </div>
+
+          <div class="layui-form-item">
+              <label class="layui-form-label">开始时间</label>
+              <div class="layui-input-inline">
+                <input type="text" name="starttime" autocomplete="off" placeholder="请选择" class="layui-input" id="starttime"> 
+              </div>
+          </div>
+
+          <div class="layui-form-item">
+              <label class="layui-form-label">结束时间</label>
+              <div class="layui-input-inline">
+                <input type="text" name="endtime" autocomplete="off" placeholder="请选择" class="layui-input"  id="endtime"> 
+              </div>
+          </div>
+
+          <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">请假说明</label>
+            <div class="layui-input-block">
+              <textarea name="content" placeholder="请输请假说明" class="layui-textarea"></textarea>
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button  class="layui-btn layui-btn-primary kqreset">取消</button>
+                <button  lay-submit class="layui-btn kqadd" lay-filter="kqadd">保存</button>
+              </div>
+          </div>
+          
+        </form>  
+    </div>
+      <!-- 申请考勤事务结束 -->
+    <!-- 查看考勤事务 -->
+    <div  id="viewplan" style="display: none;margin: 20px 60px">
+        <div class="layui-row plan-waper">
+            <div class="plan-title">
+              <span class="kttitle"></span>
+            </div>
+            <div class="plan-date  layui-inline">
+                <span>审核状态:</span>
+                <span class="ktstate"></span>
+              </div>
+              <div class="plan-date  layui-inline">
+                <span>审核人:</span>
+                <span class="shenheren"></span>
+              </div>
+              <div class="plan-date  layui-inline">
+                <span>审核时间:</span>
+                <span class="shtime"></span>
+              </div>
+              <hr/>
+            <div class="qj-date">
+              <span>起止时间:</span>
+              <span class="stime"></span>
+              <span > 至 </span>
+              <span class="etime"></span>
+            </div>
+            <div class="plan-content">
+                <span>事由:</span>
+              <span class="ktcontent"></span>
+            </div>
+            <div class="create-time">
+              <span>申请时间：</span>
+              <span class="ktctime"></span>
+            </div>
+            <div class="plan-author">
+              <span>申请人:</span>
+              <span class="ktcreator"></span>
+            </div>
+          </div>
+        </div>
+    <!-- 审批考勤事务 -->
+    <div  id="viewshenpi" style="display: none;margin: 20px 60px">
+        <div class="layui-row plan-waper">
+            <div class="plan-title">
+              <span class="kttitle"></span>
+            </div>
+            <div class="qj-date">
+              <span>起止时间:</span>
+              <span class="stime"></span>
+              <span > 至 </span>
+              <span class="etime"></span>
+            </div>
+            <hr/>
+            <div class="plan-content">
+                <span>事由:</span>
+              <span class="ktcontent"></span>
+            </div>
+            <div class="create-time">
+              <span>申请时间：</span>
+              <span class="ktctime"></span>
+            </div>
+            <div class="plan-author">
+              <span>申请人:</span>
+              <span class="ktcreator"></span>
+            </div>
+          </div>
+          <form class="layui-form" action="" lay-filter="newkq">
+              <div class="layui-form-item layui-form-text">
+                  <label class="layui-form-label">审批意见</label>
+                  <div class="layui-input-block">
+                    <textarea name="approvalcomment" placeholder="请输入审批意见" class="layui-textarea"></textarea>
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <div class="layui-input-inline">
+                      <input type="text" name="uid" class="spuid" style="display: none;">
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                      <button  lay-submit class="layui-btn layui-btn-primary spreset" lay-filter="spno">驳回</button>
+                      <button  lay-submit class="layui-btn kqadd" lay-filter="spyes">同意</button>
+                    </div>
+                </div>
+          </form>
+        </div>
+      <!-- 查看考勤事务结束 -->
       <script type="text/html" id="shenpi">
         <a class="layui-btn layui-btn-xs" lay-event="edit">审批</i></a>
       </script>
-      
+      <script type="text/html" id="shenqin">
+        <a class="layui-btn layui-btn-xs" lay-event="view">查看</i></a>
+        {{# if(d.state === 1) { }}
+        <a class="layui-btn layui-btn-xs" lay-event="delete">取消</i></a>
+        {{# } }}
+      </script>
+        <!-- 未来时间 -->
+      <script type="text/html" id="time">
+        {{# var t = layui.admin.formatDateTime(d.approvaltime); }}
+        <span>{{ t }}</span>
+      </script>
+      <script type="text/html" id="type">
+        {{#  if(d.type === 1){ }}
+          <span>请假</span>
+        {{#  } else if(d.type === 2){ }}
+          <span>外出</span>
+        {{#  } else if(d.type === 3){ }}
+          <span>加班</span>
+        {{#  } else if(d.type === 4){ }}
+          <span>出差</span>
+        {{#  } }}
+      </script>
+      <script type="text/html" id="state">
+        {{#  if(d.state === 1){ }}
+          <span style="color:#FFB800">申请中</span>
+        {{#  } else if(d.state === 2){ }}
+          <span style="color:#5FB878">已批准</span>
+        {{#  } else if(d.state === 3){ }}
+          <span style="color:#FF5722">已驳回</span>
+        {{#  } else if(d.state === 4){ }}
+          <span style="color:#c2c2c2">已销假</span>
+        {{#  } }}
+      </script>
+      <!-- 过去时间格式 -->
+      <script type="text/html" id="createtime">
+        {{#  var now = new Date().getTime();var time = now - d.applicationtime;}}
+        {{#  if(time < 60000){ }}
+          <span>{{ parseInt(time/1000) }}秒前</span>
+        {{#  } else if(time < 3600000){ }}
+          <span>{{ parseInt(time/60000) }}分钟前</span>
+        {{#  } else if(time < 86400000){ }}
+          <span>{{ parseInt(time/3600000) }}小时前</span>
+        {{#  } else { }}
+          <span>{{ parseInt(time/86400000) }}天前</span>
+        {{#  } }}
+      </script> 
   <script src="../lib/layui.js"></script>
   <!-- <script src="../js/attendance.js"></script> -->
   <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
   <script>
-  layui.use(['element','form', 'table','layedit', 'laydate'], function(){
-    var form = layui.form
-    ,layer = layui.layer
-    ,layedit = layui.layedit
-    ,laydate = layui.laydate
-    ,element = layui.element
-    ,table = layui.table;
+  layui.config({
+    base: '../compontents/' //静态资源所在路径
+  }).extend({
+    admin: 'admin' //主入口模块
+  }).use(['element','form','table','layer','admin','laydate'], function(){
+  var $ = layui.jquery
+  ,element = layui.element
+  ,laydate = layui.laydate
+  ,form = layui.form
+  ,setter = layui.setter
+  ,admin = layui.admin
+  ,layer = layui.layer
+  ,table = layui.table
+  ,sPtb = false
+  ,iam = JSON.parse(layui.sessionData(setter.tableName).iam)[0].uid //当前登录员工UID;
+  ,name = JSON.parse(layui.sessionData(setter.tableName).iam)[0].empname;//当前登录员工姓名;
     
-    //日期
-    laydate.render({
-      elem: '#test1'
-      ,range: true
-      ,value: '2018-07-01 - 2018-07-31'
-    });
-    laydate.render({
-      elem: '#test2'
-      ,range: true
-      ,value: '2018-07-01 - 2018-07-31'
-    });
-    laydate.render({
-      elem: '#test3'
-      ,range: true
-      ,value: '2018-07-01 - 2018-07-31'
-    });
-
-//监听工具条
-table.on('tool(kt-pproval)', function(obj){
-    var data = obj.data;
-    if(obj.event === 'edit'){
-      layer.alert('编辑行：<br>'+ JSON.stringify(data))
-    }
-    return false;
+// 我的申请表
+var kqTable = table.render({
+  elem: '#sqtb',
+  // url: setter.layuiqueryapi,
+  url:'../../compontents/demodata/attapproval.json',
+  method:'get',
+  // method:'post',
+  // where: 	{jsonparam: JSON.stringify([{
+  //           solve_name_conflict: false,
+  //       		model: 'oa_attendance',
+  //       		api: 'read',
+	//         	columns: ['count(uid) AS total'],
+	//         },{
+  //       		model: 'oa_attendance',
+  //           api: 'read'
+	//         }])},
+  cols: [[
+      {field:'applicationtime', title: '申请时间', sort: true,templet: '#createtime'}
+      ,{field:'starttime', title: '开始时间'}
+      ,{field:'endtime', title: '结束时间'}
+      ,{field:'state', title: '状态',templet:'#state'}
+      ,{field:'type', title: '类型',templet:'#type'}
+      ,{field:'approvaltime', title: '审批时间',templet:'#time'}
+      ,{field:'', title: '操作',align:'center', toolbar:'#shenqin'}
+    ]],
+  page: true,
+  done: function(res, curr, count){
+  }
   });
+  //申请考勤事务
+  $('.btnsq').on('click',function(){
+    var adlayer =layer.open({
+        type: 1,
+        title:'考勤事务申请',
+        // skin: 'layui-layer-demo', //样式类名
+        closeBtn: 1, //不显示关闭按钮
+        maxmin:true,
+        anim: 2,
+        area: ['600px', '500px'],
+        shadeClose: false, //开启遮罩关闭
+        offset: '20px',
+        content: $('#newkq')
+      });
+      // layer.full(adlayer);
+      laydate.render({
+        elem: '#starttime'
+        ,type: 'datetime'
+      });
+      laydate.render({
+        elem: '#endtime'
+        ,type: 'datetime'
+      });
+  
+  // 取消添加考勤设置
+      $('.kqreset').on('click',function(){
+        layer.close(adlayer);
+      })
+      //确定提交表单
+      form.on('submit(kqadd)', function(data){
+      var data = data.field,
+      target = [],
+      datafield = [];
+      data.model = 'oa_attendance';
+      data.api = 'create';
+      if(data.employee){
+        data.employee = data.employee.split(',').map(Number); 
+        delete data.department;
+        target = data.employee;
+        for (let i = 0; i < target.length; i++) {
+          data.employee = target[i];
+          datafield.push(JSON.parse(JSON.stringify(data)));
+        }
+      }else if(data.department){
+        data.department = data.department.split(',').map(Number); 
+        delete data.employee;
+        target = data.department;
+        for (let i = 0; i < target.length; i++) {
+          data.department = target[i];
+          datafield.push(JSON.parse(JSON.stringify(data)));
+        }
+      }
+      admin.req({
+        url: setter.batchapi
+          ,data: {
+             jsonparam: JSON.stringify(datafield)
+            }      
+          ,success: function(res){
+            if(res.errorCode === 0){
+              layer.msg('创建成功', {
+                offset: '15px'
+                ,icon: 1
+                ,time: 1000
+              });
+            }
+            layer.close(adlayer);
+            kqTable.reload();
+        }
+          ,error: function(res){
+            //登入成功的提示与跳转
+            layer.msg('创建失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+          return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+      });
+  });
+
+  // 查看请假事务
+  table.on('tool(sqtb)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'view'){
+      var planlayer = layer.open({
+      type: 1,
+      title:'查看考勤申请',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: false, //开启遮罩关闭
+      offset: '20px',
+      // maxmin:1,
+      content: $('#viewplan'),
+      success: function(layero, index){
+        var title ='',
+        state = 0;
+        switch(data.type){
+          case 1 :title = '请假申请'
+          break; 
+          case 2 :title = '外出申请'
+          break; 
+          case 3 :title = '加班申请'
+          break; 
+          case 4 :title = '出差申请'
+          break; 
+        }
+        switch(data.state){
+          case 1 :state = '申请中'
+          break; 
+          case 2 :state = '已批准'
+          break; 
+          case 3 :state = '未批准'
+          break; 
+          case 4 :state = '已销假'
+          break; 
+        }
+        $('.kttitle').text(title);  
+        $('.ktstate').text(state);  
+        $('.stime').text(data.starttime);  
+        $('.etime').text(data.endtime); 
+        $('.shtime').text(admin.formatDateTime(data.approvaltime));  
+        $(".ktctime").text(admin.formatDateTime(data.applicationtime));
+        $(".ktcreator").text(name);
+        $(".shenheren").text(data.approver);
+        $(".ktcontent").text(data.content);
+      }
+    });
+    layer.full(planlayer);
+    }else if(obj.event === 'delete'){
+      layer.confirm('真的取消么', function(index){
+          admin.req({
+          url: setter.standardapi //实际使用请改成服务端真实接口
+          ,data: {
+            model:'oa_attendance',
+            api:'delete',
+            jsonparam: JSON.stringify({
+              condition: {
+                simple: {
+                  item1: {
+                    column: 'uid',
+                    cop: '=',
+                    value: obj.data.uid
+                  }
+                }
+              }
+            })
+          }  
+          ,success: function(res){
+            if(res.errorCode === 0){
+              obj.del();
+            }
+          }
+          ,error: function(res){
+            layer.msg('删除失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+        layer.close(index);
+        });
+    }
+  });
+
+  // 切换tab页面
+  element.on('tab(task)', function(data){
+    console.log(data)
+    if(data.index === 1 ){
+      if(sPtb){
+        return;
+      }
+      // 我的审批
+      var splan = table.render({
+      elem: '#sptable',
+      url:'../../compontents/demodata/attapproval.json',
+      method:'get',
+      // url: setter.layuiqueryapi,
+      // method:'post',
+      // where:{jsonparam: JSON.stringify([{
+      //       solve_name_conflict: false,
+      //   		model: 'oa_attendance',
+      //   		api: 'read',
+	    //     	columns: ['count(uid) AS total'],
+	    //     },{
+      //   		model: 'oa_attendance',
+      //       api: 'read',
+            // columns:["oa_plantask.*","plancreator$$org_employee.empname AS creatorname",
+            // 'plancustomer$$crm_customer.custmname AS customer'],
+        //     association: {  	
+        //       applicant: {},
+        //       approver:{}
+        //     },
+        //     order: [ 
+        //      {
+        //       column: "uid",
+        //       order: "DESC", //可选（默认为ASC）
+        //      }
+        //     ],
+        //     condition:{"simple":{"item1":{"column":"approver","cop":"=","value":iam}}}
+        //   }])
+        // },
+      cols: [[
+          {type:'checkbox'}
+          ,{field:'applicationtime', title: '申请时间', sort: true,templet: '#createtime'}
+          ,{field:'applicant', title: '申请人'}
+          ,{field:'state', title: '状态',templet:'#state'}
+          ,{field:'type', title: '类型',templet:'#type'}
+          ,{field:'starttime', title: '开始时间'}
+          ,{field:'endtime', title: '结束时间'}
+          ,{field:'weibanli', title: '操作',toolbar: '#shenpi'}
+        ]],
+      page: true,
+      done: function(res, curr, count){
+        sPtb = true;
+      }
+      });
+    }
+  });
+
+  // 审批考勤事务
+  table.on('tool(sptable)', function(obj){
+    var data = obj.data;
+    console.log(obj.data);
+    if(obj.event === 'edit'){
+      var splayer = layer.open({
+      type: 1,
+      title:'审批考勤申请',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: false, //开启遮罩关闭
+      offset: '20px',
+      // maxmin:1,
+      content: $('#viewshenpi'),
+      success: function(layero, index){
+        var title ='',
+        state = 0;
+        switch(data.type){
+          case 1 :title = '请假申请'
+          break; 
+          case 2 :title = '外出申请'
+          break; 
+          case 3 :title = '加班申请'
+          break; 
+          case 4 :title = '出差申请'
+          break; 
+        }
+        switch(data.state){
+          case 1 :state = '申请中'
+          break; 
+          case 2 :state = '已批准'
+          break; 
+          case 3 :state = '未批准'
+          break; 
+          case 4 :state = '已销假'
+          break; 
+        }
+        $('.kttitle').text(title);  
+        $('.ktstate').text(state);  
+        $('.stime').text(data.starttime);  
+        $('.etime').text(data.endtime); 
+        $('.shtime').text(admin.formatDateTime(data.approvaltime));  
+        $(".ktctime").text(admin.formatDateTime(data.applicationtime));
+        $(".ktcreator").text(name);
+        $(".shenheren").text(data.approver);
+        $(".ktcontent").text(data.content);
+        console.log(data.uid);
+        $('.spuid').val(data.uid);
+      }
+    });
+    layer.full(splayer);
+    //确定提交表单
+  form.on('submit(spyes)', function(data){
+      var data = data.field;
+      data.state = 2;
+      console.log(data);
+      admin.req({
+        url: setter.standardapi
+          ,data: {
+            model : 'oa_attendance',
+            api : 'update',
+            jsonparam: JSON.stringify(data)
+            }
+          ,success: function(res){
+            if(res.errorCode === 0){
+              layer.msg('审批成功', {
+                offset: '15px'
+                ,icon: 1
+                ,time: 1000
+              });
+            }
+            layer.close(splayer);
+            obj.update({
+              state: 2
+            });
+        }
+          ,error: function(res){
+            //登入成功的提示与跳转
+            layer.msg('审批失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+          return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+    });
+  //确定提交表单
+  form.on('submit(spno)', function(data){
+      var data = data.field;
+      data.state = 3;
+      console.log(data);
+      admin.req({
+        url: setter.standardapi
+          ,data: {
+            model : 'oa_attendance',
+            api : 'update',
+            jsonparam: JSON.stringify(data)
+            }
+          ,success: function(res){
+            if(res.errorCode === 0){
+              layer.msg('审批成功', {
+                offset: '15px'
+                ,icon: 1
+                ,time: 1000
+              });
+            }
+            layer.close(splayer);
+            obj.update({
+              state: 3
+            });
+        }
+          ,error: function(res){
+            //登入成功的提示与跳转
+            layer.msg('审批失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+          return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+    });
+    }
+  });
+
+  
+ 
   });
   </script>
   

@@ -11,200 +11,56 @@
    
 </head>
 <body>
-    <!-- 添加考勤组 -->
-    <div id="newkq"  >
-        <form class="layui-form" action="">
-          <div class="layui-row">
-            <div class="layui-col-xs6">
-              <div class="layui-form-item">
-                <label class="layui-form-label">考勤组名称</label>
-                <div class="layui-input-inline">
-                  <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入名称" class="layui-input">
-                </div>
-              </div>
-            </div>
-            <div class="layui-col-xs6"  style="text-align: right">
-              <div class="layui-form-item">
-                <button  class="layui-btn layui-btn-primary reset-attapproval">取消</button>
-                <button  lay-submit class="layui-btn kqadd">保存</button>
-              </div>
-            </div>
-          </div>
- 
+     <!-- 添加考勤事务 -->
+     <div id="newkq"   >
+      <form class="layui-form" action="" lay-filter="newkq">
+        <div class="layui-row">
+          <div class="layui-col-xs6">
             <div class="layui-form-item">
-                <label class="layui-form-label">考勤时间</label>
-                <div class="layui-input-block">
-                    <input type="checkbox" value="1" name="monday" title="星期一" lay-skin="primary" checked>
-                    <input type="checkbox" value="1" name="tuesday" title="星期二" lay-skin="primary" checked> 
-                    <input type="checkbox" value="1" name="wednesday" title="星期三" lay-skin="primary" checked> 
-                    <input type="checkbox" value="1" name="thursday" title="星期四" lay-skin="primary" checked> 
-                    <input type="checkbox" value="1" name="friday" title="星期五" lay-skin="primary" checked> 
-                    <input type="checkbox" value="1" name="saturday" title="星期六" lay-skin="primary"> 
-                    <input type="checkbox" value="1" name="sunday" title="星期日" lay-skin="primary"> 
-                </div>
+              <label class="layui-form-label">请假类型</label>
+              <div class="layui-input-block">
+                <select name="type" lay-verify="required">
+                  <option value=""></option>
+                  <option value="1">请假申请</option>
+                  <option value="2">加班申请</option>
+                  <option value="3">外出申请</option>
+                  <option value="4">出差申请</option>
+                </select>
+              </div>
             </div>
-            
-            <div class="layui-inline">
-              <div class="layui-form-item">
-                <label class="layui-form-label" title="用来定义有效工作时间，可只指定上午上班和下午下班。">工作时间</label>
-                <div class="layui-input-block">
-                  <div class="layui-inline" style="width: 100px;">
-                    <input type="text" lay-verify="required" placeholder='上午上班' name="amworkingtime" class="layui-input" id="am1">
-                    </div>
-                    <div class="layui-inline" style="width: 100px;">
-                      <input type="text" placeholder='上午下班' name="amoffworkingtime" class="layui-input" id="am2">
-                    </div>
-                  </div>
-                  <div class="layui-input-block">
-                    <div class="layui-inline" style="width: 100px;">
-                      <input type="text" placeholder='下午上班' name="pmworkingtime" class="layui-input" id="pm1">
-                    </div>
-                    <div class="layui-inline" style="width: 100px;">
-                      <input type="text" lay-verify="required" placeholder='上午下班' name="pmoffworkingtime" class="layui-input" id="pm2">
-                    </div>
-                  </div>
-               </div>
-              </div>
-              
-              <div class="layui-inline">
-                <div class="layui-form-item">
-                  <label class="layui-form-label" title="用来指定允许加班的时间段。">有效加班</label>
-                  <div class="layui-input-block" style="width: 100px;">
-                    <div class="layui-inline">
-                      <input type="text" lay-verify="required" placeholder='加班开始' name="overtime" class="layui-input" id="over1">
-                    </div>
-                  </div>
-                  <div class="layui-input-block" style="width: 100px;">
-                    <div class="layui-inline">
-                      <input type="text" lay-verify="required" placeholder='加班结束' name="offovertime" class="layui-input" id="over2">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="layui-inline">
-                <div class="layui-form-item">
-                  <label class="layui-form-label" title="用来指定允许打卡的时间段，防止随意打卡。">有效打卡</label>
-                  <div class="layui-input-block" style="width: 100px;">
-                    <div class="layui-inline">
-                      <input type="text" placeholder='最早打卡' name="earliestworkingtime" class="layui-input" id="earl">
-                    </div>
-                  </div>
-                  <div class="layui-input-block" style="width: 100px;">
-                    <div class="layui-inline">
-                      <input type="text" placeholder='最晚打卡' name="latestoffworkingtime" class="layui-input" id="late">
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="layui-form-item">
-                  <label class="layui-form-label" title="通过地图选择指定的考勤地点">考勤地点</label>
-                  <div class="layui-input-inline">
-                    <input type="text" name="longitude" autocomplete="off" placeholder="请选择考勤地点" class="layui-input longitude" style="display: none">
-                    <input type="text" name="latitude" autocomplete="off" placeholder="请选择考勤地点" class="layui-input latitude" style="display: none">
-                    <input type="text" lay-verify="required" autocomplete="off" placeholder="请选择考勤地点" class="layui-input">
-                  </div>
-                  <div class="layui-input-inline">
-                      <button  class="layui-btn layui-btn-primary btnearth">地图</button>
-                  </div>
-              </div>
-              
-              <div class="layui-form-item">
-                  <label class="layui-form-label" title="在有效范围内(单位是米)才能正常考勤打卡。">有效范围</label>
-                  <div class="layui-input-inline">
-                    <input type="number" lay-verify="required" name="validrange" autocomplete="off" placeholder="请输入有效范围" class="layui-input">
-                  </div>
-              </div>
-
-              <div class="layui-form-item">
-                  <label class="layui-form-label" >考勤人员</label>
-                  <div class="layui-input-inline">
-                    <input type="text" autocomplete="off" placeholder="请选择考勤人员" class="layui-input namelist">
-                    <input type="text" name="employee" class="uidlist" style="display: none">
-                  </div>
-                  <div class="layui-input-inline">
-                      <button class="layui-btn layui-btn-primary btnemp">人员</button>
-                  </div>
-              </div>
-
-              <div class="layui-form-item">
-                  <label class="layui-form-label" title="通过地图选择指定的考勤地点">考勤部门</label>
-                  <div class="layui-input-inline">
-                    <input type="text"  autocomplete="off" placeholder="请选择考勤部门" class="layui-input deptname">
-                    <input type="text"  name="department" class="deptuid" style="display: none">
-                  </div>
-                  <div class="layui-input-inline">
-                    <button  class="layui-btn layui-btn-primary btndept">部门</button>
-                  </div>
-                  
-              </div>
-              <div class="layui-form-mid layui-word-aux layui-input-block">
-                  以上分配方式均包含某个员工时，考勤组的优先级顺序指定人员>指定部门>指定公司>默认考勤组
-              </div>
-          </form>  
-      </div>
-      <!-- 添加考勤设置结束 -->
-
-      <!-- 选择员工表 -->
-      <div  id="empkq" style="display: none;">
-          <table class="layui-table" id="emptb"></table>
-          <div style="position: relative;right: 20px;text-align: right;">
-            <button class="layui-btn  layui-btn-primary empcancel">取消</button>
-            <button  class="layui-btn empenter">确定</button>
           </div>
-      </div>
-      <!-- 选择部门表 -->
-      <div  id="deptkq" style="display: none;">
-          <table class="layui-table" id="depttb" lay-filter="depttb"></table>
-          <div style="position: relative;right: 20px;text-align: right;">
-            <button class="layui-btn  layui-btn-primary deptcancel">取消</button>
-            <button  class="layui-btn deptenter">确定</button>
+          <div class="layui-col-xs6"  style="text-align: right;padding-right: 20px;">
+            <div class="layui-form-item">
+              <button  class="layui-btn layui-btn-primary kqreset">取消</button>
+              <button  lay-submit class="layui-btn kqadd" lay-filter="kqadd">保存</button>
+            </div>
           </div>
-      </div>
+        </div>
 
-    <script type="text/html" id="view">
-      <a class="layui-btn layui-btn-xs" lay-event="view">执行情况</i></a>
-    </script> 
-    <script type="text/html" id="starttime">
-      {{#  if(d.planretstarttime){ }}
-      {{# var t = new Date(d.planretstarttime).toLocaleString(); }}
-      <span >{{ t }}</span>
-      {{#  } else{ }}
-      <span style="color: #FFB800;">未执行</span>
-      {{#  } }}
-    </script> 
+          <div class="layui-form-item">
+              <label class="layui-form-label">开始时间</label>
+              <div class="layui-input-inline">
+                <input type="text" name="starttime" autocomplete="off" placeholder="请选择" class="layui-input" id="starttime"> 
+              </div>
+          </div>
 
-    <script type="text/html" id="endtime">
-      {{#  if(d.planretendtime){ }}
-      {{# var t = new Date(d.planretendtime).toLocaleString(); }}
-      <span >{{ t }}</span>
-      {{#  } else{ }}
-      <span style="color: #FFB800;">未执行</span>
-      {{#  } }}
-    </script>
+          <div class="layui-form-item">
+              <label class="layui-form-label">结束时间</label>
+              <div class="layui-input-inline">
+                <input type="text" name="endttime" autocomplete="off" placeholder="请选择" class="layui-input"  id="endttime"> 
+              </div>
+          </div>
 
-    <script type="text/html" id="state">
-      {{#  if(d.planretstate === 0){ }}
-        <span style="color: #FFB800;">未执行</span>
-      {{#  } else if(d.planretstate === 1){ }}
-        <span style="color: #5FB878;">执行中</span>
-      {{#  } else if(d.planretstate === 2){ }}
-        <span style="color: #c2c2c2;">已经执</span>
-      {{#  } else { }}
-        <span>{{ parseInt(time/86400000) }}天前</span>
-      {{#  } }}
-    </script>    
-    
-    <script type="text/html" id="img">
-      {{#  if(d.picpath){ }}
-      {{# var path = layui.admin.base64decode(d.picpath);path = layui.setter.root + path;}}
-        <img src= {{path}}></span>
-      {{#  } else { }}
-        <span>无</span>
-      {{#  } }}
-    </script>    
-
+          <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">请假说明</label>
+            <div class="layui-input-block">
+              <textarea name="content" placeholder="请输请假说明" class="layui-textarea"></textarea>
+            </div>
+          </div>
+          
+        </form>  
+    </div>
+      <!-- 申请考勤事务结束 -->
 
     <script src="../lib/layui.js"></script>
 
@@ -223,160 +79,14 @@
   ,layer = layui.layer
   ,table = layui.table;
 
-    
     laydate.render({
-      elem: '#am1'
-      ,type: 'time'
-      });
-    laydate.render({
-      elem: '#am2'
-      ,type: 'time'
-      });
-    laydate.render({
-      elem: '#pm1'
-      ,type: 'time'
-      });
-    laydate.render({
-      elem: '#pm2'
-      ,type: 'time'
-      });
-    laydate.render({
-      elem: '#over1'
-      ,type: 'time'
-      });
-    laydate.render({
-      elem: '#over2'
-      ,type: 'time'
-      });
-    laydate.render({
-      elem: '#earl'
-      ,type: 'time'
-      });
-    laydate.render({
-      elem: '#late'
-      ,type: 'time'
-      });
-  // 添加考勤人员选择员工
-$('.btnemp').on('click',function(e){
-    var emplayer = layer.open({
-      type: 1,
-      title:'选择职员',
-      // skin: 'layui-layer-demo', //样式类名
-      closeBtn: 1, //不显示关闭按钮
-      anim: 2,
-      area: ['500px', '480px'],
-      shadeClose: true, //开启遮罩关闭
-      offset: '20px',
-      maxmin:1,
-      content: $('#empkq')
+      elem: '#starttime'
+      ,type: 'datetime'
     });
-    var empTable = table.render({
-      elem: '#emptb',
-      url: setter.layuiqueryapi,
-      method:'post',
-      height:357,
-      where: 	{jsonparam: JSON.stringify([{
-            solve_name_conflict: false,
-        		model: 'org_employee',
-        		api: 'read',
-	        	columns: ['count(uid) AS total'],
-	        },{
-        		model: 'org_employee',
-            api: 'read',
-            // columns:['*', 'dept$$org_department.deptname AS deptname'],
-	        }])},
-          cols: [[
-            {type:'checkbox'}
-            ,{field:'empname', title: '姓名'}
-            ,{field:'empnumber', title: '工号', sort: true}
-            ]],
-          page: true,
-          done: function(res, curr, count){
-          
-          }
-          });
-    e.preventDefault();
-    $('.empenter').on('click',function(){
-      var checkStatus = table.checkStatus('emptb')
-      ,data = checkStatus.data
-      ,uid=[]
-      ,name=[]; 
-      for (let i = 0; i < data.length; i++) {
-        name.push(data[i].empname);
-        uid.push(data[i].uid);
-      }
-      $('.namelist').val(name.join())
-      $('.uidlist').val(uid.join())
-      layer.close(emplayer);
-    })
-    $('.empcancel').on('click',function(){
-      layer.close(emplayer);
-    })
-    return false;
-  });
-
-  // 添加考勤选择部门
-$('.btndept').on('click',function(e){
-    var deptlayer = layer.open({
-      type: 1,
-      title:'选择部门',
-      // skin: 'layui-layer-demo', //样式类名
-      closeBtn: 1, //不显示关闭按钮
-      anim: 2,
-      area: ['500px', '480px'],
-      shadeClose: true, //开启遮罩关闭
-      offset: '20px',
-      maxmin:1,
-      content: $('#deptkq')
+    laydate.render({
+      elem: '#endtime'
+      ,type: 'datetime'
     });
-    var empTable = table.render({
-      elem: '#depttb',
-      url: setter.layuiqueryapi,
-      method:'post',
-      height:357,
-      where: 	{jsonparam: JSON.stringify([{
-            solve_name_conflict: false,
-        		model: 'org_department',
-        		api: 'read',
-	        	columns: ['count(uid) AS total'],
-	        },{
-        		model: 'org_department',
-            api: 'read',
-            // columns:['*', 'dept$$org_department.deptname AS deptname'],
-            association: {  	
-              dept: {},
-            }
-	        }])},
-          cols: [[
-            {type:'checkbox'}
-            ,{field:'deptshortnumber', title: '部门编号'}
-            ,{field:'deptname', title: '部门名称', sort: true}
-            ]],
-          page: true,
-          done: function(res, curr, count){
-          
-          }
-          });
-    e.preventDefault();
-    $('.empenter').on('click',function(){
-      var checkStatus = table.checkStatus('depttb')
-      ,data = checkStatus.data
-      ,uid=[]
-      ,name=[]; 
-      for (let i = 0; i < data.length; i++) {
-        name.push(data[i].empname);
-        uid.push(data[i].uid);
-      }
-      $('.deptlist').val(name.join())
-      $('.deptuid').val(uid.join())
-      layer.close(deptlayer);
-    })
-    $('.empcancel').on('click',function(){
-      layer.close(deptlayer);
-    })
-    return false;
-  });
-
       });
       </script>  
 </body>

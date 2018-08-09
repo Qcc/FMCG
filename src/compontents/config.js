@@ -8,8 +8,8 @@
  */
  
 layui.define(['laytpl', 'layer', 'element', 'util'], function(exports){
-  var url = "http://192.168.200.103:8080/huyou"
-  // var url = "https://smart.kouton.com/huyou"
+  // var url = "http://192.168.200.103:8080/huyou"
+  var url = "https://smart.kouton.com/huyou"
   exports('setter', {
     container: 'KT_app' //容器ID
     ,base: layui.cache.base //记录静态资源所在路径
