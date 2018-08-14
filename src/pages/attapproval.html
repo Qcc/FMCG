@@ -305,19 +305,19 @@
 // 我的申请表
 var kqTable = table.render({
   elem: '#sqtb',
-  // url: setter.layuiqueryapi,
-  url:'../../compontents/demodata/attapproval.json',
-  method:'get',
-  // method:'post',
-  // where: 	{jsonparam: JSON.stringify([{
-  //           solve_name_conflict: false,
-  //       		model: 'oa_attendance',
-  //       		api: 'read',
-	//         	columns: ['count(uid) AS total'],
-	//         },{
-  //       		model: 'oa_attendance',
-  //           api: 'read'
-	//         }])},
+  url: setter.layuiqueryapi,
+  // url:'../../compontents/demodata/attapproval.json',
+  // method:'get',
+  method:'post',
+  where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'oa_attendance',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'oa_attendance',
+            api: 'read'
+	        }])},
   cols: [[
       {field:'applicationtime', title: '申请时间', sort: true,templet: '#createtime'}
       ,{field:'starttime', title: '开始时间'}
@@ -509,10 +509,14 @@ var kqTable = table.render({
       // 我的审批
       var splan = table.render({
       elem: '#sptable',
-      url:'../../compontents/demodata/attapproval.json',
-      method:'get',
-      // url: setter.layuiqueryapi,
-      // method:'post',
+      // url:'../../compontents/demodata/attapproval.json',
+      // method:'get',
+      url: setter.layuiqueryapi,
+      method:'post',
+      where: {
+        model: 'oa_attendance',
+        api: 'read',
+      },
       // where:{jsonparam: JSON.stringify([{
       //       solve_name_conflict: false,
       //   		model: 'oa_attendance',
@@ -521,21 +525,21 @@ var kqTable = table.render({
 	    //     },{
       //   		model: 'oa_attendance',
       //       api: 'read',
-            // columns:["oa_plantask.*","plancreator$$org_employee.empname AS creatorname",
-            // 'plancustomer$$crm_customer.custmname AS customer'],
-        //     association: {  	
-        //       applicant: {},
-        //       approver:{}
-        //     },
-        //     order: [ 
-        //      {
-        //       column: "uid",
-        //       order: "DESC", //可选（默认为ASC）
-        //      }
-        //     ],
-        //     condition:{"simple":{"item1":{"column":"approver","cop":"=","value":iam}}}
-        //   }])
-        // },
+      //       columns:["oa_plantask.*","plancreator$$org_employee.empname AS creatorname",
+      //       'plancustomer$$crm_customer.custmname AS customer'],
+      //       association: {  	
+      //         applicant: {},
+      //         approver:{}
+      //       },
+      //       order: [ 
+      //        {
+      //         column: "uid",
+      //         order: "DESC", //可选（默认为ASC）
+      //        }
+      //       ],
+      //       condition:{"simple":{"item1":{"column":"approver","cop":"=","value":iam}}}
+      //     }])
+      //   },
       cols: [[
           {type:'checkbox'}
           ,{field:'applicationtime', title: '申请时间', sort: true,templet: '#createtime'}

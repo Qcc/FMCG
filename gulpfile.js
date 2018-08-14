@@ -106,7 +106,7 @@ gulp.task('imagemin', function () {
         .pipe(gulp.dest(DEST+'/images'));
 });
 
-gulp.task('watch', function() {
+gulp.task('watching', function() {
   // Watch .html files
   gulp.watch('src/**/*.html', ['html-minify'], browserSync.reload);
   // Watch .js files
@@ -122,6 +122,6 @@ gulp.task('watch', function() {
 // Default Task
 gulp.task('default', ['imagemin', 'html-minify', 'scripts', 'compontents', 'demodata', 'css', 'icon', 'lib']);
 
-// watching Task
-gulp.task('watching', ['browser-sync','watch']);
-// gulp.task('watching', ['browser-sync', 'imagemin', 'html-minify', 'scripts', 'compontents', 'demodata', 'css','watch']);
+// watch Task
+gulp.task('watch', ['browser-sync','watching']);
+// gulp.task('watch', ['browser-sync', 'imagemin', 'html-minify', 'scripts', 'compontents', 'demodata', 'css','watch']);
