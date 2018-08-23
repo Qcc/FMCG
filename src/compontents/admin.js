@@ -130,15 +130,16 @@ function(e) {
       $.ajax(option);
     },
     formatDateTime(t){
-      if(t === '' || t === undefined)return ''; 
+      if(t === '' || t === undefined)return '无';
+
       t = parseInt(t);
       var d = new Date(t);
       var year = d.getFullYear()
-          ,month = d.getMonth() + 1
-          ,day = d.getDate()
-          ,hours = d.getHours()
-          ,min = d.getMinutes()
-          ,seconds = d.getSeconds();
+      ,month = d.getMonth() + 1
+      ,day = d.getDate()
+      ,hours = d.getHours()
+      ,min = d.getMinutes()
+      ,seconds = d.getSeconds();
       return year+'-'+double(month)+'-'+double(day)+' '+double(hours)+':'+double(min)+':'+double(seconds)
     },
     getNowDay:function(){

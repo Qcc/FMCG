@@ -242,8 +242,16 @@
         {{# } }}
       </script>
         <!-- 未来时间 -->
-      <script type="text/html" id="time">
+      <script type="text/html" id="apptime">
         {{# var t = layui.admin.formatDateTime(d.approvaltime); }}
+        <span>{{ t }}</span>
+      </script>
+      <script type="text/html" id="etime">
+        {{# var t = layui.admin.formatDateTime(d.endtime); }}
+        <span>{{ t }}</span>
+      </script>
+      <script type="text/html" id="stime">
+        {{# var t = layui.admin.formatDateTime(d.starttime); }}
         <span>{{ t }}</span>
       </script>
       <script type="text/html" id="type">
@@ -320,11 +328,11 @@ var kqTable = table.render({
 	        }])},
   cols: [[
       {field:'applicationtime', title: '申请时间', sort: true,templet: '#createtime'}
-      ,{field:'starttime', title: '开始时间'}
-      ,{field:'endtime', title: '结束时间'}
+      ,{field:'starttime', title: '开始时间',templet:'#stime'}
+      ,{field:'endtime', title: '结束时间',templet:'#etime'}
       ,{field:'state', title: '状态',templet:'#state'}
       ,{field:'type', title: '类型',templet:'#type'}
-      ,{field:'approvaltime', title: '审批时间',templet:'#time'}
+      ,{field:'approvaltime', title: '审批时间',templet:'#apptime'}
       ,{field:'', title: '操作',align:'center', toolbar:'#shenqin'}
     ]],
   page: true,
@@ -364,29 +372,12 @@ var kqTable = table.render({
       var data = data.field,
       target = [],
       datafield = [];
-      data.model = 'oa_attendance';
-      data.api = 'create';
-      if(data.employee){
-        data.employee = data.employee.split(',').map(Number); 
-        delete data.department;
-        target = data.employee;
-        for (let i = 0; i < target.length; i++) {
-          data.employee = target[i];
-          datafield.push(JSON.parse(JSON.stringify(data)));
-        }
-      }else if(data.department){
-        data.department = data.department.split(',').map(Number); 
-        delete data.employee;
-        target = data.department;
-        for (let i = 0; i < target.length; i++) {
-          data.department = target[i];
-          datafield.push(JSON.parse(JSON.stringify(data)));
-        }
-      }
       admin.req({
-        url: setter.batchapi
-          ,data: {
-             jsonparam: JSON.stringify(datafield)
+        url: setter.standardapi
+        ,data: {
+             model:'oa_attendance',
+             api:'create',
+             jsonparam: JSON.stringify(data)
             }      
           ,success: function(res){
             if(res.errorCode === 0){
@@ -452,8 +443,8 @@ var kqTable = table.render({
         }
         $('.kttitle').text(title);  
         $('.ktstate').text(state);  
-        $('.stime').text(data.starttime);  
-        $('.etime').text(data.endtime); 
+        $('.stime').text(admin.formatDateTime(data.starttime));  
+        $('.etime').text(admin.formatDateTime(data.endtime)); 
         $('.shtime').text(admin.formatDateTime(data.approvaltime));  
         $(".ktctime").text(admin.formatDateTime(data.applicationtime));
         $(".ktcreator").text(name);
@@ -513,10 +504,29 @@ var kqTable = table.render({
       // method:'get',
       url: setter.layuiqueryapi,
       method:'post',
-      where: {
-        model: 'oa_attendance',
-        api: 'read',
-      },
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'oa_attendance',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'oa_attendance',
+            api: 'read',
+            // columns:["oa_plantask.*","plancreator$$org_employee.empname AS creatorname",
+            // 'plancustomer$$crm_customer.custmname AS customer'],
+            association: {  	
+              applicant: {},
+              approver:{}
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
+             }
+            ],
+            condition:{"simple":{"item1":{"column":"approver","cop":"=","value":iam}}}
+          }])
+        },
       // where:{jsonparam: JSON.stringify([{
       //       solve_name_conflict: false,
       //   		model: 'oa_attendance',
