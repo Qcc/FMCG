@@ -9,16 +9,35 @@
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
         <link rel="stylesheet" href="../../lib/css/layui.css">
         <link rel="stylesheet" href="../../css/basicinfo_users.min.css">
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+        <style>
+        .popup_menu{
+    display: none;
+    position: absolute;
+    z-index: 999;
+}
+.popup_menu>ul{
+  cursor: pointer;
+    min-width: 100%;
+    line-height: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.12);
+    border: 1px solid #d2d2d2;
+    background-color: #fff;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+.popup_menu>ul li{
+    padding: 0 5px;
+    color: #666;
+}
+.popup_menu>ul li:hover{
+    background-color: #eeeeee;
+}
+        </style>
     </head>
     <body>
       <div class="layui-fluid">
       <div class="layui-row">
-        <div class="layui-col-md2">
+        <div class="layui-col-xs2">
           <div class="layui-row kt-company">
           <div class="layui-col-xs6">
             <h3>组织架构</h3>
@@ -39,16 +58,25 @@
               </div>
             </form>
           </div>
+          <!-- 编辑部门菜单开始 -->
+    <div class="popup_menu">
+        <ul>
+          <li id="new-dept">新建部门</li>
+          <li id="edit-dept">修改部门</li>
+          <li id="delete-dept">删除部门</li>
+        </ul>
+      </div>
+      <!-- 编辑部门菜单结束 -->
           <div class="layui-row">
               <ul id="kttree"></ul>
           </div>
         </div>
-        <div class="layui-col-md10">
+        <div class="layui-col-xs10">
             <div class="layui-row ">
-              <div class="layui-col-md3 kt-bic">
+              <div class="layui-col-xs3 kt-bic">
                 <h3 class="layui-inline">基本信息</h3>
               </div>
-              <div class="layui-col-md9 kt-query" style="text-align: right;">
+              <div class="layui-col-xs9 kt-query" style="text-align: right;">
                 <form class="layui-form layui-inline">
                   <div class="layui-form-item" style="margin-bottom: 0px;">
                     <div class="layui-input-inline" style="margin-right: -1px;">
@@ -59,38 +87,164 @@
                     </div>
                   </div>
                 </form>
-                <!-- <div class="layui-btn-group">
-                  <button class="layui-btn layui-btn-sm">新增</button>
-                  <button class="layui-btn layui-btn-sm">导出</button>
-                  <button class="layui-btn layui-btn-sm">筛选</button>
-                </div> -->
+                  <button class="layui-btn layui-btn-sm addemployee">新增</button>
               </div>
             </div>
           <div>
-            <table class="layui-table" id="userTable"></table>
-            <!-- <table class="layui-table" lay-data="{even:true,height: 'full-80', page:true, id:'userTable'}" lay-filter="usermanager">
-              <thead>
-                <tr>
-                  <th lay-data="{type:'checkbox'}"></th>
-                  <th lay-data="{field:'companycode', sort: true}">公司代码</th>
-                  <th lay-data="{field:'account'}">账户</th>
-                  <th lay-data="{field:'password', sort: true}">密码</th>
-                  <th lay-data="{field:'state'}">用户状态</th>
-                  <th lay-data="{field:'nickname'}">用户昵称</th>
-                  <th lay-data="{field:'autologin', sort: true}">自动登录</th>
-                  <th lay-data="{field:'wxopenid'}">微信号</th>
-                  <th lay-data="{field:'usergroup', sort: true}">用户组</th>
-                  <th lay-data="{ width:80, align:'center', toolbar: '#barDemo'}"></th>
-                </tr>
-              </thead>
-            </table> -->
+            <table class="layui-table" id="userTable" lay-filter="userTable"></table>
           </div>
         </div>
       </div>    
     </div>    
-          <script type="text/html" id="barDemo">
-            <a class="layui-btn layui-btn-xs" lay-event="setting">编辑</i></a>
+    <!-- 添加员工 -->
+    <div id="newemp" style="display: none;margin-right: 40px">
+      <form class="layui-form" action="" lay-filter="newemp">
+        <div class="layui-form-item">
+          <label class="layui-form-label">姓名</label>
+          <div class="layui-input-block">
+            <input type="text" name="empname" lay-verify="required" autocomplete="off" placeholder="请输入账户名" class="layui-input">
+          </div>
+        </div>
+        
+        <div class="layui-form-item">
+          <label class="layui-form-label">工号</label>
+          <div class="layui-input-block">
+            <input type="text" name="empnumber" autocomplete="off" placeholder="请输入密码" class="layui-input">
+          </div>
+        </div>
+        
+        <div class="layui-form-item">
+          <label class="layui-form-label">手机</label>
+          <div class="layui-input-block">
+            <input type="number" name="empcellphone"  autocomplete="off" placeholder="请输入昵称" class="layui-input">
+          </div>
+        </div>
+        
+        <div class="layui-form-item">
+          <label class="layui-form-label">部门</label>
+          <div class="layui-input-block">
+            <select name="dept" class="deptlist">
+              <option value=""></option>
+            </select>
+          </div>
+        </div>
+
+          <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button  class="layui-btn layui-btn-primary empreset">取消</button>
+                <button  lay-submit class="layui-btn kqadd" lay-filter="empadd">保存</button>
+              </div>
+          </div>
+          
+        </form>  
+    </div>
+      <!-- 新建员工结束 -->
+    <!-- 修改员工信息 -->
+    <div id="editemployee" style="display: none;margin-right: 40px">
+      <form class="layui-form" action="" lay-filter="editemp">
+        <div class="layui-form-item">
+          <label class="layui-form-label">姓名</label>
+          <div class="layui-input-block">
+            <input type="text" name="empname" lay-verify="required" autocomplete="off" placeholder="请输入账户名" class="layui-input">
+          </div>
+        </div>
+        
+        <div class="layui-form-item">
+          <label class="layui-form-label">工号</label>
+          <div class="layui-input-block">
+            <input type="text" name="empnumber" autocomplete="off" placeholder="请输入密码" class="layui-input">
+          </div>
+        </div>
+        
+        <div class="layui-form-item">
+          <label class="layui-form-label">手机</label>
+          <div class="layui-input-block">
+            <input type="number" name="empcellphone"  autocomplete="off" placeholder="请输入昵称" class="layui-input">
+          </div>
+        </div>
+        
+        <div class="layui-form-item">
+          <label class="layui-form-label">部门</label>
+          <div class="layui-input-block">
+            <select name="dept" class="deptlist">
+              <option value=""></option>
+            </select>
+          </div>
+        </div>
+
+          <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button  class="layui-btn layui-btn-primary editreset">取消</button>
+                <button  lay-submit class="layui-btn kqadd" lay-filter="empedit">保存</button>
+              </div>
+          </div>
+          
+        </form>  
+    </div>
+      <!-- 修改员工结束 -->
+    <!-- 新建部门信息 -->
+    <div id="newdept" style="display: none;margin-right: 40px">
+        <form class="layui-form" action="" lay-filter="newdept">
+          <div class="layui-form-item">
+            <label class="layui-form-label">部门名称</label>
+            <div class="layui-input-block">
+              <input type="text" name="deptname" lay-verify="required" autocomplete="off" placeholder="请输入部门名称" class="layui-input">
+            </div>
+          </div>
+          
+          <div class="layui-form-item">
+            <label class="layui-form-label">部门编码</label>
+            <div class="layui-input-block">
+              <input type="text" name="deptshortnumber" autocomplete="off" placeholder="请输入部门编号" class="layui-input">
+            </div>
+          </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                  <button  class="layui-btn layui-btn-primary newdeptreset">取消</button>
+                  <button  lay-submit class="layui-btn kqadd" lay-filter="newdeptsave">保存</button>
+                </div>
+            </div>
             
+          </form>  
+      </div>
+        <!-- 新建部门结束 -->
+    <!-- 修改部门信息 -->
+    <!-- <div id="editdeptpanl" style="display: none;margin-right: 40px">
+        <form class="layui-form" action="" lay-filter="editdept">
+          <div class="layui-form-item">
+            <label class="layui-form-label">部门名称</label>
+            <div class="layui-input-block">
+              <input type="text" name="deptname" lay-verify="required" autocomplete="off" placeholder="请输入部门名称" class="layui-input">
+            </div>
+          </div>
+          
+          <div class="layui-form-item">
+            <label class="layui-form-label">部门编码</label>
+            <div class="layui-input-block">
+              <input type="text" name="deptshortnumber" autocomplete="off" placeholder="请输入部门编号" class="layui-input">
+            </div>
+          </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                  <button  class="layui-btn layui-btn-primary editdeptreset">取消</button>
+                  <button  lay-submit class="layui-btn kqadd" lay-filter="editdeptsave">保存</button>
+                </div>
+            </div>
+            
+          </form>  
+      </div> -->
+        <!-- 修改部门结束 -->
+    
+          <script type="text/html" id="empedit">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</i></a>
+            <a class="layui-btn layui-btn-xs" lay-event="delete">删除</i></a>
+          </script>
+          <script type="text/html" id="status">
+            {{#  if(d.state === 1){ }}
+              <span style="color:#5FB878">正常</span>
+            {{#  } else { }}
+              <span style="color:#c2c2c2">禁用</span>
+            {{#  } }}
           </script>
     <script src="../../lib/layui.js"></script>
     <script>
@@ -112,70 +266,203 @@ layui.config({
   url: setter.layuiqueryapi,
   method:'post',
   where: 	{jsonparam: JSON.stringify([{
-    		model: 'bas_user',
+    		model: 'org_employee',
     		api: 'read',
         solve_name_conflict: false,
 	    	columns: ['count(uid) AS total'],
 	    },{
-    		model: 'bas_user',
-    		api: 'read'
+    		model: 'org_employee',
+    		api: 'read',
+        columns:['*', 'dept$$org_department.deptname AS deptname','user$$bas_user.account AS account'],
+        association: {  	
+          dept:{},
+          user:{}
+        }
 	    }])},
   cols: [[
       {type:'checkbox'}
+      ,{field:'empname', title: '姓名', sort: true}
       ,{field:'account', title: '账户', sort: true}
-      ,{field:'companycode', title: '公司代码'}
-      // ,{field:'password', title: '密码', sort: true}
-      ,{field:'state', title: '用户状态'}
-      ,{field:'autologin', title: '自动登录'}
-      ,{field:'wxopenid', title: '微信号', sort: true}
-      ,{field:'usergroup', title: '用户组', sort: true}
-      // ,{field:'', title: '操作',align:'center', toolbar: '#barDemo'}
+      ,{field:'deptname', title: '部门', sort: true}
+      ,{field:'empcellphone', title: '手机'}
+      // ,{field:'state', title: '用户状态',templet:'#status'}
+      // ,{field:'wxopenid', title: '微信号', sort: true}
+      ,{field:'', title: '操作',align:'center', toolbar: '#empedit'}
     ]],
   page: true,
   done: function(res, curr, count){
-    //如果是异步请求数据方式，res即为你接口返回的信息。
-    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-    // console.log(res);
-    
-    //得到当前页码
-    // console.log(curr); 
-    
-    //得到数据总量
-    // console.log(count);
   }
 });
+   //添加用户
+   $('.addemployee').on('click',function(){
+    var adlayer =layer.open({
+        type: 1,
+        title:'新建用户',
+        // skin: 'layui-layer-demo', //样式类名
+        closeBtn: 1, //不显示关闭按钮
+        maxmin:true,
+        anim: 2,
+        area: ['600px', '500px'],
+        shadeClose: false, //开启遮罩关闭
+        offset: '20px',
+        content: $('#newemp')
+      });
+      // layer.full(adlayer);
+      
+      // 获取部门信息填充select
+  admin.req({
+    url: layui.setter.standardapi
+      ,data: {model: 'org_department',api: 'read'}
+      ,success: function(res){
+        if(res.errorCode === 0){
+          $(res.entity).each(function (i) {
+              $(".deptlist").append('<option value="' + res.entity[i].uid + '">' + res.entity[i].deptname + '</option>');
+          });
+          form.render('select','newemp');
+        }
+      }
+      ,error: function(res){
+        layer.msg('网络错误，登录失败！', {
+          offset: '15px'
+          ,icon: 5
+          ,time: 1000
+        });
+      }
+    });
 
-  //监听表格复选框选择
-  // table.on('checkbox(demo)', function(obj){
-  //   console.log(obj)
-  // });
-  //监听工具条
-  // table.on('tool(demo)', function(obj){
-  //   var data = obj.data;
-  //   if(obj.event === 'setting'){
-  //     layer.msg('ID：'+ data.companycode + ' 编辑');
-  //   } else if(obj.event === 'del'){
-  //     layer.confirm('真的删除行么', function(index){
-  //       obj.del();
-  //       layer.close(index);
-  //     });
-  //   } else if(obj.event === 'edit'){
-  //     layer.alert('编辑行：<br>'+ JSON.stringify(data))
-  //   }
-  //   return false;
-  // });
-  
- 
-  //监听提交
-  form.on('submit(demo1)', function(data){
-    layer.alert(JSON.stringify(data.field), {
-      title: '最终的提交信息'
-    })
-    return false;
+  // 取消添加员工
+      $('.empreset').on('click',function(){
+        layer.close(adlayer);
+      })
+      form.on('submit(empadd)', function(data){
+      var data = data.field;
+      data.dept = parseInt(data.dept);
+      admin.req({
+        url: setter.root + '/kis/insert_employee.api'
+        ,data: {jsonparam:JSON.stringify(data)}   
+          ,success: function(res){
+            if(res.errorCode === 0){
+              layer.msg('创建成功', {
+                offset: '15px'
+                ,icon: 1
+                ,time: 1000
+              });
+            }
+            layer.close(adlayer);
+        }
+          ,error: function(res){
+            layer.msg('创建失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+          return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+      });
   });
 
+  // 编辑员工 删除员工
+  table.on('tool(userTable)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'edit'){
+      var editlayer = layer.open({
+      type: 1,
+      title:'修改员工信息',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      // maxmin:1,
+      content: $('#editemployee'),
+    });
+    // 获取部门信息填充select
   admin.req({
-    url: layui.setter.standardapi //实际使用请改成服务端真实接口
+    url: layui.setter.standardapi
+      ,data: {model: 'org_department',api: 'read'}
+      ,success: function(res){
+        if(res.errorCode === 0){
+          $(res.entity).each(function (i) {
+              $(".deptlist").append('<option value="' + res.entity[i].uid + '">' + res.entity[i].deptname + '</option>');
+          });
+          form.render('select','editemp');
+        }
+      }
+      ,error: function(res){
+        layer.msg('网络错误，登录失败！', {
+          offset: '15px'
+          ,icon: 5
+          ,time: 1000
+        });
+      }
+    });
+    form.val("editemp", {
+      "empname": data.empname
+      ,"empnumber": data.empnumber
+      ,"empcellphone": data.empcellphone
+      ,"deptname": data.deptname
+    })
+    form.on('submit(empedit)', function(data){
+      var data = data.field;
+      data.dept = parseInt(data.dept);
+      data.uid = obj.data.uid;
+      admin.req({
+        url: setter.root + '/kis/update_employee.api'
+        ,data: {jsonparam:JSON.stringify(data)}   
+          ,success: function(res){
+            if(res.errorCode === 0){
+              obj.update({
+                empname: data.empname
+                ,empnumber: data.empnumber
+                ,empcellphone: data.empcellphone
+                ,dept: data.dept
+              });
+            }
+            layer.close(editlayer);
+        }
+          ,error: function(res){
+            layer.msg('修改失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+          return false;  
+      });
+
+    $('.editreset').on('click',function(){
+        layer.close(editlayer);
+      })
+    }else if(obj.event === 'delete'){
+      layer.confirm('真的删除么', function(index){
+          admin.req({
+          url: setter.root + '/kis/delete_item.api'
+          ,data: {uid:data.uid}  
+          ,success: function(res){
+            if(res.errorCode === 0){
+              obj.del();
+            }
+          }
+          ,error: function(res){
+            layer.msg('删除失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+        layer.close(index);
+        });
+    }
+  });
+
+   
+  // 获取部门信息
+  admin.req({
+    url: layui.setter.standardapi
       ,data: {model: 'org_department',api: 'read'}
       ,success: function(res){
         if(res.errorCode === 0){
@@ -203,13 +490,150 @@ layui.config({
     }
     layui.tree({
     elem: '#kttree' //指定元素
-    ,click: function(item){ //点击节点回调
-      layer.msg('当前节名称：'+ item.name + '<br>全部参数：'+ JSON.stringify(item));
-      console.log(item);
+    ,click: function(e,item){ //点击节点回调
+      //点击弹出菜单  
+      var popupmenu = $('.popup_menu').attr('deptId',item.id).attr('deptname',item.name);
+      // l = ($(document).width() - e.clientX) < popupmenu.width() ? (e.clientX - popupmenu.width()) : e.clientX,
+      // t = ($(document).height() - e.clientY) < popupmenu.height() ? (e.clientY - popupmenu.height()) : e.clientY;
+      var l=getX(e);
+      var t=getY(e);
+      popupmenu.css({left: l,top: t}).show();
+      //取消菜单
+      popupmenu.mouseleave(function (){  
+	    	popupmenu.hide();
+      });
+      //新建部门
+      $('#new-dept').on('click',function(){
+    var adddeptlayer =layer.open({
+        type: 1,
+        title:'新建部门',
+        // skin: 'layui-layer-demo', //样式类名
+        closeBtn: 1, //不显示关闭按钮
+        // maxmin:false,
+        anim: 2,
+        area: ['600px', '500px'],
+        shadeClose: true, //开启遮罩关闭
+        offset: '20px',
+        content: $('#newdept')
+      });
+  
+  // 取消添加部门
+      $('.newdeptreset').on('click',function(){
+        layer.close(adddeptlayer);
+      })
+      form.on('submit(newdeptsave)', function(data){
+      var data = data.field;
+      admin.req({
+        url: setter.root + '/kis/insert_dept.api'
+        ,data: {jsonparam:JSON.stringify(data)}   
+          ,success: function(res){
+            if(res.errorCode === 0){
+              layer.msg('创建成功', {
+                offset: '15px'
+                ,icon: 1
+                ,time: 1000
+              });
+            }
+          }
+          ,error: function(res){
+            layer.msg('创建失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+        layer.close(adddeptlayer);
+          return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+      });
+  });
+      //修改部门
+      $('#edit-dept').on('click',function(){
+  //       var editdeptlayer =layer.open({
+  //       type: 1,
+  //       title:'修改部门',
+  //       // skin: 'layui-layer-demo', //样式类名
+  //       closeBtn: 1, //不显示关闭按钮
+  //       anim: 2,
+  //       area: ['600px', '500px'],
+  //       shadeClose: true, //开启遮罩关闭
+  //       offset: '20px',
+  //       content: $('#editdeptpanl')
+  //     });
+
+  //     form.val("editdept", {
+  //      deptname: $('.popup_menu').attr('deptname')
+  //   })
+  
+  // // 取消修改部门
+  //     $('.editdeptreset').on('click',function(){
+  //       layer.close(editdeptlayer);
+  //     })
+  //     form.on('submit(editdeptsave)', function(data){
+  //     var data = data.field;
+  //     data.uid = parseInt($('.popup_menu').attr('deptId'));
+  //     admin.req({
+  //       url: setter.root + '/kis/update_dept.api'
+  //       ,data: {jsonparam:JSON.stringify(data)}   
+  //         ,success: function(res){
+  //           if(res.errorCode === 0){
+  //             layer.msg('创建成功', {
+  //               offset: '15px'
+  //               ,icon: 1
+  //               ,time: 1000
+  //             });
+  //           }
+  //         }
+  //         ,error: function(res){
+  //           layer.msg('创建失败', {
+  //             offset: '15px'
+  //             ,icon: 5
+  //             ,time: 1000
+  //           });
+  //         }
+  //       });
+  //       layer.close(editdeptlayer);
+  //         return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+  //     });
+      })
+      //删除部门 
+      $('#delete-dept').on('click',function(){
+        layer.confirm('真的删除么', function(index){
+          admin.req({
+          url: setter.root + '/kis/delete_item.api'
+          ,data: {uid:$('.popup_menu').attr('deptId')}  
+          ,success: function(res){
+            if(res.errorCode === 0){
+              layer.msg('删除成功', {
+              offset: '15px'
+              ,icon: 1
+              ,time: 1000
+            });
+            }
+          }
+          ,error: function(res){
+            layer.msg('删除失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+        layer.close(index);
+        });    
+      })
     },
     skin:'kt-tree'
     ,nodes: list
     });
+  }
+  function getX(e) {
+  e = e || window.event;  
+  return e.pageX || e.clientX + document.body.scroolLeft;
+  }
+  function getY(e) {
+    e = e|| window.event;
+   return e.pageY || e.clientY + document.boyd.scrollTop;
   }
 });
   </script>

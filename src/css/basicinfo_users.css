@@ -18,3 +18,10 @@
 .layui-table, .layui-table-view{
     margin: 0;
 }
+#kttree li a{
+    display: block;
+    margin-right: 10px;
+}
+#kttree li a:hover{
+    border-right: 6px dotted #1E9FFF; 
+}

@@ -92,7 +92,7 @@ gulp.task('browser-sync', function() {
         server: {
             baseDir: './dest/'
         },
-        startPath: 'index.html',
+        startPath: 'login.html',
         port: 8000
     });
 });

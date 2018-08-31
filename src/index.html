@@ -238,7 +238,7 @@
           <li class="layui-nav-item">
             <a href="javascript:;">
               <img src="./images/th.jpg" class="layui-nav-img">
-              <span class="layui-hide-xs">用户</span>
+              <span class="layui-hide-xs current-user"></span>
             </a>
             <dl class="layui-nav-child">
               <dd><a _href="pages/settings/help.html" data-menuid='help'><i class="iconfont icon-bangzhu"></i>帮助</a></dd>
@@ -483,7 +483,8 @@
     admin: 'admin' //主入口模块
   }).use('admin', function(){
     var admin = layui.admin
-    ,setter = layui.setter;
+    ,setter = layui.setter
+    ,$ = layui.$;
     admin.req({
       url:setter.root + '/user/isLoggedIn.api'
       ,success: function(res){
@@ -533,6 +534,7 @@
               key:'iam'
               ,value:JSON.stringify(res.entity)
             });
+        $('.current-user').text(res.entity[0].empname);
       }
       ,error: function(res){
       }

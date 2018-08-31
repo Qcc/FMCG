@@ -78,22 +78,7 @@
                         </form>
                       </div>
               </div>
-                <table class="layui-table" lay-data="{even:true,url:'../../compontents/demodata/emplotarget.json', page:true, id:'idTest2'}" lay-filter="kaoqinzu">
-                  <thead>
-                    <tr>
-                      <th lay-data="{type:'checkbox'}" rowspan="2"></th>
-                      <th lay-data="{field:'empname', sort: true}" rowspan="2">姓名</th>
-                      <th lay-data="{field:'dept'}" rowspan="2">部门</th>
-                      <th lay-data="{align:'center'}" colspan="3">收款金额</th>
-                    </tr>
-                    <tr>
-                      <th lay-data="{field:'targetreceipts'}">目标</th>
-                      <th lay-data="{field:'actualreceipts',sort: true}">完成</th>
-                      <th lay-data="{field:'completion',sort: true}">完成率</th>
-                    </tr>
-
-                  </thead>
-                </table>
+                <table class="layui-table" id="emptarg" lay-filter="emptb"></table>  
               </div>
               <!-- 目标设定 -->
               <div class="layui-tab-item">
@@ -256,8 +241,46 @@
   ,setter = layui.setter
   ,admin = layui.admin
   ,layer = layui.layer
-  ,table = layui.table;
+  ,table = layui.table
+  ,count = 0;
 
+  // 员工业绩完成报表
+  admin.req({
+    url: setter.root + '/qry_receipts.api'
+    ,data: {
+        		startdate: '2018-5-27',
+        		enddate: '2018-8-27'
+        }      
+      ,success: function(res){
+        if(res.errorCode === 0){
+          layer.msg('查询成功', {
+            offset: '15px'
+            ,icon: 1
+            ,time: 1000
+          });
+        }
+    }
+      ,error: function(res){
+        layer.msg('查询失败', {
+          offset: '15px'
+          ,icon: 5
+          ,time: 1000
+        });
+      }
+    });
+var kqTable = table.render({
+  elem: '#emptarg',
+  cols: [[
+      {field:'applicationtime', title: '职员', sort: true,templet: '#createtime'}
+      ,{field:'starttime', title: '收款',templet:'#stime'}
+      ,{field:'endtime', title: '目标',templet:'#etime'}
+      ,{field:'state', title: '完成率',templet:'#state'}
+    ]],
+  page: true,
+  done: function(res, curr, count){
+  }
+  });
+  // 员工业绩设定
   var userTable = table.render({
   elem: '#emptargetset',
   url: setter.layuiqueryapi,

@@ -175,6 +175,10 @@
                 <span>事由:</span>
               <span class="ktcontent"></span>
             </div>
+            <div class="plan-content">
+                <span>审批意见:</span>
+              <span class="ktcomment"></span>
+            </div>
             <div class="create-time">
               <span>申请时间：</span>
               <span class="ktctime"></span>
@@ -233,7 +237,11 @@
         </div>
       <!-- 查看考勤事务结束 -->
       <script type="text/html" id="shenpi">
+        {{#  if(d.state === 1){ }}
         <a class="layui-btn layui-btn-xs" lay-event="edit">审批</i></a>
+        {{#  } else{ }}
+        <a class="layui-btn layui-btn-xs" style="background-color:#d2d2d2" lay-event="view">查看</i></a>
+        {{#  } }}
       </script>
       <script type="text/html" id="shenqin">
         <a class="layui-btn layui-btn-xs" lay-event="view">查看</i></a>
@@ -285,8 +293,12 @@
           <span>{{ parseInt(time/60000) }}分钟前</span>
         {{#  } else if(time < 86400000){ }}
           <span>{{ parseInt(time/3600000) }}小时前</span>
-        {{#  } else { }}
+        {{#  } else if(time < 2592000000){ }}
           <span>{{ parseInt(time/86400000) }}天前</span>
+        {{#  } else if(time < 31536000000){ }}
+          <span>{{ parseInt(time/2592000000) }}个月前</span>
+        {{#  } else { }}
+          <span>{{ parseInt(time/31536000000) }}年前</span>
         {{#  } }}
       </script> 
   <script src="../lib/layui.js"></script>
@@ -324,7 +336,18 @@ var kqTable = table.render({
 	        	columns: ['count(uid) AS total'],
 	        },{
         		model: 'oa_attendance',
-            api: 'read'
+            api: 'read',
+            columns:['*', 'applicant$$org_employee.empname AS applicantname','approver$$org_employee.empname AS approvername'],
+            association: {  	
+              applicant: {},
+              approver:{}
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
+             }
+            ],
 	        }])},
   cols: [[
       {field:'applicationtime', title: '申请时间', sort: true,templet: '#createtime'}
@@ -367,7 +390,7 @@ var kqTable = table.render({
       $('.kqreset').on('click',function(){
         layer.close(adlayer);
       })
-      //确定提交表单
+      //提交考勤事务申请表单
       form.on('submit(kqadd)', function(data){
       var data = data.field,
       target = [],
@@ -432,24 +455,28 @@ var kqTable = table.render({
           break; 
         }
         switch(data.state){
-          case 1 :state = '申请中'
+          case 1 :state = '申请中';
+          $('.ktstate').text(state).css('color','#FFB800'); 
           break; 
-          case 2 :state = '已批准'
+          case 2 :state = '已批准';
+          $('.ktstate').text(state).css('color','#5FB878'); 
           break; 
-          case 3 :state = '未批准'
+          case 3 :state = '已驳回';
+          $('.ktstate').text(state).css('color','#FF5722'); 
           break; 
-          case 4 :state = '已销假'
+          case 4 :state = '已销假';
+          $('.ktstate').text(state).css('color','#c2c2c2'); 
           break; 
         }
         $('.kttitle').text(title);  
-        $('.ktstate').text(state);  
         $('.stime').text(admin.formatDateTime(data.starttime));  
         $('.etime').text(admin.formatDateTime(data.endtime)); 
         $('.shtime').text(admin.formatDateTime(data.approvaltime));  
         $(".ktctime").text(admin.formatDateTime(data.applicationtime));
-        $(".ktcreator").text(name);
-        $(".shenheren").text(data.approver);
+        $(".ktcreator").text(data.applicantname);
+        $(".shenheren").text(data.approvername);
         $(".ktcontent").text(data.content);
+        $(".ktcomment").text(data.approvalcomment);
       }
     });
     layer.full(planlayer);
@@ -512,8 +539,7 @@ var kqTable = table.render({
 	        },{
         		model: 'oa_attendance',
             api: 'read',
-            // columns:["oa_plantask.*","plancreator$$org_employee.empname AS creatorname",
-            // 'plancustomer$$crm_customer.custmname AS customer'],
+            columns:['*', 'applicant$$org_employee.empname AS applicantname','approver$$org_employee.empname AS approvername'],
             association: {  	
               applicant: {},
               approver:{}
@@ -527,37 +553,14 @@ var kqTable = table.render({
             condition:{"simple":{"item1":{"column":"approver","cop":"=","value":iam}}}
           }])
         },
-      // where:{jsonparam: JSON.stringify([{
-      //       solve_name_conflict: false,
-      //   		model: 'oa_attendance',
-      //   		api: 'read',
-	    //     	columns: ['count(uid) AS total'],
-	    //     },{
-      //   		model: 'oa_attendance',
-      //       api: 'read',
-      //       columns:["oa_plantask.*","plancreator$$org_employee.empname AS creatorname",
-      //       'plancustomer$$crm_customer.custmname AS customer'],
-      //       association: {  	
-      //         applicant: {},
-      //         approver:{}
-      //       },
-      //       order: [ 
-      //        {
-      //         column: "uid",
-      //         order: "DESC", //可选（默认为ASC）
-      //        }
-      //       ],
-      //       condition:{"simple":{"item1":{"column":"approver","cop":"=","value":iam}}}
-      //     }])
-      //   },
       cols: [[
           {type:'checkbox'}
           ,{field:'applicationtime', title: '申请时间', sort: true,templet: '#createtime'}
-          ,{field:'applicant', title: '申请人'}
+          ,{field:'applicantname', title: '申请人'}
           ,{field:'state', title: '状态',templet:'#state'}
           ,{field:'type', title: '类型',templet:'#type'}
-          ,{field:'starttime', title: '开始时间'}
-          ,{field:'endtime', title: '结束时间'}
+          ,{field:'starttime', title: '开始时间',templet:'#etime'}
+          ,{field:'endtime', title: '结束时间',templet:'#stime'}
           ,{field:'weibanli', title: '操作',toolbar: '#shenpi'}
         ]],
       page: true,
@@ -571,7 +574,6 @@ var kqTable = table.render({
   // 审批考勤事务
   table.on('tool(sptable)', function(obj){
     var data = obj.data;
-    console.log(obj.data);
     if(obj.event === 'edit'){
       var splayer = layer.open({
       type: 1,
@@ -609,29 +611,37 @@ var kqTable = table.render({
         }
         $('.kttitle').text(title);  
         $('.ktstate').text(state);  
-        $('.stime').text(data.starttime);  
-        $('.etime').text(data.endtime); 
+        $('.stime').text(admin.formatDateTime(data.starttime));  
+        $('.etime').text(admin.formatDateTime(data.endtime)); 
         $('.shtime').text(admin.formatDateTime(data.approvaltime));  
         $(".ktctime").text(admin.formatDateTime(data.applicationtime));
-        $(".ktcreator").text(name);
-        $(".shenheren").text(data.approver);
+        $(".ktcreator").text(data.applicantname);
+        $(".shenheren").text(data.approvername);
         $(".ktcontent").text(data.content);
-        console.log(data.uid);
         $('.spuid').val(data.uid);
       }
     });
     layer.full(splayer);
-    //确定提交表单
+    //考勤同意审批表单
   form.on('submit(spyes)', function(data){
       var data = data.field;
-      data.state = 2;
-      console.log(data);
       admin.req({
         url: setter.standardapi
           ,data: {
             model : 'oa_attendance',
             api : 'update',
-            jsonparam: JSON.stringify(data)
+            jsonparam: JSON.stringify({
+              entity:{state:2,approvalcomment:data.approvalcomment}, //状态3 驳回
+              condition: {
+                simple: {
+                  item1: {
+                    column: 'uid',
+                    cop: '=',
+                    value: data.uid
+                  }
+                }
+              }
+            })
             }
           ,success: function(res){
             if(res.errorCode === 0){
@@ -640,11 +650,11 @@ var kqTable = table.render({
                 ,icon: 1
                 ,time: 1000
               });
+              obj.update({
+                state: 2
+              });
             }
             layer.close(splayer);
-            obj.update({
-              state: 2
-            });
         }
           ,error: function(res){
             //登入成功的提示与跳转
@@ -657,17 +667,26 @@ var kqTable = table.render({
         });
           return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     });
-  //确定提交表单
+  //审批驳回表单
   form.on('submit(spno)', function(data){
       var data = data.field;
-      data.state = 3;
-      console.log(data);
       admin.req({
         url: setter.standardapi
           ,data: {
             model : 'oa_attendance',
             api : 'update',
-            jsonparam: JSON.stringify(data)
+            jsonparam: JSON.stringify({
+              entity:{state:3,approvalcomment:data.approvalcomment}, //状态3 驳回
+              condition: {
+                simple: {
+                  item1: {
+                    column: 'uid',
+                    cop: '=',
+                    value: data.uid
+                  }
+                }
+              }
+            })
             }
           ,success: function(res){
             if(res.errorCode === 0){
@@ -676,11 +695,11 @@ var kqTable = table.render({
                 ,icon: 1
                 ,time: 1000
               });
+              obj.update({
+                state: 3
+              });
             }
             layer.close(splayer);
-            obj.update({
-              state: 3
-            });
         }
           ,error: function(res){
             //登入成功的提示与跳转
@@ -693,6 +712,57 @@ var kqTable = table.render({
         });
           return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     });
+    }else if(obj.event === 'view'){
+      //审批后查看审批详情
+      var planlayer = layer.open({
+      type: 1,
+      title:'查看审批详情',
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: false, //开启遮罩关闭
+      offset: '20px',
+      // maxmin:1,
+      content: $('#viewplan'),
+      success: function(layero, index){
+        var title ='',
+        state = 0;
+        switch(data.type){
+          case 1 :title = '请假申请'
+          break; 
+          case 2 :title = '外出申请'
+          break; 
+          case 3 :title = '加班申请'
+          break; 
+          case 4 :title = '出差申请'
+          break; 
+        }
+        switch(data.state){
+          case 1 :state = '申请中';
+          $('.ktstate').text(state).css('color','#FFB800'); 
+          break; 
+          case 2 :state = '已批准';
+          $('.ktstate').text(state).css('color','#5FB878'); 
+          break; 
+          case 3 :state = '已驳回';
+          $('.ktstate').text(state).css('color','#FF5722'); 
+          break; 
+          case 4 :state = '已销假';
+          $('.ktstate').text(state).css('color','#c2c2c2'); 
+          break; 
+        }
+        $('.kttitle').text(title);  
+        $('.stime').text(admin.formatDateTime(data.starttime));  
+        $('.etime').text(admin.formatDateTime(data.endtime)); 
+        $('.shtime').text(admin.formatDateTime(data.approvaltime));  
+        $(".ktctime").text(admin.formatDateTime(data.applicationtime));
+        $(".ktcreator").text(data.applicantname);
+        $(".shenheren").text(data.approvername);
+        $(".ktcontent").text(data.content);
+        $(".ktcomment").text(data.approvalcomment);
+      }
+    });
+    layer.full(planlayer);
     }
   });
 

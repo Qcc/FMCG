@@ -1,9 +1,10 @@
 window.onload = function () {
 //JavaScript代码区域
-layui.use(['element','layer'], function(){
+layui.use(['element','layer','admin'], function(){
   "use strict";
   var $ = layui.$ //获得内置jquery
   ,element = layui.element
+  ,admin = layui.admin
   ,layer = layui.layer;
   //触发事件
   var tab = {
@@ -70,8 +71,16 @@ layui.use(['element','layer'], function(){
       return;
     }
     if(menuid === 'logout'){
-      layer.msg('退出');
-      location.href = './login.html';
+      admin.req({
+        url: layui.setter.root + '/user/logout.api'
+        ,data: {}  
+        ,success: function(res){
+          location.href = './login.html';
+        }
+        ,error: function(res){
+          location.href = './login.html';
+        }
+      });
       return;
     }
     // 循环 tab页面如果已经打开，则切换到对应页面
