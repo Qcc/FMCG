@@ -152,7 +152,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label">工号</label>
           <div class="layui-input-block">
-            <input type="text" name="empnumber" autocomplete="off" placeholder="请输入密码" class="layui-input">
+            <input type="text" name="empnumber" autocomplete="off" placeholder="请输入工号" class="layui-input">
           </div>
         </div>
         
@@ -209,7 +209,7 @@
       </div>
         <!-- 新建部门结束 -->
     <!-- 修改部门信息 -->
-    <!-- <div id="editdeptpanl" style="display: none;margin-right: 40px">
+    <div id="editdeptpanl" style="display: none;margin-right: 40px">
         <form class="layui-form" action="" lay-filter="editdept">
           <div class="layui-form-item">
             <label class="layui-form-label">部门名称</label>
@@ -232,7 +232,7 @@
             </div>
             
           </form>  
-      </div> -->
+      </div>
         <!-- 修改部门结束 -->
     
           <script type="text/html" id="empedit">
@@ -480,6 +480,15 @@ layui.config({
         });
       }
     });
+  
+  //选中树节点样式
+  $("body").on("mousedown",".layui-tree a",function(){ 
+    if(!$(this).siblings('ul').length){
+      $(".layui-tree a cite").css('color','#333');
+      $(this).find('cite').css('color','#5FB878');
+    } 
+  });
+
   function treeList(nodes){
     var list = [];
     for (let i = 0; i < nodes.length; i++) {
@@ -493,8 +502,6 @@ layui.config({
     ,click: function(e,item){ //点击节点回调
       //点击弹出菜单  
       var popupmenu = $('.popup_menu').attr('deptId',item.id).attr('deptname',item.name);
-      // l = ($(document).width() - e.clientX) < popupmenu.width() ? (e.clientX - popupmenu.width()) : e.clientX,
-      // t = ($(document).height() - e.clientY) < popupmenu.height() ? (e.clientY - popupmenu.height()) : e.clientY;
       var l=getX(e);
       var t=getY(e);
       popupmenu.css({left: l,top: t}).show();
@@ -502,8 +509,14 @@ layui.config({
       popupmenu.mouseleave(function (){  
 	    	popupmenu.hide();
       });
-      //新建部门
-      $('#new-dept').on('click',function(){
+    },
+    skin:'kt-tree'
+    ,nodes: list
+    });
+  }
+
+  //新建部门
+  $('#new-dept').on('click',function(e){
     var adddeptlayer =layer.open({
         type: 1,
         title:'新建部门',
@@ -516,7 +529,6 @@ layui.config({
         offset: '20px',
         content: $('#newdept')
       });
-  
   // 取消添加部门
       $('.newdeptreset').on('click',function(){
         layer.close(adddeptlayer);
@@ -546,58 +558,62 @@ layui.config({
         layer.close(adddeptlayer);
           return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
       });
+      // layui.stope(e);
   });
-      //修改部门
-      $('#edit-dept').on('click',function(){
-  //       var editdeptlayer =layer.open({
-  //       type: 1,
-  //       title:'修改部门',
-  //       // skin: 'layui-layer-demo', //样式类名
-  //       closeBtn: 1, //不显示关闭按钮
-  //       anim: 2,
-  //       area: ['600px', '500px'],
-  //       shadeClose: true, //开启遮罩关闭
-  //       offset: '20px',
-  //       content: $('#editdeptpanl')
-  //     });
 
-  //     form.val("editdept", {
-  //      deptname: $('.popup_menu').attr('deptname')
-  //   })
-  
-  // // 取消修改部门
-  //     $('.editdeptreset').on('click',function(){
-  //       layer.close(editdeptlayer);
-  //     })
-  //     form.on('submit(editdeptsave)', function(data){
-  //     var data = data.field;
-  //     data.uid = parseInt($('.popup_menu').attr('deptId'));
-  //     admin.req({
-  //       url: setter.root + '/kis/update_dept.api'
-  //       ,data: {jsonparam:JSON.stringify(data)}   
-  //         ,success: function(res){
-  //           if(res.errorCode === 0){
-  //             layer.msg('创建成功', {
-  //               offset: '15px'
-  //               ,icon: 1
-  //               ,time: 1000
-  //             });
-  //           }
-  //         }
-  //         ,error: function(res){
-  //           layer.msg('创建失败', {
-  //             offset: '15px'
-  //             ,icon: 5
-  //             ,time: 1000
-  //           });
-  //         }
-  //       });
-  //       layer.close(editdeptlayer);
-  //         return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-  //     });
+
+  //修改部门
+  $('#edit-dept').on('click',function(e){
+        var editdeptlayer =layer.open({
+        type: 1,
+        title:'修改部门',
+        // skin: 'layui-layer-demo', //样式类名
+        closeBtn: 1, //不显示关闭按钮
+        anim: 2,
+        area: ['600px', '500px'],
+        shadeClose: true, //开启遮罩关闭
+        offset: '20px',
+        content: $('#editdeptpanl')
+      });
+
+      form.val("editdept", {
+       deptname: $('.popup_menu').attr('deptname')
+    })
+  // 取消修改部门
+      $('.editdeptreset').on('click',function(){
+        layer.close(editdeptlayer);
       })
-      //删除部门 
-      $('#delete-dept').on('click',function(){
+      form.on('submit(editdeptsave)', function(data){
+      var data = data.field;
+          data.uid = parseInt($('.popup_menu').attr('deptId'));
+      admin.req({
+        url: setter.root + '/kis/update_dept.api'
+        ,data: {jsonparam: JSON.stringify(data)}
+          ,success: function(res){
+            if(res.errorCode === 0){
+              layer.msg('修改成功', {
+                offset: '15px'
+                ,icon: 1
+                ,time: 1000
+              });
+            }
+          }
+          ,error: function(res){
+            layer.msg('修改失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+        layer.close(editdeptlayer);
+          return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+      });
+      });
+
+
+  //删除部门 
+  $('#delete-dept').on('click',function(){
         layer.confirm('真的删除么', function(index){
           admin.req({
           url: setter.root + '/kis/delete_item.api'
@@ -620,13 +636,9 @@ layui.config({
           }
         });
         layer.close(index);
-        });    
-      })
-    },
-    skin:'kt-tree'
-    ,nodes: list
-    });
-  }
+        });  
+      });
+
   function getX(e) {
   e = e || window.event;  
   return e.pageX || e.clientX + document.body.scroolLeft;
