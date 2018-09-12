@@ -1,28 +1,350 @@
 <!DOCTYPE html>
-<!-- 文档中心 页面 -->
+<!-- 文档管理 页面 -->
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>首页-快销宝-深圳市沟通科技有限公司</title>
+        <title>文档管理-快销宝-深圳市沟通科技有限公司</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
         <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="../lib/css/layui.css">
         <link rel="stylesheet" href="../css/document.min.css">
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+        <style>
+        .select-height input{
+            height: 30px;
+        }
+        </style>
     </head>
-    <body>
-    <div class="x-body layui-anim layui-anim-up">
-        <blockquote class="layui-elem-quote">文档中心：
-            <span class="x-red">test</span>！当前时间:2018-05-28 20:50:53</blockquote>
+    <body style="overflow-y: scroll;">
+        <div class="layui-tab layui-tab-brief" lay-filter="task" style="margin: 0px;">
+          <ul class="layui-tab-title">
+            <li class="layui-this">全部文档</li>
+            <li>我的文档</li>
+          </ul>
+          <div class="layui-tab-content" style="padding: 0px;">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
+                  <div class="layui-inline">
+                    <form class="layui-form" action="">
+                      <div class="layui-input-inline select-height">
+                        <select name="city" lay-verify="kt-" class="layui-input">
+                            <option value="">全部文档</option>
+                            <option value="02">学习</option>
+                            <option value="03">规章制度</option>
+                            <option value="04">工具</option>
+                          </select>
+                      </div>
+                  </form>
+                </div>
+                  <div class="layui-btn-group">
+                    <button class="layui-btn layui-btn-sm btnsc">上传</button>
+                    <button class="layui-btn layui-btn-sm btnstyle"><i class="layui-icon layui-icon-app"></i></button>
+                  </div>
+              </div>
+              <!-- 全部文档 -->
+              <table class="layui-table" id="qbtb" lay-filter="qbtb"></table>
+              
+            </div>
+            
+            <!-- 我的文档 -->
+            <div class="layui-tab-item">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
+                      <div class="layui-inline">
+                        <form class="layui-form" action="">
+                          <div class="layui-input-inline select-height">
+                            <select name="city" lay-verify="kt-" class="layui-input">
+                                <option value="">全部文档</option>
+                                <option value="02">学习</option>
+                                <option value="03">规章制度</option>
+                                <option value="04">工具</option>
+                              </select>
+                          </div>
+                      </form>
+                    </div>
+                      <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-sm btnsc">上传</button>
+                        <button class="layui-btn layui-btn-sm btnstyle"><i class="layui-icon layui-icon-app"></i></button>
+                      </div>
+                  </div>
+                  <table class="layui-table" id="wdtb" lay-filter="wdtb"></table>
+            </div>
+          </div>
+        </div>    
+    <!-- 上传文档开始 -->
+    <div  id="uploadplan" style="display: none;margin: 20px 60px">
+        <div class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">选择文件</label>
+                <button type="button" class="layui-btn layui-btn-normal" id="uploadfile"><i class="layui-icon layui-icon-upload"></i></button>
+              </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">文档说明</label>
+                <div class="layui-input-block">
+                    <textarea id="docoutline" placeholder="请输入文档说明" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item ">
+                <label class="layui-form-label">连续上传</label>
+                <div class="layui-input-block continueupload">
+                    <input type="checkbox" lay-skin="primary" title="连续上传"> 
+                </div>
+              </div>
+              <div class="layui-form-item">
+                  <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-primary spreset" >取消</button>
+                    <button class="layui-btn kqadd"  id="uploadaction"><i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>上传</button>
+                  </div>
+              </div>
+        </div>
     </div>
+    <!-- 上传文档结束 -->  
+    <script type="text/html" id="setting">
+      {{# var path = layui.setter.root + layui.admin.base64decode(d.path)}}
+        <a class="layui-btn layui-btn-xs" href={{ path }} >下载</a>
+      </script>
+    <script type="text/html" id="wdsetting">
+      {{# var path = layui.setter.root + layui.admin.base64decode(d.path)}}
+        <a class="layui-btn layui-btn-xs" href={{ path }} >下载</a>
+        <a class="layui-btn layui-btn-xs" style="background-color:#FF5722" lay-event="delete">删除</a>
+      </script>
+    <script type="text/html" id="time">
+        {{# var t = layui.admin.formatDateTime(d.doccreatedate); }}
+        <span>{{ t }}</span>
+      </script>
+      <script type="text/html" id="size">
+        {{#  if(d.size < 1048576){ }}
+        {{#  var size = Number(d.size / 1024).toFixed(2) }}
+        <span>{{ size }}KB</span>
+        {{#  } else { }}
+        {{#  var size = Number(d.size / 1048576).toFixed(2) }}
+          <span>{{ size }}MB</span>
+        {{#  } }}
+      </script>
+
     <script src="../lib/layui.js"></script>
-    <script src="../js/document.min.js"></script>
-    
+    <!-- <script src="../js/attendance.js"></script> -->
+     
+    <script>
+    layui.config({
+    base: '../compontents/' //静态资源所在路径
+  }).extend({
+    admin: 'admin' //主入口模块
+  }).use(['element','form','table','layer','admin','laydate','upload'], function(){
+  var $ = layui.jquery
+  ,element = layui.element
+  ,form = layui.form
+  ,setter = layui.setter
+  ,admin = layui.admin
+  ,layer = layui.layer
+  ,table = layui.table
+  ,upload = layui.upload
+//   ,count = 0;
+  var list = true // 列表/平铺
+    ,alltb = false; //首次加载数据
+
+  // 加载全部文档
+  var splan = table.render({
+      elem: '#qbtb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'oa_doc',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'oa_doc',
+            api: 'read',
+            columns:['*', 'docpublisher$$org_employee.empname AS publisher','docfile$$bas_resource.resourcepath AS path','docfile$$bas_resource.resourcelength AS size'],
+            association: {  	
+                docpublisher: {},
+                docfile:{}
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
+             }
+            ],
+            // condition:{"simple":{"item1":{"column":"approver","cop":"=","value":admin.iam()}}}
+          }])
+        },
+      cols: [[
+          {type:'checkbox'}
+          ,{field:'uid', title: '文档编号', sort: true}
+          ,{field:'docname', title: '文件名'}
+          ,{field:'docoutline', title: '简介'}
+          ,{field:'publisher', title: '上传人'}
+          ,{field:'doccreatedate', title: '发布日期', sort: true,templet:'#time'}
+          ,{field:'size', title: '大小',templet:'#size'}
+          ,{field:'', title: '操作',toolbar: '#setting'}
+        ]],
+      page: true,
+      done: function(res, curr, count){
+        sPtb = true;
+      }
+      });
+  // 删除文件
+  table.on('tool(wdtb)', function(obj){
+    if(obj.event === 'delete'){
+      layer.confirm('真的删除么', function(index){
+          admin.req({
+          url: setter.standardapi //实际使用请改成服务端真实接口
+          ,data: {
+            model:'oa_doc',
+            api:'delete',
+            jsonparam: JSON.stringify({
+              condition: {
+                simple: {
+                  item1: {
+                    column: 'uid',
+                    cop: '=',
+                    value: obj.data.uid
+                  }
+                }
+              }
+            })
+          }  
+          ,success: function(res){
+            if(res.errorCode === 0){
+              obj.del();
+            }
+          }
+          ,error: function(res){
+            layer.msg('删除失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+        layer.close(index);
+        });
+    }
+  });
+
+  // 切换tab页面
+  element.on('tab(task)', function(data){
+    console.log(data)
+    if(data.index === 1 ){
+      if(alltb){
+        return;
+      }
+      // 我的文档
+      var wdplan = table.render({
+      elem: '#wdtb',
+      // url:'../../compontents/demodata/attapproval.json',
+      // method:'get',
+      url: setter.layuiqueryapi,
+      method:'post',
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'oa_doc',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'oa_doc',
+            api: 'read',
+            columns:['*', 'docpublisher$$org_employee.empname AS publisher','docfile$$bas_resource.resourcepath AS path','docfile$$bas_resource.resourcelength AS size'],
+            association: {  	
+                docpublisher: {},
+                docfile:{}
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
+             }
+            ],
+            condition:{"simple":{"item1":{"column":"docpublisher","cop":"=","value":admin.iam()}}}
+          }])
+        },
+      cols: [[
+          {type:'checkbox'}
+          ,{field:'uid', title: '文档编号', sort: true}
+          ,{field:'docname', title: '文件名'}
+          ,{field:'docoutline', title: '简介'}
+          ,{field:'publisher', title: '上传人'}
+          ,{field:'doccreatedate', title: '发布日期', sort: true,templet:'#time'}
+          ,{field:'size', title: '大小',templet:'#size'}
+          ,{field:'', title: '操作',toolbar: '#wdsetting'}
+        ]],
+      page: true,
+      done: function(res, curr, count){
+        alltb = true;
+      }
+      });
+    }
+  });
+
+// 切换文件显示样式  平铺/列表
+  $('.btnstyle').on('click',function(e){
+      if(list){
+        $('.layui-icon-app').removeClass('layui-icon-app').addClass('layui-icon-template');
+        list = false;  
+      }else{
+        $('.layui-icon-template').removeClass('layui-icon-template').addClass('layui-icon-app');
+        list = true;  
+      }
+  });
+  $('.btnsc').on('click',function(e){
+    var sclayer = layer.open({
+      type: 1,
+      title:'上传文档',
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: false, //开启遮罩关闭
+      offset: '20px',
+      // maxmin:1,
+      content: $('#uploadplan'),
+      success: function(layero, index){
+      }
+    });
+    //上传文件
+    upload.render({
+    elem: '#uploadfile'
+    ,url: setter.root + '/resource/upload_doc.api'
+    ,auto: false
+    ,accept:'file'
+    // ,headers:{crossDomain : true,xhrFields : {withCredentials: true}}
+    ,acceptMime:'application/msword,application/pdf,application/vnd.ms-powerpoint,text/plain,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ,exts:'xls|xlsx|docx|doc|pptx|ppt|pdf'
+    ,size:10240 //限制上传文件最大不超过10MB
+    // ,field:'docname'
+    ,data: {
+        docoutline: function(){
+        return $('#docoutline').val();
+      }
+    }
+    ,bindAction: '#uploadaction'
+    ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+        $('#uploadaction').addClass('layui-btn-disabled').children("i.layui-icon").addClass('layui-icon-loading');
+    }
+    ,done: function(res){
+        if(res.errorCode === 0){
+            $('#uploadaction').removeClass('layui-btn-disabled').children("i.layui-icon").removeClass('layui-icon-loading');
+            $('#docoutline').val('');
+            if(!$('.continueupload>div').hasClass('layui-form-checked')){
+                layer.close(sclayer);
+            }
+        }else{
+            layer.msg('上传失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+        }
+    }
+  });
+});
+ 
+  
+ 
+   
+});
+    </script>  
     </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 铺货清单 页面 -->
+<!-- 陈列品上报 页面 -->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="../lib/css/layui.css">
         <link rel="stylesheet" href="../css/shelves.min.css">
         <style>
-          /* 铺货清单 */
+          /* 陈列品上报清单 */
   .phqdpanl{
     display: none;
     text-align: center;
@@ -43,7 +43,7 @@
     <body style="overflow-y: scroll;">
         <div class="layui-tab layui-tab-brief" lay-filter="task" style="margin: 0px;">
           <ul class="layui-tab-title">
-            <li class="layui-this">铺货清单</li>
+            <li class="layui-this">陈列品上报</li>
             <!-- <li>我的文档</li> -->
           </ul>
           <div class="layui-tab-content" style="padding: 0px;">
@@ -66,28 +66,26 @@
                   
               </div>
               <!-- 全部文档 -->
-              <table class="layui-table" id="phqdtb" lay-filter="phqdtb"></table>
+              <table class="layui-table" id="clptb" lay-filter="clptb"></table>
             </div>
-    <!-- 铺货清单开始 -->
+    <!-- 陈列品清单开始 -->
     <div id="phqdpanl" class="phqdpanl">
-        <h2>铺货清单</h2>
+        <h2>上报清单</h2>
         <div class="ph-content">
             <div><p>客户 : </p><p class="custmname"></p></div>
             <div><p>客户地址 : </p><p class="custmaddress"></p></div>
-            <div><p>签收人 : </p><p class="phreceiver"></p></div>
-            <div><p>铺货说明 : </p><p class="phcomment"></p></div>
-            <div><p>铺货时间 : </p><p class="phtime"></p></div>
-            <div><p>铺货人 : </p><p class="empname"></p></div>
-            <div><p>铺货照片 : </p><a class="phpictures" title="查看大图"><img src=""></a></div>
+            <div><p>上报时间 : </p><p class="clptime"></p></div>
+            <div><p>上报人 : </p><p class="empname"></p></div>
+            <div><p>现场照片 : </p><a class="phpictures" title="查看大图"><img src=""></a></div>
         </div>
-        <table class="layui-table" id="phtb" lay-filter="phtb"></table>
+        <table class="layui-table" id="clpqdtb" lay-filter="clpqdtb"></table>
       </div>
-    <!-- 铺货清单结束 -->
+    <!-- 陈列品清单结束 -->
     <script type="text/html" id="setting">
         <a class="layui-btn layui-btn-xs" lay-event="view" >查看</a>
       </script>
     <script type="text/html" id="time">
-        {{# var t = layui.admin.formatDateTime(d.phtime); }}
+        {{# var t = layui.admin.formatDateTime(d.clptime); }}
         <span>{{ t }}</span>
       </script>
     <script src="../lib/layui.js"></script>
@@ -109,34 +107,34 @@
 
   // 加载全部文档
   var splan = table.render({
-      elem: '#phqdtb',
+      elem: '#clptb',
       url: setter.layuiqueryapi,
       method:'post',
       where: 	{jsonparam: JSON.stringify([{
             solve_name_conflict: false,
-        		model: 'eos_puhuo',
+        		model: 'eos_cunliepin',
         		api: 'read',
 	        	columns: ['count(uid) AS total'],
 	        },{
-        		model: 'eos_puhuo',
+        		model: 'eos_cunliepin',
             api: 'read',
-            columns:['*', 'phoriginator$$org_employee.empname AS empname',
-            'phcustomer$$crm_customer.custmname AS custmname',
-            'phpictures$$bas_resource.resourcepath AS resourcepath',
-           'phcustomer$$crm_customer.custmaddress AS custmaddress',],
+            columns:['*', 'clporiginator$$org_employee.empname AS empname',
+            'clpcustomer$$crm_customer.custmname AS custmname',
+            'clppictures$$bas_resource.resourcepath AS resourcepath',
+           'clpcustomer$$crm_customer.custmaddress AS custmaddress',],
             association: {  	
-                phoriginator: {},
-                phcustomer:{},
-                phlocation:{},
-                phpictures:{},
-                phdetaillist: {
+              clpcustomer:{},
+              clplocation:{},
+              clporiginator: {},
+              clppictures:{},
+              clpdetaillist: {
 	              	collection: 1,
-	              	association_model: 'eos_phdetaillist',
-                  association_column: 'phdlgroupid',
-                  columns:['*','phdlgoods$$eos_goods.gozname AS gozname',
-                'phdlgoods__gozbasunit$$eos_goodsunit.gozunitname AS gozunitname',],
+	              	association_model: 'eos_cunliepindetaillist',
+                  association_column: 'clpdlgroupid',
+                  columns:['*','clpdlgoods$$eos_goods.gozname AS gozname',
+                'clpdlgoods__gozbasunit$$eos_goodsunit.gozunitname AS gozunitname',],
 	                association: {
-                    phdlgoods: {
+                    clpdlgoods: {
                       association: {
                         gozbasunit:{}
                       }
@@ -156,18 +154,16 @@
       cols: [[
           {type:'checkbox'}
           ,{field:'custmname', title: '客户'}
-          ,{field:'phreceiver', title: '签收人'}
-          ,{field:'phcomment', title: '铺货说明'}
-          ,{field:'phtime', title: '铺货时间', sort: true,templet:'#time'}
-          ,{field:'empname', title: '铺货人'}
+          ,{field:'clptime', title: '上报时间', sort: true,templet:'#time'}
+          ,{field:'empname', title: '上报人'}
           ,{field:'', title: '操作',toolbar: '#setting'}
         ]],
       page: true,
       done: function(res, curr, count){
       }
       });
-  // 查看铺货清单
-  table.on('tool(phqdtb)', function(obj){
+  // 查看陈列品清单
+  table.on('tool(clptb)', function(obj){
     if(obj.event === 'view'){
       var phlayer =layer.open({
         type: 1,
@@ -184,9 +180,7 @@
       layer.full(phlayer);
       $(".custmname").text(obj.data.custmname);
       $(".custmaddress").text(obj.data.custmaddress);
-      $(".phreceiver").text(obj.data.phreceiver);
-      $(".phcomment").text(obj.data.phcomment);
-      $(".phtime").text( admin.formatDateTime(obj.data.phtime));
+      $(".clptime").text( admin.formatDateTime(obj.data.clptime));
       $(".empname").text(obj.data.empname);
       if(obj.data.resourcepath){
         var path = setter.root + admin.base64decode(obj.data.resourcepath);
@@ -211,10 +205,10 @@
           });
         });
       }
-      // 加载铺货商品
+      // 加载陈列品清单
   var splan = table.render({
-      elem: '#phtb',
-      data:obj.data.eos_phdetaillist,
+      elem: '#clpqdtb',
+      data:obj.data.eos_cunliepindetaillist,
       cols: [[
           {type:'checkbox'}
           ,{field:'gozname', title: '商品'}

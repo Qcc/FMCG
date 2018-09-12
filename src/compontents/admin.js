@@ -119,9 +119,17 @@ layui.extend({
 }).define(["setter", "layer"],
 function(e) {
   var $ = layui.jquery,
-  a = layui.layer,
-  r = layui.setter,
+  setter = layui.setter,
   F = { 
+    //当前登录员工UID;
+    iam:function(){
+      return JSON.parse(layui.sessionData(setter.tableName).iam)[0].uid 
+    },
+    //当前登录员工姓名;
+    name:function(){
+      return JSON.parse(layui.sessionData(setter.tableName).iam)[0].empname;
+    },
+    // ajax请求
     req: function(option) {
       option.type = option.type || "post";
       option.dataType = option.dataType || "json";
@@ -129,6 +137,7 @@ function(e) {
       option.xhrFields = {withCredentials: true};
       $.ajax(option);
     },
+    // 返回格式化日期时间 yyyy-mm-dd h:m:s
     formatDateTime(t){
       if(t === '' || t === undefined)return '无';
 
@@ -142,6 +151,7 @@ function(e) {
       ,seconds = d.getSeconds();
       return year+'-'+double(month)+'-'+double(day)+' '+double(hours)+':'+double(min)+':'+double(seconds)
     },
+    // 获取今天
     getNowDay:function(){
       var time = new Date();
       var year = time.getFullYear()
@@ -151,16 +161,19 @@ function(e) {
       if(day < 10)day = '0'+day;
       return year+'-'+month+'-'+day;
     },
+    // 获取当年最后一天
     getYearEndDay:function(){
       var time = new Date();
       var year = time.getFullYear();
       return year+'-12-31';
     },
+    // base64编码 
     base64encode:function (str) {
       if (!str)
         return "";
       return new Base64().encode(str);
     },
+    // base64解码 
     base64decode:function (str) {
       if (!str)
         return "";

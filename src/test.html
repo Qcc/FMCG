@@ -1,96 +1,189 @@
 <!DOCTYPE html>
+<!-- 商品添加 页面 -->
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>layui</title>
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="../lib/css/layui.css"  media="all">
-  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
-   
-</head>
-<body>
-     <!-- 添加考勤事务 -->
-     <div id="newkq"   >
-      <form class="layui-form" action="" lay-filter="newkq">
-        <div class="layui-row">
-          <div class="layui-col-xs6">
-            <div class="layui-form-item">
-              <label class="layui-form-label">请假类型</label>
-              <div class="layui-input-block">
-                <select name="type" lay-verify="required">
-                  <option value=""></option>
-                  <option value="1">请假申请</option>
-                  <option value="2">加班申请</option>
-                  <option value="3">外出申请</option>
-                  <option value="4">出差申请</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="layui-col-xs6"  style="text-align: right;padding-right: 20px;">
-            <div class="layui-form-item">
-              <button  class="layui-btn layui-btn-primary kqreset">取消</button>
-              <button  lay-submit class="layui-btn kqadd" lay-filter="kqadd">保存</button>
-            </div>
-          </div>
-        </div>
-
-          <div class="layui-form-item">
-              <label class="layui-form-label">开始时间</label>
-              <div class="layui-input-inline">
-                <input type="text" name="starttime" autocomplete="off" placeholder="请选择" class="layui-input" id="starttime"> 
-              </div>
-          </div>
-
-          <div class="layui-form-item">
-              <label class="layui-form-label">结束时间</label>
-              <div class="layui-input-inline">
-                <input type="text" name="endttime" autocomplete="off" placeholder="请选择" class="layui-input"  id="endttime"> 
-              </div>
-          </div>
-
-          <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">请假说明</label>
-            <div class="layui-input-block">
-              <textarea name="content" placeholder="请输请假说明" class="layui-textarea"></textarea>
-            </div>
-          </div>
+    <head>
+        <meta charset="UTF-8">
+        <title>添加商品-快销宝-深圳市沟通科技有限公司</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
+        <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="../lib/css/layui.css">
+        <link rel="stylesheet" href="../css/goods.min.css">
+    </head>
+    <body style="overflow-y: scroll;">
+            <div class="layui-container-full" style="padding:10px 0 50px">
+              <form class="layui-form" action="">
+                <div class="layui-row">
+                  <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">商品名称</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="gozname" lay-verify="title" autocomplete="off" placeholder="请输入商品名称" class="layui-input">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="layui-col-xs6"  style="text-align: right">
+                    <div class="layui-form-item">
+                      <button type="reset" class="layui-btn layui-btn-primary reset-attapproval">取消</button>
+                      <button type="reset" class="layui-btn ">保存</button>
+                    </div>
+                  </div>
+                </div>
+                  
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">节假日设置</label>
+                      <div class="layui-input-inline">
+                        <select name="interest" lay-filter="aihao">
+                          <option value="" selected="">默认节假日</option>
+                          <option value="3">自定义节假日</option>
+                        </select>
+                      </div>
+                      <div class="layui-input-inline">
+                          <button type="reset" class="layui-btn layui-btn-primary">编辑</button>
+                      </div>
+                    </div>
+                  
+                  <div class="layui-form-item">
+                      <label class="layui-form-label">考勤时间</label>
+                      <div class="layui-input-block">
+                        <input type="radio" name="sex" value="1" title="工作日每天时间相同" checked="">
+                        <input type="radio" name="sex" value="2" title="工作日每天时间不同">
+                      </div>
+                  </div>
+                  
+                  <div class="layui-form-item">
+                    <div class="layui-inline">
+                      <label class="layui-form-label">工作时间1</label>
+                      <div class="layui-input-inline">
+                          <input type="text" class="layui-input" id="gongzuoshijian1">
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="layui-row">
+                    <div class="layui-col-xs4">
+                      <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">异常定义</label>
+                        <div class="layui-form-mid layui-word-aux">迟到</div>
+                        <div class="layui-input-inline" style="width: 50px;">
+                          <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
+                      </div>
+                      <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-form-mid layui-word-aux">迟到</div>
+                        <div class="layui-input-inline" style="width: 50px;">
+                          <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
+                      </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                      <div class="layui-form-item layui-inline">
+                        <!-- <label class="layui-form-label"></label> -->
+                        <div class="layui-form-mid layui-word-aux">迟到</div>
+                        <div class="layui-input-inline" style="width: 50px;">
+                          <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
+                      </div>
+                      <div class="layui-form-item layui-inline">
+                      <!-- <label class="layui-form-label"></label> -->
+                      <div class="layui-form-mid layui-word-aux">迟到</div>
+                      <div class="layui-input-inline" style="width: 50px;">
+                        <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+                      </div>
+                      <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
+                    </div>
+                    </div>
+                  </div>
+                    
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">拍照设置</label>
+                      <div class="layui-input-inline">
+                        <select name="interest" lay-filter="aihao">
+                          <option value="0" selected="">考勤异常时强制拍照</option>
+                          <option value="1">每次考勤时强制拍照</option>
+                          <option value="2">任何情况下不强制拍照</option>
+                        </select>
+                      </div>
+                  </div>
+                  
+                  <div class="layui-form-item">
+                      <label class="layui-form-label">考勤点管理</label>
+                      <div class="layui-input-inline">
+                        <select name="interest" lay-filter="aihao">
+                          <option value="0" selected="">南山办公室</option>
+                          <option value="1">上海办公室</option>
+                          <option value="2">北京办公室</option>
+                        </select>
+                      </div>
+                      <div class="layui-input-inline">
+                          <button type="reset" class="layui-btn layui-btn-primary">编辑</button>
+                      </div>
+                  </div>
           
-        </form>  
-
-        <img  style="CURSOR: pointer" onclick="javascript:window.open('http://b.qq.com/webc.htm?new=0&sid=1950937412&o=www.kouton.com&q=7', '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');"  border="0" SRC=http://wpa.qq.com/pa?p=1:1950937412:1 alt="技术咨询">
-
- </div>
-      <!-- 申请考勤事务结束 -->
-
-    <script src="../lib/layui.js"></script>
-
-      <script>
-     layui.config({
-    base: '../compontents/' //静态资源所在路径
-  }).extend({
-    admin: 'admin' //主入口模块
-  }).use(['element','form','table','layer','admin','laydate'], function(){
-  var $ = layui.jquery
-  ,element = layui.element
-  ,laydate = layui.laydate
-  ,form = layui.form
-  ,setter = layui.setter
-  ,admin = layui.admin
-  ,layer = layui.layer
-  ,table = layui.table;
-
-    laydate.render({
-      elem: '#starttime'
-      ,type: 'datetime'
-    });
-    laydate.render({
-      elem: '#endtime'
-      ,type: 'datetime'
-    });
-      });
-      </script>  
-</body>
-</html>
+                  <div class="layui-form-item">
+                      <label class="layui-form-label">考勤人员</label>
+                      <div class="layui-input-block">
+                        <input type="radio" name="sex" value="1" title="指定人员" checked="">
+                        <input type="radio" name="sex" value="2" title="指定部门">
+                        <input type="radio" name="sex" value="2" title="指定职位">
+                      </div>
+                      <div class="layui-form-mid layui-word-aux">
+                        以上分配方式均包含某个员工时，考勤组的优先级顺序指定人员>指定部门>指定职务>默认考勤组
+                      </div>
+                  </div>
+          
+                  <div class="layui-form-item">
+                      <label class="layui-form-label">管理范围</label>
+                      <div class="layui-input-inline">
+                        <select name="interest" lay-filter="aihao">
+                          <option value="0" selected="">销售部</option>
+                          <option value="1">市场部</option>
+                          <option value="2">配货部</option>
+                        </select>
+                      </div>
+                      <div class="layui-input-inline">
+                          <button type="reset" class="layui-btn layui-btn-primary">编辑</button>
+                      </div>
+                  </div>
+                </form>  
+            </div>
+        <!-- <script type="text/html" id="attsetting">
+          <a class="layui-btn layui-btn-xs" lay-event="edit">修改</i></a>
+        </script>                 
+        <script type="text/html" id="type">
+          <a class="layui-btn layui-btn-xs" lay-event="edit">修改</i></a>
+          <a class="layui-btn layui-btn-xs" lay-event="delete">删除</i></a>
+        </script>                  -->
+        <script src="../lib/layui.js"></script>
+        <!-- <script src="../js/attendance.js"></script> -->
+        <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+        <script>
+        layui.use(['element', 'table','layedit', 'laydate'], function(){
+          var $= layui.$ 
+          ,form = layui.form
+          ,layer = layui.layer
+          ,layedit = layui.layedit
+          ,laydate = layui.laydate
+          ,element = layui.element;
+          
+          //日期
+          laydate.render({
+            elem: '#gongzuoshijian1'
+            ,range: true
+            ,value: '00:00:00 - 00:00:00'
+            ,type: 'time'
+          });
+         //取消添加考勤组
+         $('.reset-attapproval').on('click',function(){
+            window.parent.layui.element.tabDelete('kt_toptab', 'add-app');
+          })
+        });
+        </script>
+        
+      </body>
+      </html>
