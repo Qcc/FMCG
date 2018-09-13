@@ -76,7 +76,7 @@
             <div><p>客户地址 : </p><p class="custmaddress"></p></div>
             <div><p>上报时间 : </p><p class="clptime"></p></div>
             <div><p>上报人 : </p><p class="empname"></p></div>
-            <div><p>现场照片 : </p><a class="phpictures" title="查看大图"><img src=""></a></div>
+            <div><p>现场照片 : </p><a class="phpictures" title="无照片"><img src="../images/no_photos.jpg"></a></div>
         </div>
         <table class="layui-table" id="clpqdtb" lay-filter="clpqdtb"></table>
       </div>
@@ -186,7 +186,7 @@
         var path = setter.root + admin.base64decode(obj.data.resourcepath);
         console.log('path',path)
         $(".phpictures>img").attr('src',path);
-        $(".phpictures").on('click',function(){
+        $(".phpictures").attr('title','查看大图').on('click',function(){
           layer.photos({
             photos: {
               "title": "现场照片", //相册标题

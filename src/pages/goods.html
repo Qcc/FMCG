@@ -10,180 +10,410 @@
         <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="../lib/css/layui.css">
         <link rel="stylesheet" href="../css/goods.min.css">
+        <style>
+        .layui-upload-img{width: 92px;height: 92px;margin: 0 10px 10px 0;}
+        </style>
     </head>
     <body style="overflow-y: scroll;">
-            <div class="layui-container-full" >
+            <div class="layui-container-full" style="padding:10px 0 50px">
               <form class="layui-form" action="">
-                <div class="layui-row">
-                  <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">考勤组名称</label>
-                      <div class="layui-input-inline">
-                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="layui-col-xs6"  style="text-align: right">
-                    <div class="layui-form-item">
-                      <button type="reset" class="layui-btn layui-btn-primary reset-attapproval">取消</button>
-                      <button type="reset" class="layui-btn ">保存</button>
+              
+              <div class="layui-form-item">
+                <label class="layui-form-label">商品名称</label>
+                <div class="layui-input-block">
+                  <input type="text" name="gozname" lay-verify="title" autocomplete="off" placeholder="请输入商品名称" class="layui-input">
+                </div>
+              </div>
+                  
+                
+              <div class="layui-inline">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">编码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="goznumber" class="layui-input">
                     </div>
                   </div>
                 </div>
-                  
-                  <div class="layui-form-item">
-                    <label class="layui-form-label">节假日设置</label>
-                      <div class="layui-input-inline">
-                        <select name="interest" lay-filter="aihao">
-                          <option value="" selected="">默认节假日</option>
-                          <option value="3">自定义节假日</option>
-                        </select>
-                      </div>
-                      <div class="layui-input-inline">
-                          <button type="reset" class="layui-btn layui-btn-primary">编辑</button>
-                      </div>
+                
+                <div class="layui-inline">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">规格</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="gozspecification" class="layui-input">
                     </div>
-                  
-                  <div class="layui-form-item">
-                      <label class="layui-form-label">考勤时间</label>
-                      <div class="layui-input-block">
-                        <input type="radio" name="sex" value="1" title="工作日每天时间相同" checked="">
-                        <input type="radio" name="sex" value="2" title="工作日每天时间不同">
-                      </div>
                   </div>
-                  
+                </div>
+                
+                <div class="layui-inline">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">助记码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="gozmnemoniccode" class="layui-input">
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="layui-inline">
                   <div class="layui-form-item">
+                    <label class="layui-form-label">排序号</label>
+                    <div class="layui-input-inline">
+                      <input type="number" name="gozsortnumber" class="layui-input">
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="layui-inline">
+                <div class="layui-form-item">
+                  <label class="layui-form-label">标签</label>
+                  <div class="layui-input-inline">
+                    <input type="text" name="gozlabel" class="layui-input">
+                  </div>
+                </div>
+                </div>
+                <hr>
+
+                <div class="layui-input-inline">
+                <div class="layui-form-item">
+                  <label class="layui-form-label">基本单位</label>
+                    <div class="layui-input-inline">
+                      <input type="text" name="gozbasunit" class="layui-input">
+                    </div>
                     <div class="layui-inline">
-                      <label class="layui-form-label">工作时间1</label>
+                        <button class="layui-btn layui-btn-primary gozbasunit">选择</button>
+                    </div>
+                </div>
+                </div>
+
+                <div class="layui-input-inline">
+                <div class="layui-form-item">
+                  <label class="layui-form-label">辅助单位</label>
+                    <div class="layui-input-inline">
+                      <input type="text" name="gozauxunit" class="layui-input">
+                    </div>
+                    <div class="layui-inline">
+                        <button type="reset" class="layui-btn layui-btn-primary gozauxunit">选择</button>
+                    </div>
+                </div>
+                </div>
+
+                <div class="layui-input-inline">
+                <div class="layui-form-item">
+                  <label class="layui-form-label">常用单位</label>
+                    <div class="layui-input-inline">
+                      <input type="text" name="gozfrequentlyusedunit" class="layui-input">
+                    </div>
+                    <div class="layui-inline">
+                        <button type="reset" class="layui-btn layui-btn-primary gozfrequentlyusedunit">选择</button>
+                    </div>
+                </div>
+                </div>
+                <hr>
+
+                <div class="layui-input-inline">
+                <div class="layui-form-item">
+                  <label class="layui-form-label">类型</label>
+                    <div class="layui-input-inline">
+                      <input type="text" name="gozclas" class="layui-input">
+                    </div>
+                    <div class="layui-inline">
+                        <button type="reset" class="layui-btn layui-btn-primary gozclas">选择</button>
+                    </div>
+                </div>
+                </div>
+                
+                <div class="layui-input-inline">
+                <div class="layui-form-item">
+                  <label class="layui-form-label">起订量单位</label>
+                    <div class="layui-input-inline">
+                      <input type="text" name="gozminorderunit" class="layui-input">
+                    </div>
+                    <div class="layui-inline">
+                        <button type="reset" class="layui-btn layui-btn-primary gozminorderunit">选择</button>
+                    </div>
+                </div>
+                </div>
+
+                <div class="layui-input-inline">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">品牌</label>
                       <div class="layui-input-inline">
-                          <input type="text" class="layui-input" id="gongzuoshijian1">
+                        <input type="text" name="gozbrand" class="layui-input">
+                      </div>
+                      <div class="layui-inline">
+                          <button type="reset" class="layui-btn layui-btn-primary gozbrand">选择</button>
+                      </div>
+                </div>
+                </div>
+                <hr>
+
+                <div class="layui-inline">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">单位条码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="gozbasunitbarcode" class="layui-input">
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="layui-inline">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">批发价格</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="gozwholesaleprice" class="layui-input">
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="layui-inline">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">零售价格</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="gozretailprice" class="layui-input">
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="layui-inline">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标箱系数</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="gozboxcoefficient" class="layui-input">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="layui-inline">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">保质期</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="gozqualityguaranteeday" class="layui-input">
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="layui-inline">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">销项税率</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="goztaxrate" value="17" class="layui-input">
+                    </div>
+                  </div>
+                </div>
+                 
+                <div class="layui-inline">
+                  <div class="layui-form-item">
+                      <label class="layui-form-label">商城起订量</label>
+                      <div class="layui-input-inline">
+                          <input type="number" name="gozminordernum" class="layui-input">
                       </div>
                     </div>
                   </div>
                   
-                  <div class="layui-row">
-                    <div class="layui-col-xs4">
-                      <div class="layui-form-item layui-inline">
-                        <label class="layui-form-label">异常定义</label>
-                        <div class="layui-form-mid layui-word-aux">迟到</div>
-                        <div class="layui-input-inline" style="width: 50px;">
-                          <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
-                      </div>
-                      <div class="layui-form-item layui-inline">
-                        <label class="layui-form-label"></label>
-                        <div class="layui-form-mid layui-word-aux">迟到</div>
-                        <div class="layui-input-inline" style="width: 50px;">
-                          <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
+                  <div class="layui-inline">
+                  <div class="layui-form-item">
+                      <label class="layui-form-label">重量</label>
+                      <div class="layui-input-inline">
+                          <input type="number" name="gozweight" class="layui-input">
                       </div>
                     </div>
-                    <div class="layui-col-xs4">
-                      <div class="layui-form-item layui-inline">
-                        <!-- <label class="layui-form-label"></label> -->
-                        <div class="layui-form-mid layui-word-aux">迟到</div>
-                        <div class="layui-input-inline" style="width: 50px;">
-                          <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+                  </div>
+
+                  <div class="layui-form-item">
+                      <div class="layui-inline">
+                        <label class="layui-form-label">商城上架</label>
+                        <div class="layui-input-inline">
+                            <input type="checkbox" name="gozonshelf" lay-skin="switch">
                         </div>
-                        <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
                       </div>
-                      <div class="layui-form-item layui-inline">
-                      <!-- <label class="layui-form-label"></label> -->
-                      <div class="layui-form-mid layui-word-aux">迟到</div>
-                      <div class="layui-input-inline" style="width: 50px;">
-                        <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
-                      </div>
-                      <div class="layui-form-mid layui-word-aux">分钟以上视为旷工半天</div>
                     </div>
+
+                  <div class="layui-form-item">
+                      <label class="layui-form-label">商品图片</label>
+                        <input type="text" name="gozpictures" class="layui-hide">
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-normal" id="uploadfile"><i class="layui-icon layui-icon-upload"></i></button>
+                        </div>
+                        <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                            预览图：
+                            <div class="layui-upload-list" id="picview"></div>
+                         </blockquote>
                     </div>
-                  </div>
-                    
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">拍照设置</label>
-                      <div class="layui-input-inline">
-                        <select name="interest" lay-filter="aihao">
-                          <option value="0" selected="">考勤异常时强制拍照</option>
-                          <option value="1">每次考勤时强制拍照</option>
-                          <option value="2">任何情况下不强制拍照</option>
-                        </select>
-                      </div>
-                  </div>
-                  
+
                   <div class="layui-form-item">
-                      <label class="layui-form-label">考勤点管理</label>
-                      <div class="layui-input-inline">
-                        <select name="interest" lay-filter="aihao">
-                          <option value="0" selected="">南山办公室</option>
-                          <option value="1">上海办公室</option>
-                          <option value="2">北京办公室</option>
-                        </select>
-                      </div>
-                      <div class="layui-input-inline">
-                          <button type="reset" class="layui-btn layui-btn-primary">编辑</button>
-                      </div>
+                      <label class="layui-form-label"></label>
+                      <button type="reset" class="layui-btn layui-btn-primary reset-attapproval">取消</button>
+                      <button type="reset" class="layui-btn ">发布商品</button>
                   </div>
-          
-                  <div class="layui-form-item">
-                      <label class="layui-form-label">考勤人员</label>
-                      <div class="layui-input-block">
-                        <input type="radio" name="sex" value="1" title="指定人员" checked="">
-                        <input type="radio" name="sex" value="2" title="指定部门">
-                        <input type="radio" name="sex" value="2" title="指定职位">
-                      </div>
-                      <div class="layui-form-mid layui-word-aux">
-                        以上分配方式均包含某个员工时，考勤组的优先级顺序指定人员>指定部门>指定职务>默认考勤组
-                      </div>
-                  </div>
-          
-                  <div class="layui-form-item">
-                      <label class="layui-form-label">管理范围</label>
-                      <div class="layui-input-inline">
-                        <select name="interest" lay-filter="aihao">
-                          <option value="0" selected="">销售部</option>
-                          <option value="1">市场部</option>
-                          <option value="2">配货部</option>
-                        </select>
-                      </div>
-                      <div class="layui-input-inline">
-                          <button type="reset" class="layui-btn layui-btn-primary">编辑</button>
-                      </div>
-                  </div>
+
                 </form>  
             </div>
-        <!-- <script type="text/html" id="attsetting">
-          <a class="layui-btn layui-btn-xs" lay-event="edit">修改</i></a>
-        </script>                 
-        <script type="text/html" id="type">
-          <a class="layui-btn layui-btn-xs" lay-event="edit">修改</i></a>
-          <a class="layui-btn layui-btn-xs" lay-event="delete">删除</i></a>
-        </script>                  -->
-        <script src="../lib/layui.js"></script>
-        <!-- <script src="../js/attendance.js"></script> -->
-        <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-        <script>
-        layui.use(['element', 'table','layedit', 'laydate'], function(){
-          var $= layui.$ 
-          ,form = layui.form
-          ,layer = layui.layer
-          ,layedit = layui.layedit
-          ,laydate = layui.laydate
-          ,element = layui.element;
-          
-          //日期
-          laydate.render({
-            elem: '#gongzuoshijian1'
-            ,range: true
-            ,value: '00:00:00 - 00:00:00'
-            ,type: 'time'
+  <!-- 基本单位开始 -->
+  <div  id="jbdw" style="display: none;">
+      <button  class="layui-btn layui-btn-primary layui-btn-sm empenter" style="margin-left:20px"><i class="layui-icon">&#xe654;</i>选择</button>
+      <div class="layui-btn-group" style="position: relative;left: 200px;">
+        <button class="layui-btn layui-btn-primary layui-btn-sm goodsedit"><i class="layui-icon">&#xe642;</i>修改</button>
+        <button class="layui-btn layui-btn-primary layui-btn-sm goodsdelete"><i class="layui-icon">&#xe640;</i>删除</button>
+        <button class="layui-btn layui-btn-primary layui-btn-sm empcancel"><i class="layui-icon">&#xe602;</i>取消</button>
+      </div>
+      <table class="layui-table" id="jbdwtb" style="margin-top: 0px"></table>
+  </div>
+  <!-- 基本单位结束 -->
+      <script src="../lib/layui.js"></script>   
+  <script>
+  layui.config({
+    base: '../compontents/' //静态资源所在路径
+  }).extend({
+    admin: 'admin' //主入口模块
+  }).use(['element', 'table','form','admin','upload','layer'], function(){
+    var $= layui.$ 
+    ,form = layui.form
+    ,layer = layui.layer
+    ,admin = layui.admin
+    ,table = layui.table
+    ,setter = layui.setter
+    ,upload = layui.upload
+    ,element = layui.element;
+    
+  //多图片上传
+  upload.render({
+    elem: '#uploadfile'
+    ,url: setter.root + '/resource/upload.api'
+    ,multiple: true
+    ,number:10
+    ,auto: false
+    ,size:2048
+    ,choose: function(obj){
+      //预读本地文件示例，不支持ie8
+      obj.preview(function(index, file, result){
+        $('#picview').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+      });
+    }
+    ,done: function(res){
+      //上传完毕
+    }
+  });
+
+  // 基本单位
+  $('.gozbasunit').on('click',function(e){
+    var cols= [[
+            {type:'radio'}
+            ,{field:'gozunitname', title: '单位名称'}
+            ,{field:'gozunitsortnumber', title: '单位排序号', sort: true}
+            ,{field:'gozunitconversionrate', title: '换算率'}
+            ]];
+    getBasicData('商品基本单位','eos_goodsunit',cols);
+    e.preventDefault();
+  });
+  // 辅助单位
+  $('.gozauxunit').on('click',function(e){
+    var cols= [[
+            {type:'radio'}
+            ,{field:'gozauxunitbarcode', title: '条形码'}
+            ,{field:'gozauxunit', title: '辅助单位', sort: true}
+            ,{field:'gozuid', title: '商品'}
+            ]];
+    getBasicData('商品辅助单位','eos_goodsauxiliaryunit',cols);
+    e.preventDefault();
+  });
+  // 常用单位
+  $('.gozfrequentlyusedunit').on('click',function(e){
+    var cols= [[
+            {type:'radio'}
+            ,{field:'gozunitname', title: '单位名称'}
+            ,{field:'gozunitsortnumber', title: '单位排序号', sort: true}
+            ,{field:'gozunitconversionrate', title: '换算率'}
+            ]];
+    getBasicData('商品常用单位','eos_goodsunit',cols);
+    e.preventDefault();
+  });
+  // 商品类型
+  $('.gozclas').on('click',function(e){
+    var cols= [[
+            {type:'radio'}
+            ,{field:'gozclasname', title: '类型名称'}
+            ,{field:'gozclassortnumber', title: '类型排序号', sort: true}
+            ,{field:'gozclasparent', title: '上级类型'}
+            ]];
+    getBasicData('商品类型','eos_goodsclass',cols);
+    e.preventDefault();
+  });
+  // 商品起订量单位
+  $('.gozminorderunit').on('click',function(e){
+    var cols= [[
+            {type:'radio'}
+            ,{field:'gozunitname', title: '单位名称'}
+            ,{field:'gozunitsortnumber', title: '单位排序号', sort: true}
+            ,{field:'gozunitconversionrate', title: '换算率'}
+            ]];
+    getBasicData('商品基本单位','eos_goodsunit',cols);
+    e.preventDefault();
+  });
+  // 商品品牌
+  $('.gozbrand').on('click',function(e){
+    var cols= [[
+            {type:'radio',}
+            ,{field:'gozbrandname', title: '品牌名称'}
+            ,{field:'gozbrandsortnumber', title: '品牌排序号', sort: true}
+            ,{field:'gozbranddept', title: '所属部门'}
+            ]];
+    getBasicData('商品品牌','eos_goodsbrand',cols);
+    e.preventDefault();
+  });
+
+  function getBasicData(title,model,cols){
+  var emplayer = layer.open({
+      type: 1,
+      title:title,
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      // maxmin:1,
+      content: $('#jbdw')
+    });
+    var empTable = table.render({
+      elem: '#jbdwtb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      // height:357,
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: model,
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: model,
+            api: 'read',
+            // columns:['*', 'dept$$org_department.deptname AS deptname'],
+	        }])},
+          cols: cols,
+          page: true,
+          done: function(res, curr, count){
+          }
           });
-         //取消添加考勤组
-         $('.reset-attapproval').on('click',function(){
-            window.parent.layui.element.tabDelete('kt_toptab', 'add-app');
-          })
-        });
-        </script>
-        
-      </body>
-      </html>
+    // 选择数据
+    $('.empenter').off('click').on('click',function(){
+      var checkStatus = table.checkStatus('jbdwtb')
+      layer.close(emplayer);
+    })
+    // 取消选择
+    $('.empcancel').off('click').on('click',function(){
+      layer.close(emplayer);
+    });
+    // 修改数据
+    $('.goodsedit').off('click').on('click',function(){
+      layer.close(emplayer);
+    });
+    // 删除数据
+    $('.goodsdelete').off('click').on('click',function(){
+      layer.close(emplayer);
+    });
+}
+
+});
+  </script>
+  
+</body>
+</html>
