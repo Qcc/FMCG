@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<!-- 商品添加 页面 -->
+<!-- 商品管理 页面 -->
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>添加商品-快销宝-深圳市沟通科技有限公司</title>
+        <title>商品管理-快销宝-深圳市沟通科技有限公司</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
@@ -15,528 +15,174 @@
         </style>
     </head>
     <body style="overflow-y: scroll;">
-            <div class="layui-container-full" style="padding:10px 0 50px">
-              <form class="layui-form" action="">
-              
-              <div class="layui-form-item">
-                <label class="layui-form-label">商品名称</label>
-                <div class="layui-input-block">
-                  <input type="text" name="gozname" lay-verify="title" autocomplete="off" placeholder="请输入商品名称" class="layui-input">
-                </div>
-              </div>
-                  
-                
-              <div class="layui-inline">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">编码</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="goznumber" placeholder="请输入商品编码" class="layui-input">
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="layui-inline">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">规格</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="gozspecification" placeholder="请输入商品规格" class="layui-input">
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="layui-inline">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">助记码</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="gozmnemoniccode" placeholder="请输入助记码" class="layui-input">
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="layui-inline">
-                  <div class="layui-form-item">
-                    <label class="layui-form-label">排序号</label>
-                    <div class="layui-input-inline">
-                      <input type="number" name="gozsortnumber" placeholder="请输入排序号" class="layui-input">
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="layui-inline">
-                <div class="layui-form-item">
-                  <label class="layui-form-label">标签</label>
-                  <div class="layui-input-inline">
-                    <input type="text" name="gozlabel" placeholder="请输入标签" class="layui-input">
-                  </div>
-                </div>
-                </div>
-                <hr>
-
-                <div class="layui-input-inline">
-                <div class="layui-form-item">
-                  <label class="layui-form-label">基本单位</label>
-                    <div class="layui-input-inline">
-                      <input type="text" name="gozbasunit" placeholder="请选择基本单位" class="layui-input">
-                    </div>
-                    <div class="layui-inline">
-                        <button class="layui-btn layui-btn-primary gozbasunit">选择</button>
-                    </div>
-                </div>
-                </div>
-
-                <div class="layui-input-inline">
-                <div class="layui-form-item">
-                  <label class="layui-form-label">辅助单位</label>
-                    <div class="layui-input-inline">
-                      <input type="text" name="gozauxunit" placeholder="请选择辅助单位" class="layui-input">
-                    </div>
-                    <div class="layui-inline">
-                        <button type="reset" class="layui-btn layui-btn-primary gozauxunit">选择</button>
-                    </div>
-                </div>
-                </div>
-
-                <div class="layui-input-inline">
-                <div class="layui-form-item">
-                  <label class="layui-form-label">常用单位</label>
-                    <div class="layui-input-inline">
-                      <input type="text" name="gozfrequentlyusedunit" placeholder="请选择常用单位" class="layui-input">
-                    </div>
-                    <div class="layui-inline">
-                        <button type="reset" class="layui-btn layui-btn-primary gozfrequentlyusedunit">选择</button>
-                    </div>
-                </div>
-                </div>
-                <hr>
-
-                <div class="layui-input-inline">
-                <div class="layui-form-item">
-                  <label class="layui-form-label">类型</label>
-                    <div class="layui-input-inline">
-                      <input type="text" name="gozclas" placeholder="请选择类型" class="layui-input">
-                    </div>
-                    <div class="layui-inline">
-                        <button type="reset" class="layui-btn layui-btn-primary gozclas">选择</button>
-                    </div>
-                </div>
-                </div>
-                
-                <div class="layui-input-inline">
-                <div class="layui-form-item">
-                  <label class="layui-form-label">起订量单位</label>
-                    <div class="layui-input-inline">
-                      <input type="text" name="gozminorderunit" placeholder="请输入最小起订量" class="layui-input">
-                    </div>
-                    <div class="layui-inline">
-                        <button type="reset" class="layui-btn layui-btn-primary gozminorderunit">选择</button>
-                    </div>
-                </div>
-                </div>
-
-                <div class="layui-input-inline">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">品牌</label>
-                      <div class="layui-input-inline">
-                        <input type="text" name="gozbrand" placeholder="请选择品牌" class="layui-input">
-                      </div>
-                      <div class="layui-inline">
-                          <button type="reset" class="layui-btn layui-btn-primary gozbrand">选择</button>
-                      </div>
-                </div>
-                </div>
-                <hr>
-
-                <div class="layui-inline">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">单位条码</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="gozbasunitbarcode" placeholder="请输入条形码" class="layui-input">
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="layui-inline">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">批发价格</label>
-                    <div class="layui-input-inline">
-                        <input type="number" name="gozwholesaleprice" placeholder="请输入批发价" class="layui-input">
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="layui-inline">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">零售价格</label>
-                    <div class="layui-input-inline">
-                        <input type="number" name="gozretailprice" placeholder="请输入零售价" class="layui-input">
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="layui-inline">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">标箱系数</label>
-                    <div class="layui-input-inline">
-                        <input type="number" name="gozboxcoefficient" class="layui-input">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="layui-inline">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">保质期</label>
-                    <div class="layui-input-inline">
-                        <input type="number" name="gozqualityguaranteeday" placeholder="请输入保质期(天)" class="layui-input">
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="layui-inline">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">销项税率</label>
-                    <div class="layui-input-inline">
-                        <input type="number" name="goztaxrate" value="16" placeholder="请输入税率" class="layui-input">
-                    </div>
-                  </div>
-                </div>
-                 
-                <div class="layui-inline">
-                  <div class="layui-form-item">
-                      <label class="layui-form-label">商城起订量</label>
-                      <div class="layui-input-inline">
-                          <input type="number" name="gozminordernum" placeholder="请输入商城起订量" class="layui-input">
-                      </div>
-                    </div>
-                  </div>
-                  
+        <div class="layui-tab layui-tab-brief" lay-filter="task" style="margin: 0px;">
+          <ul class="layui-tab-title">
+            <li class="layui-this">全部商品</li>
+          </ul>
+          <div class="layui-tab-content" style="padding: 0px;">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
                   <div class="layui-inline">
-                  <div class="layui-form-item">
-                      <label class="layui-form-label">重量</label>
+                    <form class="layui-form" action="">
                       <div class="layui-input-inline">
-                          <input type="number" name="gozweight" placeholder="请输入净重" class="layui-input">
+                          <div class="layui-input-inline">
+                              <div class="layui-input-inline" style="margin-right: -5px;">
+                                <input type="text" style="height: 30px;" name="number" placeholder="搜索商品名称" autocomplete="off" class="layui-input">
+                              </div>
+                              <div class="layui-btn-group">
+                                <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i> </button>
+                              </div>
+                            </div>
                       </div>
-                    </div>
+                  </form>
+                </div>
+                  <div class="layui-btn-group">
+                    <button class="layui-btn layui-btn-sm btnsc">添加</button>
+                    <button class="layui-btn layui-btn-sm btnstyle">上架</button>
+                    <button class="layui-btn layui-btn-sm btnstyle">下架</button>
+                    <button class="layui-btn layui-btn-sm btnstyle">删除</button>
                   </div>
-
-                  <div class="layui-form-item">
-                      <div class="layui-inline">
-                        <label class="layui-form-label">商城上架</label>
-                        <div class="layui-input-inline">
-                            <input type="checkbox" name="gozonshelf" lay-skin="switch">
-                        </div>
-                      </div>
-                    </div>
-
-                  <div class="layui-form-item">
-                      <label class="layui-form-label">商品图片</label>
-                        <input type="text" name="gozpictures" class="layui-hide">
-                        <div class="layui-input-block">
-                            <button type="button" class="layui-btn layui-btn-normal" id="uploadfile"><i class="layui-icon layui-icon-upload"></i></button>
-                        </div>
-                        <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
-                            预览图：
-                            <div class="layui-upload-list" id="picview"></div>
-                         </blockquote>
-                    </div>
-
-                  <div class="layui-form-item">
-                      <label class="layui-form-label"></label>
-                      <button type="reset" class="layui-btn layui-btn-primary reset-attapproval">取消</button>
-                      <button type="reset" class="layui-btn ">发布商品</button>
-                  </div>
-
-                </form>  
+              </div>
+              <!-- 全部文档 -->
+              <table class="layui-table" id="qbtb" lay-filter="qbtb"></table>
             </div>
-  <!-- 基本单位开始 -->
-  <div  id="jbdw" style="display: none;">
-      <button  class="layui-btn layui-btn-primary layui-btn-sm empenter" style="margin-left:20px"><i class="layui-icon">&#xe605;</i>选择</button>
-      <div class="layui-btn-group" style="position: relative;left: 140px;">
-          <button  class="layui-btn layui-btn-primary layui-btn-sm goodsadd" style="margin-left:20px"><i class="layui-icon">&#xe654;</i>新增</button>
-        <button class="layui-btn layui-btn-primary layui-btn-sm goodsedit"><i class="layui-icon">&#xe642;</i>修改</button>
-        <button class="layui-btn layui-btn-primary layui-btn-sm goodsdelete"><i class="layui-icon">&#xe640;</i>删除</button>
-        <button class="layui-btn layui-btn-primary layui-btn-sm empcancel"><i class="layui-icon">&#xe602;</i>取消</button>
-      </div>
-      <table class="layui-table" id="jbdwtb" style="margin-top: 0px"></table>
-  </div>
-  <!-- 基本单位结束 -->
-  <!-- 修改单位开始 -->
-  <div  id="xgdw" style="display: none;">
-    <form class="layui-form" lay-filter="xgdw"></form>
-  </div>
-  <!-- 修改单位结束 -->
-      <script src="../lib/layui.js"></script>   
-  <script>
-  layui.config({
+          </div>
+        </div>    
+    <script type="text/html" id="img">
+      {{# var path = layui.setter.root + layui.admin.base64decode(d.resourcepath)}}
+        <a><img style="max-width: 35px;" src={{ path }}></a>
+      </script>
+    <script type="text/html" id="setting">
+        <a class="layui-btn layui-btn-xs" style="background-color:#FF5722" lay-event="delete">修改</a>
+      </script>
+      <script type="text/html" id="switchTpl">
+        <!-- 这里的 checked 的状态只是演示 -->
+        <input type="checkbox" name="gozonshelf" value="{{d.gozonshelf}}" lay-skin="switch"  lay-filter="gozonshelf" {{ d.gozonshelf == 1 ? 'checked' : '' }}>
+      </script>
+  
+    <script src="../lib/layui.js"></script>
+    <!-- <script src="../js/attendance.js"></script> -->
+     
+    <script>
+    layui.config({
     base: '../compontents/' //静态资源所在路径
   }).extend({
     admin: 'admin' //主入口模块
-  }).use(['element', 'table','form','admin','upload','layer'], function(){
-    var $= layui.$ 
-    ,form = layui.form
-    ,layer = layui.layer
-    ,admin = layui.admin
-    ,table = layui.table
-    ,setter = layui.setter
-    ,upload = layui.upload
-    ,element = layui.element;
-    
-  //多图片上传
-  upload.render({
-    elem: '#uploadfile'
-    ,url: setter.root + '/resource/upload.api'
-    ,multiple: true
-    ,number:10
-    ,auto: false
-    ,size:2048
-    ,choose: function(obj){
-      //预读本地文件示例，不支持ie8
-      obj.preview(function(index, file, result){
-        $('#picview').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
-      });
-    }
-    ,done: function(res){
-      //上传完毕
-    }
-  });
+  }).use(['element','form','table','layer','admin','laydate','upload'], function(){
+  var $ = layui.jquery
+  ,element = layui.element
+  ,form = layui.form
+  ,setter = layui.setter
+  ,admin = layui.admin
+  ,layer = layui.layer
+  ,table = layui.table
+  ,upload = layui.upload
+//   ,count = 0;
+  var list = true // 列表/平铺
+    ,alltb = false; //首次加载数据
 
-  // 基本单位
-  $('.gozbasunit').on('click',function(e){
-    var cols= [[
-            {type:'radio'}
-            ,{field:'gozunitname', title: '单位名称'}
-            ,{field:'gozunitsortnumber', title: '单位排序号', sort: true}
-            ,{field:'gozunitconversionrate', title: '换算率'}
-            ]];
-    getBasicData('商品基本单位','eos_goodsunit',cols);
-    e.preventDefault();
-  });
-  // 辅助单位
-  $('.gozauxunit').on('click',function(e){
-    var cols= [[
-            {type:'radio'}
-            ,{field:'gozauxunitbarcode', title: '条形码'}
-            ,{field:'gozauxunit', title: '辅助单位', sort: true}
-            ,{field:'gozuid', title: '商品'}
-            ]];
-    getBasicData('商品辅助单位','eos_goodsauxiliaryunit',cols);
-    e.preventDefault();
-  });
-  // 常用单位
-  $('.gozfrequentlyusedunit').on('click',function(e){
-    var cols= [[
-            {type:'radio'}
-            ,{field:'gozunitname', title: '单位名称'}
-            ,{field:'gozunitsortnumber', title: '单位排序号', sort: true}
-            ,{field:'gozunitconversionrate', title: '换算率'}
-            ]];
-    getBasicData('商品常用单位','eos_goodsunit',cols);
-    e.preventDefault();
-  });
-  // 商品类型
-  $('.gozclas').on('click',function(e){
-    var cols= [[
-            {type:'radio'}
-            ,{field:'gozclasname', title: '类型名称'}
-            ,{field:'gozclassortnumber', title: '类型排序号', sort: true}
-            ,{field:'gozclasparent', title: '上级类型'}
-            ]];
-    getBasicData('商品类型','eos_goodsclass',cols);
-    e.preventDefault();
-  });
-  // 商品起订量单位
-  $('.gozminorderunit').on('click',function(e){
-    var cols= [[
-            {type:'radio'}
-            ,{field:'gozunitname', title: '单位名称'}
-            ,{field:'gozunitsortnumber', title: '单位排序号', sort: true}
-            ,{field:'gozunitconversionrate', title: '换算率'}
-            ]];
-    getBasicData('商品基本单位','eos_goodsunit',cols);
-    e.preventDefault();
-  });
-  // 商品品牌
-  $('.gozbrand').on('click',function(e){
-    var cols= [[
-            {type:'radio',}
-            ,{field:'gozbrandname', title: '品牌名称'}
-            ,{field:'gozbrandsortnumber', title: '品牌排序号', sort: true}
-            ,{field:'gozbranddept', title: '所属部门'}
-            ]];
-    getBasicData('商品品牌','eos_goodsbrand',cols);
-    e.preventDefault();
-  });
-  // 渲染对象数据表格
-  function getBasicData(title,model,cols){
-  var emplayer = layer.open({
-      type: 1,
-      title:title,
-      // skin: 'layui-layer-demo', //样式类名
-      closeBtn: 1, //不显示关闭按钮
-      anim: 2,
-      area: ['500px', '480px'],
-      shadeClose: true, //开启遮罩关闭
-      offset: '20px',
-      // maxmin:1,
-      content: $('#jbdw')
-    });
-    var empTable = table.render({
-      elem: '#jbdwtb',
+  // 加载全部文档
+  var splan = table.render({
+      elem: '#qbtb',
       url: setter.layuiqueryapi,
       method:'post',
-      // height:357,
       where: 	{jsonparam: JSON.stringify([{
             solve_name_conflict: false,
-        		model: model,
+        		model: 'eos_goods',
         		api: 'read',
 	        	columns: ['count(uid) AS total'],
 	        },{
-        		model: model,
+        		model: 'eos_goods',
             api: 'read',
-            // columns:['*', 'dept$$org_department.deptname AS deptname'],
-	        }])},
-          cols: cols,
-          page: true,
-          done: function(res, curr, count){
-          }
-          });
-    // 选择数据
-    $('.empenter').off('click').on('click',function(){
-      var checkStatus = table.checkStatus('jbdwtb');
-      console.log(checkStatus);
-      layer.close(emplayer);
-    })
-    // 取消选择
-    $('.empcancel').off('click').on('click',function(){
-      layer.close(emplayer);
-    });
-    // 新增数据
-    $('.goodsadd').off('click').on('click',function(){
-      createFormItem(cols,"新增",null,model,empTable);
-    });
-    // 修改数据
-    $('.goodsedit').off('click').on('click',function(){
-      var checkStatus = table.checkStatus('jbdwtb');
-      if(checkStatus.data.length === 0){
-        layer.msg('没有选择任何数据');
-        return;
+            columns:['*', 'gozbasunit$$eos_goodsunit.gozunitname AS gozunitname','gozbrand$$eos_goodsbrand.gozbrandname AS gozbrandname','gozpictures$$bas_resource.resourcepath AS resourcepath'],
+            association: {  	
+              gozbasunit: {},
+              gozbrand:{},
+              gozpictures:{}
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
+             }
+            ],
+            // condition:{"simple":{"item1":{"column":"approver","cop":"=","value":admin.iam()}}}
+          }])
+        },
+      cols: [[
+          {type:'checkbox'}
+          ,{field:'resourcepath', title: '商品',templet:'#img'}
+          ,{field:'gozname', title: '名称'}
+          ,{field:'gozbrandname', title: '品牌', sort: true}
+          ,{field:'gozunitname', title: '单位'}
+          ,{field:'gozonshelf', title: '是否上架',templet:'#switchTpl'}
+          ,{field:'', title: '操作',toolbar: '#setting'}
+        ]],
+      page: true,
+      done: function(res, curr, count){
+        sPtb = true;
       }
-      var data = checkStatus.data
-      console.log('修改数据')
-      createFormItem(cols,"修改",data[0],model,empTable);
-    });
-    // 删除数据
-    $('.goodsdelete').off('click').on('click',function(){
-      var checkStatus = table.checkStatus('jbdwtb');
-      if(checkStatus.data.length === 0){
-        layer.msg('没有选择任何数据');
-        return;
-      }
-      var data = checkStatus.data[0];
-      admin.req({
-        url: setter.standardapi
-        ,data: {model:model,api:'delete',jsonparam: JSON.stringify({
+      });
+  // 删除文件
+  table.on('tool(wdtb)', function(obj){
+    if(obj.event === 'delete'){
+      layer.confirm('真的删除么', function(index){
+          admin.req({
+          url: setter.standardapi //实际使用请改成服务端真实接口
+          ,data: {
+            model:'oa_doc',
+            api:'delete',
+            jsonparam: JSON.stringify({
               condition: {
                 simple: {
                   item1: {
                     column: 'uid',
                     cop: '=',
-                    value: data.uid
+                    value: obj.data.uid
                   }
                 }
               }
-            })}      
-          ,success: function(res){
-            if(res.errorCode === 0){empTable.reload();}
-            }
-          ,error: function(res){layer.msg('删除失败', {offset: '15px',icon: 5,time: 1000});}
-        });
-    });
-}
-  // 通过所选对象 渲染对象表单
-  function createFormItem(cols,title,data,model,empTable){
-    $('#xgdw>form').empty();
-      var columns = cols[0];
-      var formItem = ""
-      for (let i = 1; i < columns.length; i++) {
-        formItem += "<div class=layui-form-item><label class=layui-form-label>"
-        + columns[i].title + "</label><div class=layui-input-inline><input type=text name="
-        +columns[i].field + " autocomplete=off placeholder=请输入"
-        +columns[i].title + " class=layui-input></div></div>"
-      }
-      if( title === '修改'){
-        formItem += "<div class=layui-form-item><input name=uid style='display:none'></div>"
-      }
-      formItem += "<div class=layui-form-item><label class=layui-form-label></label><button model="
-      + model +" lay-submit lay-filter='btnxgdw' class=layui-btn>确定</button><button class='layui-btn layui-btn-primary editcancel'>取消</button></div>"
-      $('#xgdw>form').prepend(formItem);
-      var editlayer = layer.open({
-      type: 1,
-      title: title,
-      closeBtn: 1, //不显示关闭按钮
-      anim: 2,
-      area: ['400px', '370px'],
-      offset: '40px',
-      content: $('#xgdw')
-      });
-      if( title === '修改'){
-        form.val("xgdw", data);
-      }
-      $('.editcancel').off('click').on('click',function(e){
-        layer.close(editlayer);
-        e.preventDefault();
-      })
-      console.log(1);
-  // 内部提交表单 增删改查
-  form.on('submit(btnxgdw)', function(data){
-  var model = $(data.elem).attr('model');
-  var data = data.field
-  for (const key in data) {
-    if(data[key] === ''){
-      delete data[key];
-    }
-    if (key === 'uid') {
-      admin.req({
-        url: setter.standardapi
-        ,data: {model:model,api:'update',jsonparam: JSON.stringify({
-          entity:data,
-          condition: {
-            simple: {
-              item1: {
-                column: 'uid',
-                cop: '=',
-                value: data.uid
-              }
-            }
-          }
-        })}      
-          ,success: function(res){
-            if(res.errorCode === 0){empTable.reload();}else{layer.msg('修改失败', {offset: '15px',icon: 5,time: 1000});}
-            }
-          ,error: function(res){layer.msg('修改失败', {offset: '15px',icon: 5,time: 1000});}
-        });
-    }else{
-      admin.req({
-        url: setter.standardapi
-        ,data: {model:model,api:'create',jsonparam: JSON.stringify(data)}      
+            })
+          }  
           ,success: function(res){
             if(res.errorCode === 0){
-              empTable.reload();
-            }else{
-              layer.msg('新增失败', {offset: '15px',icon: 5,time: 1000});
+              obj.del();
             }
           }
-          ,error: function(res){layer.msg('新增失败', {offset: '15px',icon: 5,time: 1000});}
+          ,error: function(res){
+            layer.msg('删除失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
+        });
+        layer.close(index);
         });
     }
-    
-    layer.close(editlayer);
-  }
-  return false;
   });
-  }
 
-});
-  </script>
+ //监听上架下架
+ form.on('switch(gozonshelf)', function(obj){
+    layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+  });
+
+// 切换文件显示样式  平铺/列表
+  $('.btnstyle').on('click',function(e){
+      if(list){
+        $('.layui-icon-app').removeClass('layui-icon-app').addClass('layui-icon-template');
+        list = false;  
+      }else{
+        $('.layui-icon-template').removeClass('layui-icon-template').addClass('layui-icon-app');
+        list = true;  
+      }
+  });
   
-</body>
+ 
+  
+ 
+   
+});
+    </script>  
+    </body>
 </html>
