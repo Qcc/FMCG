@@ -1,28 +1,268 @@
 <!DOCTYPE html>
-<!-- 订货订单 页面 -->
+<!-- 订货清单 页面 -->
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>首页-快销宝-深圳市沟通科技有限公司</title>
+        <title>订货清单-快销宝-深圳市沟通科技有限公司</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
         <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="../lib/css/layui.css">
-        <link rel="stylesheet" href="../css/ordergoods.min.css">
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+        <link rel="stylesheet" href="../css/shelves.min.css">
+        <style>
+          /* 订货清单 */
+  .phqdpanl{
+    display: none;
+    text-align: center;
+    color: #393D49;
+    margin: 0 60px;
+    font-size: 15px;
+  }
+  .phqdpanl h2{
+    margin-bottom: 30px;
+  }
+  .phqdpanl p,.ph-content div{
+    display: inline;
+  }
+  .ph-content div{
+    margin: 20px 20px;
+    line-height: 40px;
+  }
+  .ph-content img{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 50%;
+  }
+  .ph-content a{
+    cursor: pointer;
+  }
+  </style>
     </head>
-    <body>
-    <div class="x-body layui-anim layui-anim-up">
-        <blockquote class="layui-elem-quote">订货订单 ：
-            <span class="x-red">test</span>！当前时间:2018-05-28 20:50:53</blockquote>
-    </div>
+    <body style="overflow-y: scroll;">
+        <div class="layui-tab layui-tab-brief" lay-filter="task" style="margin: 0px;">
+          <ul class="layui-tab-title">
+            <li class="layui-this">订货清单</li>
+            <!-- <li>我的文档</li> -->
+          </ul>
+          <div class="layui-tab-content" style="padding: 0px;">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
+                  <div class="layui-inline">
+                    <form class="layui-form" action="">
+                      <div class="layui-input-inline select-height">
+                        <div class="layui-input-inline">
+                          <div class="layui-input-inline" style="margin-right: -5px;">
+                            <input type="text" style="height: 30px;" name="number" placeholder="搜索清单" autocomplete="off" class="layui-input">
+                          </div>
+                          <div class="layui-btn-group">
+                            <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i> </button>
+                          </div>
+                        </div>
+                      </div>
+                  </form>
+                </div>
+                  
+              </div>
+              <!-- 全部文档 -->
+              <table class="layui-table" id="phqdtb" lay-filter="phqdtb"></table>
+            </div>
+    <!-- 订货清单开始 -->
+    <div id="phqdpanl" class="phqdpanl">
+        <h2>订货清单</h2>
+        <div class="ph-content">
+            <div><p>客户 : </p><p class="custmname"></p></div>
+            <div><p>客户地址 : </p><p class="custmaddress"></p></div>
+            <div><p>收货人 : </p><p class="custmcontact"></p></div>
+            <div><p>订货说明 : </p><p class="odcomment"></p></div>
+            <div><p>订货时间 : </p><p class="oddatetime"></p></div>
+            <div><p>订货人 : </p><p class="empname"></p></div>
+            <div><p>订货照片 : </p><a class="oddpictures" title="无照片"><img src="../images/no_photos.jpg"></a></div>
+        </div>
+        <table class="layui-table" id="phtb" lay-filter="phtb"></table>
+      </div>
+    <!-- 订货清单结束 -->
+    <script type="text/html" id="setting">
+        <a class="layui-btn layui-btn-xs" lay-event="view" >查看</a>
+      </script>
+    <script type="text/html" id="time">
+        {{# var t = layui.admin.formatDateTime(d.oddatetime); }}
+        <span>{{ t }}</span>
+      </script>
     <script src="../lib/layui.js"></script>
-    <script src="../js/ordergoods.min.js"></script>
-    
+    <!-- <script src="../js/attendance.js"></script> -->
+     
+    <script>
+    layui.config({
+    base: '../compontents/' //静态资源所在路径
+  }).extend({
+    admin: 'admin' //主入口模块
+  }).use(['element','form','table','layer','admin','laydate','upload'], function(){
+  var $ = layui.jquery
+  ,element = layui.element
+  ,form = layui.form
+  ,setter = layui.setter
+  ,admin = layui.admin
+  ,layer = layui.layer
+  ,table = layui.table
+
+  // 加载全部订货
+  var splan = table.render({
+      elem: '#phqdtb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'eos_order',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'eos_order',
+            api: 'read',
+            columns:['*', 'odoriginator$$org_employee.empname AS empname',
+            'odcustomer$$crm_customer.custmname AS custmname',
+            'odcustomer$$crm_customer.custmcontact AS custmcontact',
+            'odpictures$$bas_resource.resourcegroupnumber AS resourcegroupnumber',
+           'odcustomer$$crm_customer.custmaddress AS custmaddress',],
+            association: {  	
+              odoriginator: {},
+              odcustomer:{},
+              odapprover:{},
+              odpictures:{},
+              oddetaillist: {
+	              	collection: 1,
+	              	association_model: 'eos_oddetaillist',
+                  association_column: 'oddlgroupid',
+                  columns:['*','oddlgoods$$eos_goods.gozname AS gozname',
+                'oddlunit$$eos_goodsunit.gozunitname AS gozunitname',],
+	                association: {
+                    oddlgoods: {},
+                    oddlunit:{}
+	                }
+	              }
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
+             }
+            ],
+            // condition:{"simple":{"item1":{"column":"approver","cop":"=","value":admin.iam()}}}
+          }])
+        },
+      cols: [[
+          {type:'checkbox'}
+          ,{field:'odnumber', title: '订单号'}
+          ,{field:'custmname', title: '客户'}
+          ,{field:'custmcontact', title: '收货人'}
+          ,{field:'odcomment', title: '订货说明'}
+          ,{field:'oddatetime', title: '订货时间', sort: true,templet:'#time'}
+          ,{field:'empname', title: '订货人'}
+          ,{field:'', title: '操作',toolbar: '#setting'}
+        ]],
+      page: true,
+      done: function(res, curr, count){
+      }
+      });
+  // 查看订货清单
+  table.on('tool(phqdtb)', function(obj){
+    if(obj.event === 'view'){
+      var phlayer =layer.open({
+        type: 1,
+        title:'订货清单',
+        // skin: 'layui-layer-demo', //样式类名
+        closeBtn: 1, //不显示关闭按钮
+        // maxmin:true,
+        anim: 2,
+        area: ['600px', '500px'],
+        // shadeClose: false, //开启遮罩关闭
+        offset: '20px',
+        content: $('#phqdpanl')
+      });
+      layer.full(phlayer);
+      $(".custmname").text(obj.data.custmname);
+      $(".custmaddress").text(obj.data.custmaddress);
+      $(".custmcontact").text(obj.data.custmcontact);
+      $(".odcomment").text(obj.data.odcomment);
+      $(".oddatetime").text( admin.formatDateTime(obj.data.oddatetime));
+      $(".empname").text(obj.data.empname);
+      if(obj.data.resourcegroupnumber){
+        $(".oddpictures").empty();
+        //展示图片
+    admin.req({
+        url: setter.standardapi
+        ,data: {model:'bas_resource',api:'read',jsonparam: JSON.stringify({
+          condition: {
+                simple: {
+                  item1: {
+                    column: 'resourcegroupnumber',
+                    cop: '=',
+                    value: obj.data.resourcegroupnumber
+                  }
+                }
+              }
+        })}      
+          ,success: function(res){
+            if(res.errorCode === 0){
+              var data = [];
+              for (let i = 0; i < res.entity.length; i++) {
+                  var item={};
+                  res.entity[i].resourcepath = setter.root + admin.base64decode(res.entity[i].resourcepath);
+                  item.alt = res.entity[i].resourcename,
+                  item.pid = res.entity[i].uid, 
+                  item.src = res.entity[i].resourcepath, 
+                  item.thumb = res.entity[i].resourcepath
+                  data.push(item);
+                  $(".oddpictures").append('<img src="'+ res.entity[i].resourcepath +'" class="layui-upload-img">');
+              }
+              console.log(data);
+              $(".oddpictures").attr('title','查看大图').on('click',function(){
+                layer.photos({
+                  photos: {
+                    "title": "现场照片", //相册标题
+                    "id": 123, //相册id
+                    "start": 0, //初始显示的图片序号，默认0
+                    "data":data
+                    // "data": [   //相册包含的图片，数组格式
+                    //   {
+                    //     "alt": "现场",
+                    //     "pid": 666, //图片id
+                    //     "src": path, //原图地址
+                    //     "thumb": "" //缩略图地址
+                    //   }
+                    // ]
+                  }
+                  ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+                });
+              });
+
+            }else{
+              layer.msg('获取资源分组失败', {offset: '15px',icon: 5,time: 1000});
+            }
+          }
+          ,error: function(res){layer.msg('获取资源分组失败', {offset: '15px',icon: 5,time: 1000});}
+        });
+        
+      }
+      // 加载订货商品
+  var splan = table.render({
+      elem: '#phtb',
+      data:obj.data.eos_oddetaillist,
+      cols: [[
+          {type:'checkbox'}
+          ,{field:'gozname', title: '商品'}
+          ,{field:'gozunitname', title: '单位'}
+          ,{field:'oddlprice', title: '单价'}
+          ,{field:'oddlquantity', title: '数量'}
+        ]],
+      done: function(res, curr, count){
+      }
+      });
+    }
+  });
+ 
+});
+    </script>  
     </body>
 </html>

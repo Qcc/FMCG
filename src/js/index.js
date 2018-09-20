@@ -22,6 +22,7 @@ layui.use(['element','layer','admin'], function(){
       element.tabDelete('kt_toptab', id);
     }
     ,tabChange: function(id){
+      console.log(id ,typeof id)
       //切换到指定Tab项
       element.tabChange('kt_toptab', id); //切换到：用户管理
     }
@@ -65,7 +66,6 @@ layui.use(['element','layer','admin'], function(){
     var url = elem.attr('_href');
     var menuid = elem.attr('data-menuid');
     var title = elem.attr('title') || elem.text();
-    console.log(url, menuid, title);
     if(menuid === 'pifu'){
       layer.msg('自定义皮肤还没做');
       return;
