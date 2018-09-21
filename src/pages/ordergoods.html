@@ -216,22 +216,13 @@
                   data.push(item);
                   $(".oddpictures").append('<img src="'+ res.entity[i].resourcepath +'" class="layui-upload-img">');
               }
-              console.log(data);
-              $(".oddpictures").attr('title','查看大图').on('click',function(){
+              $(".oddpictures").attr('title','查看大图').off('click').on('click',function(){
                 layer.photos({
                   photos: {
                     "title": "现场照片", //相册标题
                     "id": 123, //相册id
                     "start": 0, //初始显示的图片序号，默认0
                     "data":data
-                    // "data": [   //相册包含的图片，数组格式
-                    //   {
-                    //     "alt": "现场",
-                    //     "pid": 666, //图片id
-                    //     "src": path, //原图地址
-                    //     "thumb": "" //缩略图地址
-                    //   }
-                    // ]
                   }
                   ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
                 });
@@ -244,6 +235,9 @@
           ,error: function(res){layer.msg('获取资源分组失败', {offset: '15px',icon: 5,time: 1000});}
         });
         
+      }else{
+        // 没有照片显示默认图片
+        $(".oddpictures").empty().attr("title","无照片").append("<img src=../images/no_photos.jpg>");
       }
       // 加载订货商品
   var splan = table.render({

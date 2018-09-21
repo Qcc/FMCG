@@ -122,7 +122,7 @@
             api: 'read',
             columns:['*', 'phoriginator$$org_employee.empname AS empname',
             'phcustomer$$crm_customer.custmname AS custmname',
-            'phpictures$$bas_resource.resourcepath AS resourcepath',
+            'phpictures$$bas_resource.resourcegroupnumber AS resourcegroupnumber',
            'phcustomer$$crm_customer.custmaddress AS custmaddress',],
             association: {  	
                 phoriginator: {},
@@ -182,35 +182,64 @@
         content: $('#phqdpanl')
       });
       layer.full(phlayer);
-      $(".custmname").text(obj.data.custmname);
       $(".custmaddress").text(obj.data.custmaddress);
       $(".phreceiver").text(obj.data.phreceiver);
       $(".phcomment").text(obj.data.phcomment);
       $(".phtime").text( admin.formatDateTime(obj.data.phtime));
       $(".empname").text(obj.data.empname);
-      if(obj.data.resourcepath){
-        var path = setter.root + admin.base64decode(obj.data.resourcepath);
-        console.log('path',path)
-        $(".phpictures>img").attr('src',path);
-        $(".phpictures").attr('title','查看大图').on('click',function(){
-          layer.photos({
-            photos: {
-              "title": "现场照片", //相册标题
-              "id": 123, //相册id
-              "start": 0, //初始显示的图片序号，默认0
-              "data": [   //相册包含的图片，数组格式
-                {
-                  "alt": "现场",
-                  "pid": 666, //图片id
-                  "src": path, //原图地址
-                  "thumb": "" //缩略图地址
+      if(obj.data.resourcegroupnumber){
+        $(".phpictures").empty();
+        //展示图片
+      admin.req({
+        url: setter.standardapi
+        ,data: {model:'bas_resource',api:'read',jsonparam: JSON.stringify({
+          condition: {
+                simple: {
+                  item1: {
+                    column: 'resourcegroupnumber',
+                    cop: '=',
+                    value: obj.data.resourcegroupnumber
+                  }
                 }
-              ]
+              }
+        })}      
+          ,success: function(res){
+            if(res.errorCode === 0){
+              var data = [];
+              for (let i = 0; i < res.entity.length; i++) {
+                  var item={};
+                  res.entity[i].resourcepath = setter.root + admin.base64decode(res.entity[i].resourcepath);
+                  item.alt = res.entity[i].resourcename,
+                  item.pid = res.entity[i].uid, 
+                  item.src = res.entity[i].resourcepath, 
+                  item.thumb = res.entity[i].resourcepath
+                  data.push(item);
+                  $(".phpictures").append('<img src="'+ res.entity[i].resourcepath +'" class="layui-upload-img">');
+              }
+              $(".phpictures").attr('title','查看大图').off('click').on('click',function(){
+                layer.photos({
+                  photos: {
+                    "title": "现场照片", //相册标题
+                    "id": 123, //相册id
+                    "start": 0, //初始显示的图片序号，默认0
+                    "data":data
+                  }
+                  ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+                });
+              });
+
+            }else{
+              layer.msg('获取资源分组失败', {offset: '15px',icon: 5,time: 1000});
             }
-            ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-          });
+          }
+          ,error: function(res){layer.msg('获取资源分组失败', {offset: '15px',icon: 5,time: 1000});}
         });
+        
+      }else{
+        // 没有照片显示默认图片
+        $(".phpictures").empty().attr("title","无照片").append("<img src=../images/no_photos.jpg>");
       }
+    
       // 加载铺货商品
   var splan = table.render({
       elem: '#phtb',
