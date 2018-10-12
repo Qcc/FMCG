@@ -8,7 +8,7 @@
  */
  
 layui.define(['laytpl', 'layer', 'element', 'util'], function(exports){
-  var url = "http://192.168.200.103:8080/huyou"
+  var url = "http://192.168.200.114:8080/huyou"
   // var url = "https://smart.kouton.com/huyou"
   exports('setter', {
     container: 'KT_app' //容器ID

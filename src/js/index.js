@@ -75,6 +75,7 @@ layui.use(['element','layer','admin'], function(){
         url: layui.setter.root + '/user/logout.api'
         ,data: {}  
         ,success: function(res){
+          layui.sessionData(layui.setter.tableName, null);
           location.href = './login.html';
         }
         ,error: function(res){

@@ -1,28 +1,528 @@
 <!DOCTYPE html>
-<!-- 订货结算 页面 -->
+<!-- 订货收款 页面 -->
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>首页-快销宝-深圳市沟通科技有限公司</title>
+        <title>订货收款-快销宝-深圳市沟通科技有限公司</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
+        <!-- <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" /> -->
         <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="../lib/css/layui.css">
-        <link rel="stylesheet" href="../css/statements.min.css">
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    </head>
-    <body>
-    <div class="x-body layui-anim layui-anim-up">
-        <blockquote class="layui-elem-quote">业绩报表：
-            <span class="x-red">test</span>！当前时间:2018-05-28 20:50:53</blockquote>
-    </div>
-    <script src="../lib/layui.js"></script>
-    <script src="../js/statements.min.js"></script>
-    
-    </body>
-</html>
+        <style>
+            /* 订货清单 */
+    .phqdpanl{
+      display: none;
+      text-align: center;
+      color: #393D49;
+      margin: 0 60px;
+      font-size: 15px;
+    }
+    .phqdpanl h2{
+      margin-bottom: 30px;
+    }
+    .phqdpanl p,.ph-content div{
+      display: inline;
+    }
+    .ph-content div{
+      margin: 20px 20px;
+      line-height: 40px;
+    }
+    .ph-content img{
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+    .ph-content a{
+      cursor: pointer;
+    }
+    </style>
+      </head>
+      <body style="overflow-y: scroll;">
+          <div class="layui-tab layui-tab-brief" lay-filter="task" style="margin: 0px;">
+            <ul class="layui-tab-title">
+              <li class="layui-this">收款单</li>
+              <li>核销单</li>
+            </ul>
+            <div class="layui-tab-content" style="padding: 0px;">
+              <!-- 收款单开始 -->
+              <div class="layui-tab-item layui-show">
+                  <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
+                    <div class="layui-inline">
+                      <form class="layui-form" action="">
+                        <div class="layui-input-inline select-height">
+                          <div class="layui-input-inline">
+                            <div class="layui-input-inline" style="margin-right: -5px;">
+                              <input type="text" style="height: 30px;" name="number" placeholder="搜索收款单" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-btn-group">
+                              <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i> </button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                      <div class="layui-inline layui-btn-group">
+                        <button class="layui-btn layui-btn-sm btnskadd">新增</button>
+                        <button class="layui-btn layui-btn-sm btnskdelete">删除</button>
+                      </div>
+                    
+                </div>
+                <table class="layui-table" id="skdtb" lay-filter="skdtb"></table>
+              </div>
+              <!-- 收款单结束 -->
+              <!-- 核销单开始 -->
+              <div class="layui-tab-item">
+                  <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
+                    <div class="layui-inline">
+                      <form class="layui-form" action="">
+                        <div class="layui-input-inline select-height">
+                          <div class="layui-input-inline">
+                            <div class="layui-input-inline" style="margin-right: -5px;">
+                              <input type="text" style="height: 30px;" name="number" placeholder="搜索核销单" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-btn-group">
+                              <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i> </button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                      <div class="layui-inline layui-btn-group">
+                        <button class="layui-btn layui-btn-sm btnhxadd">新增</button>
+                        <button class="layui-btn layui-btn-sm btnhxdelete">删除</button>
+                      </div>
+                </div>
+                <table class="layui-table" id="hxdtb" lay-filter="hxdtb"></table>
+              </div>
+              <!-- 核销单结束 -->
+      <!-- 收款单开始 -->
+      <div  id="skdpanl" style="display: none;">
+          <div class="layui-form">
+            <div class="layui-form-item">
+              <label class="layui-form-label">收款类型</label>
+              <div class="layui-input-inline">
+                <select name="rcpttype">
+                  <option value="">请选择收款类型</option>
+                  <option value="1">预付款收款</option>
+                  <option value="2" selected="">货款收款</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">收款金额</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="rcptmoney" autocomplete="off" placeholder="请输入收款金额" class="layui-input">
+                </div>
+              </div>
+
+              <div class="layui-input-inline">
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">付款客户</label>
+                      <div class="layui-input-inline">
+                        <input type="text" placeholder="请选择客户" class="layui-input cusname">
+                        <input type="text" name="rcptcustomer" class="cusuid" style="display:none">
+                      </div>
+                      <div class="layui-inline">
+                          <button type="reset" class="layui-btn layui-btn-primary btnaddcus">选择</button>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="layui-form-item layui-form-text">
+                  <label class="layui-form-label">收款说明</label>
+                  <div class="layui-input-inline">
+                      <textarea name="rcptcomment" placeholder="请输入收款说明" class="layui-textarea"></textarea>
+                  </div>
+              </div>
+              
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                      <button class="layui-btn layui-btn-primary spreset" >取消</button>
+                      <button class="layui-btn" lay-submit lay-filter="addskd"><i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>保存</button>
+                    </div>
+                </div>
+          </div>
+      </div>
+      <!-- 收款单结束 -->
+      <!-- 选择客户表 -->
+      <div  id="plancus" style="display: none;">
+          <table class="layui-table" id="custb" lay-filter="custb"></table>
+          <div style="position: relative;right: 20px;text-align: right;">
+            <button class="layui-btn  layui-btn-primary cuscancel">取消</button>
+            <button  class="layui-btn cusenter">确定</button>
+          </div>
+      </div>
+      <!-- 选择客户结束 -->
+      <!-- 订货清单开始 -->
+      <div id="phqdpanl" class="phqdpanl">
+          <h2>订货清单</h2>
+          <div class="ph-content">
+              <div><p>客户 : </p><p class="custmname"></p></div>
+              <div><p>客户地址 : </p><p class="custmaddress"></p></div>
+              <div><p>收货人 : </p><p class="custmcontact"></p></div>
+              <div><p>订货说明 : </p><p class="odcomment"></p></div>
+              <div><p>订货时间 : </p><p class="oddatetime"></p></div>
+              <div><p>订货人 : </p><p class="empname"></p></div>
+              <div><p>订货照片 : </p><a class="oddpictures" title="无照片"><img src="../images/no_photos.jpg"></a></div>
+          </div>
+          <table class="layui-table" id="phtb" lay-filter="phtb"></table>
+        </div>
+      <!-- 订货清单结束 -->
+      <script type="text/html" id="setting">
+        <a class="layui-btn layui-btn-xs" lay-event="edit" >修改</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit" >审核</a>
+      </script>
+      <script type="text/html" id="time">
+          {{# var t = layui.admin.formatDateTime(d.rcptdatetime); }}
+          <span>{{ t }}</span>
+        </script>
+
+        <script type="text/html" id="state">
+          {{#  if(d.rcptstate === 0){ }}
+            <span style="color: #FFB800;">未审核</span>
+          {{#  } else if(d.rcptstate === 1){ }}
+            <span style="color: #5FB878;">已审核</span>
+          {{#  } }}
+        </script> 
+        
+        <script type="text/html" id="type">
+          {{#  if(d.rcpttype === 1){ }}
+            <span>预付款</span>
+          {{#  } else if(d.rcpttype === 2){ }}
+            <span>货款</span>
+          {{#  } }}
+        </script> 
+        
+        <script type="text/html" id="pprover">
+          {{#  if(d.rcptapprover){ }}
+            <span>{{ d.rcptapprover }}</span>
+          {{#  } else { }}
+            <span>无</span>
+          {{#  } }}
+        </script> 
+      <script src="../lib/layui.js"></script>
+      <!-- <script src="../js/attendance.js"></script> -->
+       
+      <script>
+      layui.config({
+      base: '../compontents/' //静态资源所在路径
+    }).extend({
+      admin: 'admin' //主入口模块
+    }).use(['element','form','table','layer','admin'], function(){
+    var $ = layui.jquery
+    ,element = layui.element
+    ,form = layui.form
+    ,setter = layui.setter
+    ,admin = layui.admin
+    ,layer = layui.layer
+    ,table = layui.table
+    hxd = true; // teb切换防止核销单多次加载标记
+    var sessionData = layui.sessionData(setter.tableName);
+    var whoami = JSON.parse(sessionData.whoami);
+    // var isManager = 
+    // 加载全部收款单
+    var splan = table.render({
+        elem: '#skdtb',
+        url: setter.layuiqueryapi,
+        method:'post',
+        where: 	{jsonparam: JSON.stringify([{
+              solve_name_conflict: false,
+              model: 'eos_receipt',
+              api: 'read',
+              columns: ['count(uid) AS total'],
+              },{
+              model: 'eos_receipt',
+              api: 'read',
+                columns:['*', 'rcptcustomer$$crm_customer.custmname AS custmname',
+            'rcptuser$$bas_user.nickname AS nickname',
+          ],
+              association: { 
+                rcptcustomer:{},
+                rcptuser:{},
+                rcptapprover:{}
+              },
+              order: [ 
+               {
+                column: "uid",
+                order: "DESC", //可选（默认为ASC）
+               }
+              ],
+              // condition:{"simple":{"item1":{"column":"approver","cop":"=","value":admin.iam()}}}
+            }])
+          },
+        cols: [[
+            {type:'checkbox'}
+            ,{field:'rcptnumber', title: '单号'}
+            ,{field:'rcptdatetime', title: '收款时间', sort: true,templet:'#time'}
+            ,{field:'rcpttype', title: '收款类型', sort: true,templet:'#type'}
+            ,{field:'rcptmoney', title: '收款金额'}
+            ,{field:'rcptstate', title: '状态',templet:'#state'}
+            ,{field:'rcptcomment', title: '备注'}
+            ,{field:'custmname', title: '客户'}
+            ,{field:'nickname', title: '收款人'}
+            ,{field:'rcptapprover', title: '审核人',templet:'#pprover'}
+            ,{field:'', title: '操作',toolbar: '#setting'}
+          ]],
+        page: true,
+        done: function(res, curr, count){
+        }
+        });
+
+
+    // 切换tab页面
+  element.on('tab(task)', function(data){
+    if(data.index === 1 && hxd){
+    // 加载核销单
+      console.log('核销单');
+      // 加载全部收款单
+    var splan = table.render({
+        elem: '#hxdtb',
+        url: setter.layuiqueryapi,
+        method:'post',
+        where: 	{jsonparam: JSON.stringify([{
+              solve_name_conflict: false,
+              model: 'eos_order_verificationsheet',
+              api: 'read',
+              columns: ['count(uid) AS total'],
+              },{
+              model: 'eos_order_verificationsheet',
+              api: 'read',
+              association: { 
+                odveriforder:{},
+                odverifreceipt:{},
+                odverifuser:{}
+              },
+              order: [ 
+               {
+                column: "uid",
+                order: "DESC", //可选（默认为ASC）
+               }
+              ],
+              // condition:{"simple":{"item1":{"column":"approver","cop":"=","value":admin.iam()}}}
+            }])
+          },
+        cols: [[
+            {type:'checkbox'}
+            ,{field:'odverifmoney', title: '核销金额'}
+            ,{field:'odverifdatetime', title: '核销时间', sort: true,templet:'#time'}
+            ,{field:'odveriforder', title: '订单号'}
+            ,{field:'odverifreceipt', title: '收款单号'}
+            ,{field:'rcptuser', title: '核销人'}
+            ,{field:'odverifcomment', title: '备注'}
+            ,{field:'', title: '操作',toolbar: '#setting'}
+          ]],
+        page: true,
+        done: function(res, curr, count){
+        }
+        });
+        hxd = false; //防止核销单多次加载 
+    }
+  });
+
+  // 新增收款单
+  $('.btnskadd').on('click',function(e){
+    var sclayer = layer.open({
+      type: 1,
+      title:'新增收款单',
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: false, //开启遮罩关闭
+      offset: '20px',
+      // maxmin:1,
+      content: $('#skdpanl'),
+      success: function(layero, index){
+      }
+    });
+    form.on('submit(addskd)', function(data){
+      console.log(data); 
+        admin.req({
+          url: setter.standardapi
+            ,data: {
+               model: 'eos_receipt',
+               api: 'create',
+               jsonparam: JSON.stringify(data.field)
+              }      
+            ,success: function(res){
+              if(res.errorCode === 0){
+              layer.close(sclayer);
+              table.reload('skdtb', {
+                // url: '/api/table/search'
+                // ,where: {} //设定异步数据接口的额外参数
+                //,height: 300
+              });
+              }else{
+                layer.msg('新建收款单失败', {
+                  offset: '15px'
+                  ,icon: 5
+                  ,time: 1000
+                });  
+              }
+          }
+            ,error: function(res){
+              //登入成功的提示与跳转
+              layer.msg('新建收款单失败', {
+                offset: '15px'
+                ,icon: 5
+                ,time: 1000
+              });
+            }
+          });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+  });
+
+  // 选择收款客户
+$('.btnaddcus').on('click',function(e){
+    var cuslayer = layer.open({
+      type: 1,
+      title:'选择客户',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      maxmin:1,
+      content: $('#plancus')
+    });
+    var empTable = table.render({
+      elem: '#custb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      height:357,
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'crm_customer',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'crm_customer',
+            api: 'read'
+	        }])},
+          cols: [[
+            {type:'radio'}
+            ,{field:'custmname', title: '公司名称'}
+            ,{field:'custmcontact', title: '联系人', sort: true}
+            ]],
+          page: true,
+          done: function(res, curr, count){
+          
+          }
+    });
+    e.preventDefault();
+    $('.cusenter').off('click').on('click',function(){
+      var checkStatus = table.checkStatus('custb')
+      ,data = checkStatus.data;
+      console.log(data);
+      if(data.length < 1){
+        layer.msg('您还未选择客户');
+        return;
+      } 
+      $('.cusname').val(data[0].custmname);
+      $('.cusuid').val(data[0].uid);
+      layer.close(cuslayer);
+    })
+    $('.cuscancel').on('click',function(){
+      layer.close(cuslayer);
+    })
+    return false;
+  });
+    // 查看订货清单
+    table.on('tool(phqdtb)', function(obj){
+      if(obj.event === 'view'){
+        var phlayer =layer.open({
+          type: 1,
+          title:'订货清单',
+          // skin: 'layui-layer-demo', //样式类名
+          closeBtn: 1, //不显示关闭按钮
+          // maxmin:true,
+          anim: 2,
+          area: ['600px', '500px'],
+          // shadeClose: false, //开启遮罩关闭
+          offset: '20px',
+          content: $('#phqdpanl')
+        });
+        layer.full(phlayer);
+        $(".custmname").text(obj.data.custmname);
+        $(".custmaddress").text(obj.data.custmaddress);
+        $(".custmcontact").text(obj.data.custmcontact);
+        $(".odcomment").text(obj.data.odcomment);
+        $(".oddatetime").text( admin.formatDateTime(obj.data.oddatetime));
+        $(".empname").text(obj.data.empname);
+        if(obj.data.resourcegroupnumber){
+          $(".oddpictures").empty();
+          //展示图片
+      admin.req({
+          url: setter.standardapi
+          ,data: {model:'bas_resource',api:'read',jsonparam: JSON.stringify({
+            condition: {
+                  simple: {
+                    item1: {
+                      column: 'resourcegroupnumber',
+                      cop: '=',
+                      value: obj.data.resourcegroupnumber
+                    }
+                  }
+                }
+          })}      
+            ,success: function(res){
+              if(res.errorCode === 0){
+                var data = [];
+                for (let i = 0; i < res.entity.length; i++) {
+                    var item={};
+                    res.entity[i].resourcepath = setter.root + admin.base64decode(res.entity[i].resourcepath);
+                    item.alt = res.entity[i].resourcename,
+                    item.pid = res.entity[i].uid, 
+                    item.src = res.entity[i].resourcepath, 
+                    item.thumb = res.entity[i].resourcepath
+                    data.push(item);
+                    $(".oddpictures").append('<img src="'+ res.entity[i].resourcepath +'" class="layui-upload-img">');
+                }
+                $(".oddpictures").attr('title','查看大图').off('click').on('click',function(){
+                  layer.photos({
+                    photos: {
+                      "title": "现场照片", //相册标题
+                      "id": 123, //相册id
+                      "start": 0, //初始显示的图片序号，默认0
+                      "data":data
+                    }
+                    ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+                  });
+                });
+  
+              }else{
+                layer.msg('获取资源分组失败', {offset: '15px',icon: 5,time: 1000});
+              }
+            }
+            ,error: function(res){layer.msg('获取资源分组失败', {offset: '15px',icon: 5,time: 1000});}
+          });
+          
+        }else{
+          // 没有照片显示默认图片
+          $(".oddpictures").empty().attr("title","无照片").append("<img src=../images/no_photos.jpg>");
+        }
+        // 加载订货商品
+    var splan = table.render({
+        elem: '#phtb',
+        data:obj.data.eos_oddetaillist,
+        cols: [[
+            {type:'checkbox'}
+            ,{field:'gozname', title: '商品'}
+            ,{field:'gozunitname', title: '单位'}
+            ,{field:'oddlprice', title: '单价'}
+            ,{field:'oddlquantity', title: '数量'}
+          ]],
+        done: function(res, curr, count){
+        }
+        });
+      }
+    });
+   
+  });
+      </script>  
+      </body>
+  </html>

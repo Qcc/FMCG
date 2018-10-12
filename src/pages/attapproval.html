@@ -247,6 +247,8 @@
         <a class="layui-btn layui-btn-xs" lay-event="view">查看</i></a>
         {{# if(d.state === 1) { }}
         <a class="layui-btn layui-btn-xs" lay-event="delete">取消</i></a>
+        {{# }else{ }}
+        <a class="layui-btn layui-btn-xs layui-btn-disabled"  lay-event="delete">取消</i></a>
         {{# } }}
       </script>
         <!-- 未来时间 -->

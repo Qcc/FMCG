@@ -43,10 +43,13 @@
     <body style="overflow-y: scroll;">
         <div class="layui-tab layui-tab-brief" lay-filter="task" style="margin: 0px;">
           <ul class="layui-tab-title">
-            <li class="layui-this">订货清单</li>
-            <!-- <li>我的文档</li> -->
+            <li class="layui-this">订货单</li>
+            <li>发货单</li>
+            <li>补货单</li>
+            <li>收货单</li>
           </ul>
           <div class="layui-tab-content" style="padding: 0px;">
+            <!-- 订货单 -->
             <div class="layui-tab-item layui-show">
                 <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
                   <div class="layui-inline">
@@ -54,7 +57,7 @@
                       <div class="layui-input-inline select-height">
                         <div class="layui-input-inline">
                           <div class="layui-input-inline" style="margin-right: -5px;">
-                            <input type="text" style="height: 30px;" name="number" placeholder="搜索清单" autocomplete="off" class="layui-input">
+                            <input type="text" style="height: 30px;" name="number" placeholder="搜索订货单" autocomplete="off" class="layui-input">
                           </div>
                           <div class="layui-btn-group">
                             <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i> </button>
@@ -63,10 +66,30 @@
                       </div>
                   </form>
                 </div>
-                  
               </div>
-              <!-- 全部文档 -->
-              <table class="layui-table" id="phqdtb" lay-filter="phqdtb"></table>
+              <!-- 订货单表格 -->
+              <table class="layui-table" id="dhdtb" lay-filter="dhdtb"></table>
+            </div>
+            <!-- 发货单 -->
+            <div class="layui-tab-item layui-show">
+                <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
+                  <div class="layui-inline">
+                    <form class="layui-form" action="">
+                      <div class="layui-input-inline select-height">
+                        <div class="layui-input-inline">
+                          <div class="layui-input-inline" style="margin-right: -5px;">
+                            <input type="text" style="height: 30px;" name="number" placeholder="搜索发货单" autocomplete="off" class="layui-input">
+                          </div>
+                          <div class="layui-btn-group">
+                            <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i> </button>
+                          </div>
+                        </div>
+                      </div>
+                  </form>
+                </div>
+              </div>
+              <!-- 发货单表格 -->
+              <table class="layui-table" id="fhdtb" lay-filter="fhdtb"></table>
             </div>
     <!-- 订货清单开始 -->
     <div id="phqdpanl" class="phqdpanl">
@@ -98,7 +121,7 @@
     base: '../compontents/' //静态资源所在路径
   }).extend({
     admin: 'admin' //主入口模块
-  }).use(['element','form','table','layer','admin','laydate','upload'], function(){
+  }).use(['element','form','table','layer','admin'], function(){
   var $ = layui.jquery
   ,element = layui.element
   ,form = layui.form
@@ -107,9 +130,9 @@
   ,layer = layui.layer
   ,table = layui.table
 
-  // 加载全部订货
+  // 加载订货单
   var splan = table.render({
-      elem: '#phqdtb',
+      elem: '#dhdtb',
       url: setter.layuiqueryapi,
       method:'post',
       where: 	{jsonparam: JSON.stringify([{
@@ -120,28 +143,28 @@
 	        },{
         		model: 'eos_order',
             api: 'read',
-            columns:['*', 'odoriginator$$org_employee.empname AS empname',
-            'odcustomer$$crm_customer.custmname AS custmname',
-            'odcustomer$$crm_customer.custmcontact AS custmcontact',
-            'odpictures$$bas_resource.resourcegroupnumber AS resourcegroupnumber',
-           'odcustomer$$crm_customer.custmaddress AS custmaddress',],
-            association: {  	
-              odoriginator: {},
-              odcustomer:{},
-              odapprover:{},
-              odpictures:{},
-              oddetaillist: {
-	              	collection: 1,
-	              	association_model: 'eos_oddetaillist',
-                  association_column: 'oddlgroupid',
-                  columns:['*','oddlgoods$$eos_goods.gozname AS gozname',
-                'oddlunit$$eos_goodsunit.gozunitname AS gozunitname',],
-	                association: {
-                    oddlgoods: {},
-                    oddlunit:{}
-	                }
-	              }
-            },
+          //   columns:['*', 'odoriginator$$org_employee.empname AS empname',
+          //   'odcustomer$$crm_customer.custmname AS custmname',
+          //   'odcustomer$$crm_customer.custmcontact AS custmcontact',
+          //   'odpictures$$bas_resource.resourcegroupnumber AS resourcegroupnumber',
+          //  'odcustomer$$crm_customer.custmaddress AS custmaddress',],
+          //   association: {  	
+          //     odoriginator: {},
+          //     odcustomer:{},
+          //     odapprover:{},
+          //     odpictures:{},
+          //     oddetaillist: {
+	        //       	collection: 1,
+	        //       	association_model: 'eos_oddetaillist',
+          //         association_column: 'oddlgroupid',
+          //         columns:['*','oddlgoods$$eos_goods.gozname AS gozname',
+          //       'oddlunit$$eos_goodsunit.gozunitname AS gozunitname',],
+	        //         association: {
+          //           oddlgoods: {},
+          //           oddlunit:{}
+	        //         }
+	        //       }
+          //   },
             order: [ 
              {
               column: "uid",
@@ -165,6 +188,26 @@
       done: function(res, curr, count){
       }
       });
+
+  // 切换tab页面
+  element.on('tab(task)', function(data){
+    // 发货单
+    if(data.index === 1 ){
+      console.log('发货单');
+      return;
+    }
+    // 补货单
+    if(data.index === 2 ){
+      console.log('补货单');
+      return;
+    }
+    // 收货单
+    if(data.index === 3 ){
+      console.log('收货单');
+      return;
+    }
+  });
+
   // 查看订货清单
   table.on('tool(phqdtb)', function(obj){
     if(obj.event === 'view'){
