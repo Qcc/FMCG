@@ -9,35 +9,6 @@
         <!-- <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" /> -->
         <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="../lib/css/layui.css">
-        <style>
-            /* 订货清单 */
-    .phqdpanl{
-      display: none;
-      text-align: center;
-      color: #393D49;
-      margin: 0 60px;
-      font-size: 15px;
-    }
-    .phqdpanl h2{
-      margin-bottom: 30px;
-    }
-    .phqdpanl p,.ph-content div{
-      display: inline;
-    }
-    .ph-content div{
-      margin: 20px 20px;
-      line-height: 40px;
-    }
-    .ph-content img{
-      width: 30px;
-      height: 30px;
-      margin-right: 10px;
-      border-radius: 50%;
-    }
-    .ph-content a{
-      cursor: pointer;
-    }
-    </style>
       </head>
       <body style="overflow-y: scroll;">
           <div class="layui-tab layui-tab-brief" lay-filter="task" style="margin: 0px;">
@@ -97,9 +68,9 @@
                 <table class="layui-table" id="hxdtb" lay-filter="hxdtb"></table>
               </div>
               <!-- 核销单结束 -->
-      <!-- 收款单开始 -->
+      <!-- 收款单新增开始 -->
       <div  id="skdpanl" style="display: none;">
-          <div class="layui-form">
+          <div class="layui-form"  lay-filter="skdform">
             <div class="layui-form-item">
               <label class="layui-form-label">收款类型</label>
               <div class="layui-input-inline">
@@ -146,7 +117,60 @@
                 </div>
           </div>
       </div>
-      <!-- 收款单结束 -->
+      <!-- 收款单新增结束 -->
+      <!-- 核销单新增开始 -->
+      <div  id="hxdpanl" style="display: none;">
+          <div class="layui-form"  lay-filter="hxdform">
+            
+            <div class="layui-form-item">
+                <label class="layui-form-label">收款金额</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="odverifmoney" autocomplete="off" placeholder="请输入核销金额" class="layui-input">
+                </div>
+              </div>
+
+              <div class="layui-input-inline">
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">订单</label>
+                      <div class="layui-input-inline">
+                        <input type="text" placeholder="请选择订单" class="layui-input odveriforder">
+                        <input type="text" name="odveriforder" class="odveriforderid" style="display:none">
+                      </div>
+                      <div class="layui-inline">
+                          <button type="reset" class="layui-btn layui-btn-primary btnaddorder">选择</button>
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="layui-input-inline">
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">收款单</label>
+                      <div class="layui-input-inline">
+                        <input type="text" placeholder="请选择收款单" class="layui-input odverifreceipt">
+                        <input type="text" name="odverifreceipt" class="odverifreceiptid" style="display:none">
+                      </div>
+                      <div class="layui-inline">
+                          <button type="reset" class="layui-btn layui-btn-primary btnaddskd">选择</button>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="layui-form-item layui-form-text">
+                  <label class="layui-form-label">核销说明</label>
+                  <div class="layui-input-inline">
+                      <textarea name="odverifcomment" placeholder="请输入收款说明" class="layui-textarea"></textarea>
+                  </div>
+              </div>
+              
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                      <button class="layui-btn layui-btn-primary spreset" >取消</button>
+                      <button class="layui-btn" lay-submit lay-filter="addhxd"><i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>保存</button>
+                    </div>
+                </div>
+          </div>
+      </div>
+      <!-- 核销单新增结束 -->
       <!-- 选择客户表 -->
       <div  id="plancus" style="display: none;">
           <table class="layui-table" id="custb" lay-filter="custb"></table>
@@ -156,27 +180,27 @@
           </div>
       </div>
       <!-- 选择客户结束 -->
-      <!-- 订货清单开始 -->
-      <div id="phqdpanl" class="phqdpanl">
-          <h2>订货清单</h2>
-          <div class="ph-content">
-              <div><p>客户 : </p><p class="custmname"></p></div>
-              <div><p>客户地址 : </p><p class="custmaddress"></p></div>
-              <div><p>收货人 : </p><p class="custmcontact"></p></div>
-              <div><p>订货说明 : </p><p class="odcomment"></p></div>
-              <div><p>订货时间 : </p><p class="oddatetime"></p></div>
-              <div><p>订货人 : </p><p class="empname"></p></div>
-              <div><p>订货照片 : </p><a class="oddpictures" title="无照片"><img src="../images/no_photos.jpg"></a></div>
-          </div>
-          <table class="layui-table" id="phtb" lay-filter="phtb"></table>
-        </div>
-      <!-- 订货清单结束 -->
       <script type="text/html" id="setting">
+        {{#  if(d.rcptstate === 0){ }}
         <a class="layui-btn layui-btn-xs" lay-event="edit" >修改</a>
-        <a class="layui-btn layui-btn-xs" lay-event="edit" >审核</a>
+        <a class="layui-btn layui-btn-xs" lay-event="prover" >审核</a>
+        {{#  } else if(d.rcptstate === 1){ }}
+        <a class="layui-btn layui-btn-xs layui-btn-disabled" lay-event="edit" >修改</a>
+        <a class="layui-btn layui-btn-xs layui-btn-disabled" lay-event="prover" >审核</a>
+        {{#  } }}
       </script>
+      
+      <script type="text/html" id="hxsetting">
+        <a class="layui-btn layui-btn-xs" lay-event="edit" >修改</a>
+      </script>
+
       <script type="text/html" id="time">
           {{# var t = layui.admin.formatDateTime(d.rcptdatetime); }}
+          <span>{{ t }}</span>
+        </script>
+      
+        <script type="text/html" id="hxtime">
+          {{# var t = layui.admin.formatDateTime(d.odverifdatetime); }}
           <span>{{ t }}</span>
         </script>
 
@@ -197,8 +221,8 @@
         </script> 
         
         <script type="text/html" id="pprover">
-          {{#  if(d.rcptapprover){ }}
-            <span>{{ d.rcptapprover }}</span>
+          {{#  if(d.provernickname){ }}
+            <span>{{ d.provernickname }}</span>
           {{#  } else { }}
             <span>无</span>
           {{#  } }}
@@ -236,9 +260,10 @@
               },{
               model: 'eos_receipt',
               api: 'read',
-                columns:['*', 'rcptcustomer$$crm_customer.custmname AS custmname',
-            'rcptuser$$bas_user.nickname AS nickname',
-          ],
+              columns:['*', 'rcptcustomer$$crm_customer.custmname AS custmname',
+                        'rcptuser$$bas_user.nickname AS nickname',
+                        'rcptapprover$$bas_user.nickname AS provernickname'
+              ],
               association: { 
                 rcptcustomer:{},
                 rcptuser:{},
@@ -263,7 +288,7 @@
             ,{field:'rcptcomment', title: '备注'}
             ,{field:'custmname', title: '客户'}
             ,{field:'nickname', title: '收款人'}
-            ,{field:'rcptapprover', title: '审核人',templet:'#pprover'}
+            ,{field:'provernickname', title: '审核人',templet:'#pprover'}
             ,{field:'', title: '操作',toolbar: '#setting'}
           ]],
         page: true,
@@ -275,9 +300,7 @@
     // 切换tab页面
   element.on('tab(task)', function(data){
     if(data.index === 1 && hxd){
-    // 加载核销单
-      console.log('核销单');
-      // 加载全部收款单
+      // 加载全部核销单
     var splan = table.render({
         elem: '#hxdtb',
         url: setter.layuiqueryapi,
@@ -290,6 +313,10 @@
               },{
               model: 'eos_order_verificationsheet',
               api: 'read',
+              columns:['*', 'odveriforder$$eos_order.odnumber AS odnumber',
+                        'odverifreceipt$$eos_receipt.rcptnumber AS rcptnumber',
+                        'odverifuser$$bas_user.nickname AS nickname'
+              ],
               association: { 
                 odveriforder:{},
                 odverifreceipt:{},
@@ -307,12 +334,12 @@
         cols: [[
             {type:'checkbox'}
             ,{field:'odverifmoney', title: '核销金额'}
-            ,{field:'odverifdatetime', title: '核销时间', sort: true,templet:'#time'}
-            ,{field:'odveriforder', title: '订单号'}
-            ,{field:'odverifreceipt', title: '收款单号'}
-            ,{field:'rcptuser', title: '核销人'}
+            ,{field:'odverifdatetime', title: '核销时间', sort: true,templet:'#hxtime'}
+            ,{field:'odnumber', title: '订单号'}
+            ,{field:'rcptnumber', title: '收款单号'}
+            ,{field:'nickname', title: '核销人'}
             ,{field:'odverifcomment', title: '备注'}
-            ,{field:'', title: '操作',toolbar: '#setting'}
+            ,{field:'', title: '操作',toolbar: '#hxsetting'}
           ]],
         page: true,
         done: function(res, curr, count){
@@ -320,6 +347,110 @@
         });
         hxd = false; //防止核销单多次加载 
     }
+  });
+
+  // 新增核销单
+  $('.btnhxadd').on('click',function(e){
+    var sclayer = layer.open({
+      type: 1,
+      title:'新增核销单',
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: false, //开启遮罩关闭
+      offset: '20px',
+      // maxmin:1,
+      content: $('#hxdpanl'),
+      success: function(layero, index){
+      }
+    });
+    form.on('submit(addhxd)', function(data){
+      data.field.odverifmoney = parseInt(data.field.odverifmoney);
+      data.field.odveriforder = parseInt(data.field.odveriforder);
+      data.field.odverifreceipt = parseInt(data.field.odverifreceipt);
+        admin.req({
+          url: setter.standardapi
+            ,data: {
+               model: 'eos_order_verificationsheet',
+               api: 'create',
+               jsonparam: JSON.stringify(data.field)
+              }      
+            ,success: function(res){
+              if(res.errorCode === 0){
+              layer.close(sclayer);
+              table.reload('hxdtb', {});
+              }else{
+                layer.msg('新建核销单失败', {
+                  offset: '15px'
+                  ,icon: 5
+                  ,time: 1000
+                });  
+              }
+          }
+            ,error: function(res){
+              //登入成功的提示与跳转
+              layer.msg('新建核销单失败', {
+                offset: '15px'
+                ,icon: 5
+                ,time: 1000
+              });
+            }
+          });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+  });
+  // 删除核销单
+  $('.btnhxdelete').on('click',function(){
+      var checkStatus = table.checkStatus('hxdtb');
+      var checkData = checkStatus.data;
+      var data=[];
+      if(checkData.length === 0){
+        layer.msg('请选择要删除的核销单!');
+        return;
+      }
+    for (let i = 0; i < checkData.length; i++) {
+      var hxd = {
+      model:'eos_order_verificationsheet',
+      api:'delete',
+      condition: {
+          simple: {
+            item1: {
+              column: 'uid',
+              cop: '=',
+              value: checkData[i].uid
+            }
+          }
+        }
+      }
+      data.push(hxd);
+    }
+    layer.confirm('确认删除选定核销单?', function(index){
+      admin.req({
+          url: setter.batchapi
+            ,data: {
+              jsonparam: JSON.stringify(data)
+            }      
+            ,success: function(res){
+              if(res.errorCode === 0){
+              table.reload('hxdtb', {}); // 重载核销单
+              }else{
+                layer.msg('删除核销单失败', {
+                  offset: '15px'
+                  ,icon: 5
+                  ,time: 1000
+                });  
+              }
+          }
+            ,error: function(res){
+              layer.msg('删除核销单失败', {
+                offset: '15px'
+                ,icon: 5
+                ,time: 1000
+              });
+            }
+          });
+        layer.close(index);
+    });
   });
 
   // 新增收款单
@@ -338,7 +469,9 @@
       }
     });
     form.on('submit(addskd)', function(data){
-      console.log(data); 
+      data.field.rcptmoney = parseInt(data.field.rcptmoney);
+      data.field.rcpttype = parseInt(data.field.rcpttype);
+      data.field.rcptcustomer = parseInt(data.field.rcptcustomer);
         admin.req({
           url: setter.standardapi
             ,data: {
@@ -373,6 +506,69 @@
           });
             return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
+  });
+  // 删除收款单
+  $('.btnskdelete').on('click',function(){
+      var checkStatus = table.checkStatus('skdtb');
+      var checkData = checkStatus.data;
+      var data=[];
+      if(checkData.length === 0){
+        layer.msg('请选择要删除的收款单!');
+        return;
+      }
+    for (let i = 0; i < checkData.length; i++) {
+      if(checkData[i].rcptstate === 1){
+        layer.msg('选中的收款单已审核不能删除!'); 
+        return;
+      }
+      var skd = {
+      model:'eos_receipt',
+      api:'delete',
+      condition: {
+          simple: {
+            item1: {
+              column: 'uid',
+              cop: '=',
+              value: checkData[i].uid
+            }
+          }
+        }
+      }
+      data.push(skd);
+    }
+    layer.confirm('确认删除选定收款单?', function(index){
+      admin.req({
+          url: setter.batchapi
+            ,data: {
+              jsonparam: JSON.stringify(data)
+            }      
+            ,success: function(res){
+              if(res.errorCode === 0){
+              table.reload('skdtb', {
+                // url: '/api/table/search'
+                // ,where: {} //设定异步数据接口的额外参数
+                //,height: 300
+              });
+              }else{
+                layer.msg('删除收款单失败', {
+                  offset: '15px'
+                  ,icon: 5
+                  ,time: 1000
+                });  
+              }
+          }
+            ,error: function(res){
+              //登入成功的提示与跳转
+              layer.msg('删除收款单失败', {
+                offset: '15px'
+                ,icon: 5
+                ,time: 1000
+              });
+            }
+          });
+        // return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        layer.close(index);
+    });
   });
 
   // 选择收款客户
@@ -417,7 +613,6 @@ $('.btnaddcus').on('click',function(e){
     $('.cusenter').off('click').on('click',function(){
       var checkStatus = table.checkStatus('custb')
       ,data = checkStatus.data;
-      console.log(data);
       if(data.length < 1){
         layer.msg('您还未选择客户');
         return;
@@ -431,93 +626,248 @@ $('.btnaddcus').on('click',function(e){
     })
     return false;
   });
-    // 查看订货清单
-    table.on('tool(phqdtb)', function(obj){
-      if(obj.event === 'view'){
-        var phlayer =layer.open({
-          type: 1,
-          title:'订货清单',
-          // skin: 'layui-layer-demo', //样式类名
-          closeBtn: 1, //不显示关闭按钮
-          // maxmin:true,
-          anim: 2,
-          area: ['600px', '500px'],
-          // shadeClose: false, //开启遮罩关闭
-          offset: '20px',
-          content: $('#phqdpanl')
+  // 选择订单
+$('.btnaddorder').on('click',function(e){
+    var cuslayer = layer.open({
+      type: 1,
+      title:'选择订单',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      maxmin:1,
+      content: $('#plancus')
+    });
+    var empTable = table.render({
+      elem: '#custb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      height:357,
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'eos_order',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'eos_order',
+            api: 'read',
+            columns:['*', 'odcustomer$$crm_customer.custmname AS custmname'],
+            association: { 
+              odcustomer:{}
+            },
+	        }])},
+          cols: [[
+            {type:'radio'}
+            ,{field:'odnumber', title: '订单号'}
+            ,{field:'custmname', title: '客户'}
+            ,{field:'odreceipt', title: '实收金额', sort: true}
+            ,{field:'oddatetime', title: '订货时间', sort: true}
+            ,{field:'odstate', title: '状态'}
+            ,{field:'odpayment', title: '付款状态'}
+            ]],
+          page: true,
+          done: function(res, curr, count){
+          
+          }
+    });
+    e.preventDefault();
+    $('.cusenter').off('click').on('click',function(){
+      var checkStatus = table.checkStatus('custb')
+      ,data = checkStatus.data;
+      if(data.length < 1){
+        layer.msg('您还未选择订单');
+        return;
+      } 
+      $('.odveriforder').val(data[0].odnumber);
+      $('.odveriforderid').val(data[0].uid);
+      layer.close(cuslayer);
+    })
+    $('.cuscancel').on('click',function(){
+      layer.close(cuslayer);
+    })
+    return false;
+  });
+  // 选择收款单
+$('.btnaddskd').on('click',function(e){
+    var cuslayer = layer.open({
+      type: 1,
+      title:'选择收款单',
+      // skin: 'layui-layer-demo', //样式类名
+      closeBtn: 1, //不显示关闭按钮
+      anim: 2,
+      area: ['500px', '480px'],
+      shadeClose: true, //开启遮罩关闭
+      offset: '20px',
+      maxmin:1,
+      content: $('#plancus')
+    });
+    var empTable = table.render({
+      elem: '#custb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      height:357,
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'eos_receipt',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'eos_receipt',
+            api: 'read',
+            columns:['*', 'rcptcustomer$$crm_customer.custmname AS custmname'],
+            association: { 
+              rcptcustomer:{}
+            },
+	        }])},
+          cols: [[
+            {type:'radio'}
+            ,{field:'rcptnumber', title: '收款单号'}
+            ,{field:'custmname', title: '客户'}
+            ,{field:'rcptmoney', title: '收款金额'}
+            ,{field:'rcptdatetime', title: '收款时间', sort: true}
+            ]],
+          page: true,
+          done: function(res, curr, count){
+          
+          }
+    });
+    e.preventDefault();
+    $('.cusenter').off('click').on('click',function(){
+      var checkStatus = table.checkStatus('custb')
+      ,data = checkStatus.data;
+      if(data.length < 1){
+        layer.msg('您还未选择收款单');
+        return;
+      } 
+      $('.odverifreceipt').val(data[0].rcptnumber);
+      $('.odverifreceiptid').val(data[0].uid);
+      layer.close(cuslayer);
+    })
+    $('.cuscancel').on('click',function(){
+      layer.close(cuslayer);
+    })
+    return false;
+  });
+    // 修改收款单 审核收款单
+    table.on('tool(skdtb)', function(obj){
+      if(obj.data.rcptstate){
+        return;
+      }
+      if(obj.event === 'prover'){
+        layer.confirm('确认同意收款么?', function(index){
+          admin.req({
+          url: setter.standardapi //实际使用请改成服务端真实接口
+          ,data: {
+            model:'eos_receipt',
+            api:'update',
+            jsonparam: JSON.stringify({
+              entity:{rcptstate:1},
+              condition: {
+                simple: {
+                  item1: {
+                    column: 'uid',
+                    cop: '=',
+                    value: obj.data.uid
+                  }
+                }
+              }
+            })
+          }  
+          ,success: function(res){
+            if(res.errorCode === 0){
+              obj.update({
+                rcptstate: 1
+              });
+              $('.layui-table-click a.layui-btn').addClass('layui-btn-disabled');
+            }else{
+              layer.msg('审核失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+            }
+          }
+          ,error: function(res){
+            layer.msg('审核失败', {
+              offset: '15px'
+              ,icon: 5
+              ,time: 1000
+            });
+          }
         });
-        layer.full(phlayer);
-        $(".custmname").text(obj.data.custmname);
-        $(".custmaddress").text(obj.data.custmaddress);
-        $(".custmcontact").text(obj.data.custmcontact);
-        $(".odcomment").text(obj.data.odcomment);
-        $(".oddatetime").text( admin.formatDateTime(obj.data.oddatetime));
-        $(".empname").text(obj.data.empname);
-        if(obj.data.resourcegroupnumber){
-          $(".oddpictures").empty();
-          //展示图片
-      admin.req({
+        layer.close(index);
+        });
+      }else if(obj.event === 'edit'){
+        var sclayer = layer.open({
+          type: 1,
+          title:'修改收款单',
+          closeBtn: 1, //不显示关闭按钮
+          anim: 2,
+          area: ['500px', '480px'],
+          shadeClose: false, //开启遮罩关闭
+          offset: '20px',
+          // maxmin:1,
+          content: $('#skdpanl'),
+          success: function(layero, index){
+          }
+        });
+        form.val("skdform", {
+          "rcptcustomer": obj.data.rcptcustomer
+          ,"rcptmoney": obj.data.rcptmoney
+          ,"rcpttype": obj.data.rcpttype
+          ,"rcptcomment": obj.data.rcptcomment
+        })
+        $('.cusname').val(obj.data.custmname);
+    form.on('submit(addskd)', function(data){
+      data.field.rcptmoney = parseInt(data.field.rcptmoney);
+      data.field.rcpttype = parseInt(data.field.rcpttype);
+      data.field.rcptcustomer = parseInt(data.field.rcptcustomer);
+        admin.req({
           url: setter.standardapi
-          ,data: {model:'bas_resource',api:'read',jsonparam: JSON.stringify({
-            condition: {
+            ,data:{
+              model:'eos_receipt',
+              api:'update',
+              jsonparam: JSON.stringify({
+                entity:data.field,
+                condition: {
                   simple: {
                     item1: {
-                      column: 'resourcegroupnumber',
+                      column: 'uid',
                       cop: '=',
-                      value: obj.data.resourcegroupnumber
+                      value: obj.data.uid
                     }
                   }
                 }
-          })}      
+              })
+            }  
             ,success: function(res){
               if(res.errorCode === 0){
-                var data = [];
-                for (let i = 0; i < res.entity.length; i++) {
-                    var item={};
-                    res.entity[i].resourcepath = setter.root + admin.base64decode(res.entity[i].resourcepath);
-                    item.alt = res.entity[i].resourcename,
-                    item.pid = res.entity[i].uid, 
-                    item.src = res.entity[i].resourcepath, 
-                    item.thumb = res.entity[i].resourcepath
-                    data.push(item);
-                    $(".oddpictures").append('<img src="'+ res.entity[i].resourcepath +'" class="layui-upload-img">');
-                }
-                $(".oddpictures").attr('title','查看大图').off('click').on('click',function(){
-                  layer.photos({
-                    photos: {
-                      "title": "现场照片", //相册标题
-                      "id": 123, //相册id
-                      "start": 0, //初始显示的图片序号，默认0
-                      "data":data
-                    }
-                    ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-                  });
-                });
-  
+              layer.close(sclayer);
+              table.reload('skdtb', {
+                // url: '/api/table/search'
+                // ,where: {} //设定异步数据接口的额外参数
+                //,height: 300
+              });
               }else{
-                layer.msg('获取资源分组失败', {offset: '15px',icon: 5,time: 1000});
+                layer.msg('修改收款单失败', {
+                  offset: '15px'
+                  ,icon: 5
+                  ,time: 1000
+                });  
               }
+          }
+            ,error: function(res){
+              //登入成功的提示与跳转
+              layer.msg('修改收款单失败', {
+                offset: '15px'
+                ,icon: 5
+                ,time: 1000
+              });
             }
-            ,error: function(res){layer.msg('获取资源分组失败', {offset: '15px',icon: 5,time: 1000});}
           });
-          
-        }else{
-          // 没有照片显示默认图片
-          $(".oddpictures").empty().attr("title","无照片").append("<img src=../images/no_photos.jpg>");
-        }
-        // 加载订货商品
-    var splan = table.render({
-        elem: '#phtb',
-        data:obj.data.eos_oddetaillist,
-        cols: [[
-            {type:'checkbox'}
-            ,{field:'gozname', title: '商品'}
-            ,{field:'gozunitname', title: '单位'}
-            ,{field:'oddlprice', title: '单价'}
-            ,{field:'oddlquantity', title: '数量'}
-          ]],
-        done: function(res, curr, count){
-        }
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
       }
     });

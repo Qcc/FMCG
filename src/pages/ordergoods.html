@@ -22,7 +22,7 @@
   .phqdpanl h2{
     margin-bottom: 30px;
   }
-  .phqdpanl p,.ph-content div{
+  .phqdpanl h4,.ph-content p,.ph-content div{
     display: inline;
   }
   .ph-content div{
@@ -71,7 +71,7 @@
               <table class="layui-table" id="dhdtb" lay-filter="dhdtb"></table>
             </div>
             <!-- 发货单 -->
-            <div class="layui-tab-item layui-show">
+            <div class="layui-tab-item">
                 <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
                   <div class="layui-inline">
                     <form class="layui-form" action="">
@@ -91,28 +91,140 @@
               <!-- 发货单表格 -->
               <table class="layui-table" id="fhdtb" lay-filter="fhdtb"></table>
             </div>
+            <!-- 补货单 -->
+            <div class="layui-tab-item">
+                <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
+                  <div class="layui-inline">
+                    <form class="layui-form" action="">
+                      <div class="layui-input-inline select-height">
+                        <div class="layui-input-inline">
+                          <div class="layui-input-inline" style="margin-right: -5px;">
+                            <input type="text" style="height: 30px;" name="number" placeholder="搜索补货单" autocomplete="off" class="layui-input">
+                          </div>
+                          <div class="layui-btn-group">
+                            <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i> </button>
+                          </div>
+                        </div>
+                      </div>
+                  </form>
+                </div>
+              </div>
+              <!-- 补货单表格 -->
+              <table class="layui-table" id="bhdtb" lay-filter="bhdtb"></table>
+            </div>
+            <!-- 收货单 -->
+            <div class="layui-tab-item">
+                <div class="layui-row" style="position: absolute;top: 5px;right: 5px;">
+                  <div class="layui-inline">
+                    <form class="layui-form" action="">
+                      <div class="layui-input-inline select-height">
+                        <div class="layui-input-inline">
+                          <div class="layui-input-inline" style="margin-right: -5px;">
+                            <input type="text" style="height: 30px;" name="number" placeholder="搜索收货单" autocomplete="off" class="layui-input">
+                          </div>
+                          <div class="layui-btn-group">
+                            <button class="layui-btn layui-btn-primary layui-btn-sm "><i class="layui-icon">&#xe615;</i> </button>
+                          </div>
+                        </div>
+                      </div>
+                  </form>
+                </div>
+              </div>
+              <!-- 收单表格 -->
+              <table class="layui-table" id="shdtb" lay-filter="shdtb"></table>
+            </div>
     <!-- 订货清单开始 -->
     <div id="phqdpanl" class="phqdpanl">
-        <h2>订货清单</h2>
+        <!-- <h2>订货清单</h2> -->
         <div class="ph-content">
-            <div><p>客户 : </p><p class="custmname"></p></div>
+            <!-- <div><p>客户 : </p><p class="custmname"></p></div>
             <div><p>客户地址 : </p><p class="custmaddress"></p></div>
             <div><p>收货人 : </p><p class="custmcontact"></p></div>
             <div><p>订货说明 : </p><p class="odcomment"></p></div>
             <div><p>订货时间 : </p><p class="oddatetime"></p></div>
-            <div><p>订货人 : </p><p class="empname"></p></div>
-            <div><p>订货照片 : </p><a class="oddpictures" title="无照片"><img src="../images/no_photos.jpg"></a></div>
+            <div><p>订货人 : </p><p class="empname"></p></div> -->
+            <!-- <div><p>订货照片 : </p><a class="oddpictures" title="无照片"><img src="../images/no_photos.jpg"></a></div> -->
         </div>
         <table class="layui-table" id="phtb" lay-filter="phtb"></table>
       </div>
     <!-- 订货清单结束 -->
     <script type="text/html" id="setting">
-        <a class="layui-btn layui-btn-xs" lay-event="view" >查看</a>
-      </script>
+      <a class="layui-btn layui-btn-xs" lay-event="view" >订货清单</a>
+    </script>
+    <script type="text/html" id="fhsetting">
+      <a class="layui-btn layui-btn-xs" lay-event="view" >发货清单</a>
+    </script>
+    <script type="text/html" id="bhsetting">
+      <a class="layui-btn layui-btn-xs" lay-event="view" >补货清单</a>
+    </script>
+    <script type="text/html" id="shsetting">
+      <a class="layui-btn layui-btn-xs" lay-event="view" >收货清单</a>
+    </script>
     <script type="text/html" id="time">
         {{# var t = layui.admin.formatDateTime(d.oddatetime); }}
         <span>{{ t }}</span>
       </script>
+    <script type="text/html" id="fhtime">
+        {{# var t = layui.admin.formatDateTime(d.fahdatetime); }}
+        <span>{{ t }}</span>
+      </script>
+    <script type="text/html" id="bhtime">
+        {{# var t = layui.admin.formatDateTime(d.buhdatetime); }}
+        <span>{{ t }}</span>
+      </script>
+    <script type="text/html" id="shtime">
+        {{# var t = layui.admin.formatDateTime(d.shouhdatetime); }}
+        <span>{{ t }}</span>
+      </script>
+      
+      <script type="text/html" id="state">
+        {{#  if(d.odstate === 0){ }}
+          <span style="color: #FFB800;">待审批</span>
+        {{#  } else if(d.odstate === 1){ }}
+          <span style="color: #5FB878;">已审批</span>
+        {{#  }else if (d.odstate === 2){ }}
+          <span style="color: #5FB878;">已发货</span>
+        {{#  }else if(d.odstate === 3){ }}
+          <span style="color: #5FB878;">已收货</span>
+        {{#  }else if (d.odstate === 4){ }}
+          <span style="color: #5FB878;">已完结</span>
+        {{#  } }}
+      </script> 
+      
+      <script type="text/html" id="fhstate">
+        {{#  if(d.fahstate === 0){ }}
+          <span style="color: #FFB800;">待审批</span>
+        {{#  } else if(d.fahstate === 1){ }}
+          <span style="color: #5FB878;">已审批</span>
+        {{#  }else if (d.fahstate === 2){ }}
+          <span style="color: #5FB878;">已收货</span>
+        {{#  } }}
+      </script> 
+      
+      <script type="text/html" id="bhstate">
+        {{#  if(d.buhstate === 0){ }}
+          <span style="color: #FFB800;">待审批</span>
+        {{#  } else if(d.buhstate === 1){ }}
+          <span style="color: #5FB878;">已审批</span>
+        {{#  } }}
+      </script> 
+    
+      <script type="text/html" id="play">
+        {{#  if(d.odpayment === 0){ }}
+          <span style="color: #FFB800;">未付款</span>
+        {{#  } else if(d.odpayment === 1){ }}
+          <span style="color: #5FB878;">已付款</span>
+        {{#  } }}
+      </script> 
+    
+      <script type="text/html" id="bhflag">
+        {{#  if(d.odbuhflg === 0){ }}
+          <span>无</span>
+        {{#  } else if(d.odbuhflg === 1){ }}
+          <span style="color: #5FB878;">需补货</span>
+        {{#  } }}
+      </script> 
+
     <script src="../lib/layui.js"></script>
     <!-- <script src="../js/attendance.js"></script> -->
      
@@ -129,6 +241,10 @@
   ,admin = layui.admin
   ,layer = layui.layer
   ,table = layui.table
+  // 发货单 补货单 收货单 加载标记
+  ,fhd = true
+  ,bhd = true
+  ,shd = true;
 
   // 加载订货单
   var splan = table.render({
@@ -143,45 +259,36 @@
 	        },{
         		model: 'eos_order',
             api: 'read',
-          //   columns:['*', 'odoriginator$$org_employee.empname AS empname',
-          //   'odcustomer$$crm_customer.custmname AS custmname',
-          //   'odcustomer$$crm_customer.custmcontact AS custmcontact',
-          //   'odpictures$$bas_resource.resourcegroupnumber AS resourcegroupnumber',
-          //  'odcustomer$$crm_customer.custmaddress AS custmaddress',],
-          //   association: {  	
-          //     odoriginator: {},
-          //     odcustomer:{},
-          //     odapprover:{},
-          //     odpictures:{},
-          //     oddetaillist: {
-	        //       	collection: 1,
-	        //       	association_model: 'eos_oddetaillist',
-          //         association_column: 'oddlgroupid',
-          //         columns:['*','oddlgoods$$eos_goods.gozname AS gozname',
-          //       'oddlunit$$eos_goodsunit.gozunitname AS gozunitname',],
-	        //         association: {
-          //           oddlgoods: {},
-          //           oddlunit:{}
-	        //         }
-	        //       }
-          //   },
+            columns:['*', 'odoriginator$$bas_user.nickname AS nickname',
+            'odapprover$$org_employee.empname AS proverempname',
+            'odcustomer$$crm_customer.custmname AS custmname',
+            'odpictures$$bas_resource.resourcegroupnumber AS resourcegroupnumber'],
+            association: {  	
+              odoriginator: {},
+              odcustomer:{},
+              odapprover:{},
+              odpictures:{},
+            },
             order: [ 
              {
               column: "uid",
               order: "DESC", //可选（默认为ASC）
              }
             ],
-            // condition:{"simple":{"item1":{"column":"approver","cop":"=","value":admin.iam()}}}
           }])
         },
       cols: [[
           {type:'checkbox'}
           ,{field:'odnumber', title: '订单号'}
           ,{field:'custmname', title: '客户'}
-          ,{field:'custmcontact', title: '收货人'}
-          ,{field:'odcomment', title: '订货说明'}
+          ,{field:'odamount', title: '订单金额'}
+          ,{field:'odstate', title: '状态',templet:'#state'}
+          ,{field:'odpayment', title: '支付状态',templet:'#play'}
+          ,{field:'odbuhflg', title: '补货',templet:'#bhflag'}
+          ,{field:'odreceipt', title: '收款金额'}
+          ,{field:'proverempname', title: '审批人'}
           ,{field:'oddatetime', title: '订货时间', sort: true,templet:'#time'}
-          ,{field:'empname', title: '订货人'}
+          ,{field:'nickname', title: '订货人'}
           ,{field:'', title: '操作',toolbar: '#setting'}
         ]],
       page: true,
@@ -192,38 +299,216 @@
   // 切换tab页面
   element.on('tab(task)', function(data){
     // 发货单
-    if(data.index === 1 ){
-      console.log('发货单');
+    if(data.index === 1 && fhd){
+      // 加载发货单
+      table.render({
+      elem: '#fhdtb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'eos_fahuo',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'eos_fahuo',
+            api: 'read',
+            columns:['*', 'fahapprover$$org_employee.empname AS fahapprovername',
+            'fahcustomer$$crm_customer.custmname AS custmname',
+            'fahorder$$eos_order.odnumber AS odnumber',
+            'fahoriginator$$bas_user.nickname AS nickname'],
+            association: {  	
+              fahoriginator: {},
+              fahorder:{},
+              fahcustomer:{},
+              fahapprover:{},
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
+             }
+            ],
+          }])
+        },
+      cols: [[
+          {type:'checkbox'}
+          ,{field:'fahnumber', title: '发货单号'}
+          ,{field:'custmname', title: '客户'}
+          ,{field:'fahdatetime', title: '发货时间', sort: true,templet:'#fhtime'}
+          ,{field:'fahamount', title: '金额'}
+          ,{field:'fahcomment', title: '发货说明'}
+          ,{field:'odnumber', title: '订货单'}
+          ,{field:'fahstate', title: '状态',templet:'#fhstate'}
+          ,{field:'fahreceiver', title: '收货人'}
+          ,{field:'nickname', title: '发货人'}
+          ,{field:'fahapprovername', title: '审批人'}
+          ,{field:'', title: '操作',toolbar: '#fhsetting'}
+        ]],
+      page: true,
+      done: function(res, curr, count){
+      }
+      });
+      fhd = false;
       return;
     }
     // 补货单
-    if(data.index === 2 ){
-      console.log('补货单');
+    if(data.index === 2 && bhd ){
+       // 加载补货单
+       table.render({
+      elem: '#bhdtb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'eos_buhuo',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'eos_buhuo',
+            api: 'read',
+            columns:['*', 'buhapprover$$org_employee.empname AS proverempname',
+            'buhcustomer$$crm_customer.custmname AS custmname',
+            'buhorder$$eos_order.odnumber AS odnumber',
+            'buhoriginator$$bas_user.nickname AS nickname'],
+            association: {  	
+              buhoriginator: {},
+              buhcustomer:{},
+              buhapprover:{},
+              buhorder:{},
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
+             }
+            ],
+          }])
+        },
+      cols: [[
+          {type:'checkbox'}
+          ,{field:'buhdatetime', title: '补货时间', sort: true,templet:'#bhtime'}
+          ,{field:'buhamount', title: '金额'}
+          ,{field:'buhnumber', title: '补货单号'}
+          ,{field:'buhcomment', title: '补货说明'}
+          ,{field:'buhstate', title: '状态',templet:'#bhstate'}
+          ,{field:'buhreceiver', title: '收货人'}
+          ,{field:'nickname', title: '补货人'}
+          ,{field:'custmname', title: '客户'}
+          ,{field:'proverempname', title: '审批人'}
+          ,{field:'odnumber', title: '原订货单'}
+          ,{field:'', title: '操作',toolbar: '#bhsetting'}
+        ]],
+      page: true,
+      done: function(res, curr, count){
+      }
+      });
+      bhd = false;
       return;
     }
     // 收货单
-    if(data.index === 3 ){
-      console.log('收货单');
+    if(data.index === 3 && shd ){
+       // 加载收货单
+       table.render({
+      elem: '#shdtb',
+      url: setter.layuiqueryapi,
+      method:'post',
+      where: 	{jsonparam: JSON.stringify([{
+            solve_name_conflict: false,
+        		model: 'eos_shouhuo',
+        		api: 'read',
+	        	columns: ['count(uid) AS total'],
+	        },{
+        		model: 'eos_shouhuo',
+            api: 'read',
+            columns:['*', 'shouhoriginator$$bas_user.nickname AS nickname',
+            'shouhfah$$eos_fahuo.fahnumber AS fahnumber',
+            'shouhbuh$$eos_buhuo.buhnumber AS buhnumber'],
+            association: {  	
+              shouhoriginator: {},
+              shouhfah:{},
+              shouhbuh:{}
+            },
+            order: [ 
+             {
+              column: "uid",
+              order: "DESC", //可选（默认为ASC）
+             }
+            ],
+          }])
+        },
+      cols: [[
+          {type:'checkbox'}
+          ,{field:'shouhdatetime', title: '收货时间', sort: true,templet:'#shtime'}
+          ,{field:'shouhamount', title: '金额'}
+          ,{field:'shouhnumber', title: '收货单号'}
+          ,{field:'shouhcomment', title: '收货说明'}
+          ,{field:'nickname', title: '收货人'}
+          ,{field:'fahnumber', title: '发货单'}
+          ,{field:'buhnumber', title: '补货单'}
+          ,{field:'', title: '操作',toolbar: '#shsetting'}
+        ]],
+      page: true,
+      done: function(res, curr, count){
+      }
+      });
+      shd = false;
       return;
     }
   });
 
   // 查看订货清单
-  table.on('tool(phqdtb)', function(obj){
+  table.on('tool(dhdtb)', function(obj){
     if(obj.event === 'view'){
-      var phlayer =layer.open({
+      var data = obj.data;
+      console.log(data);
+      var template = "<div><h4>订单号：</h4><p>"+data.odnumber+"</p></div>" +
+            "<div><h4>客户：</h4><p>"+ data.custmname+"</p></div>" +
+            "<div><h4>订单状态：</h4><p>"+ data.odstate+"</p></div>" +
+            "<div><h4>付款状态：</h4><p>"+ data.odpayment+"</p></div>" +
+            "<div><h4>补货：</h4><p>"+ data.odbuhflg+"</p></div>" +
+            "<div><h4>收款金额：</h4><p>"+ data.odreceipt+"</p></div>" +
+            "<div><h4>审批人：</h4><p>"+ data.proverempname+"</p></div>" +
+            "<div><h4>订货时间：</h4><p>"+ data.oddatetime+"</p></div>" +
+            "<div><h4>订货人：</h4><p>"+ data.nickname+"</p></div>" +
+            "<div><h4>订货照片 : </h4><a title=无照片><img src=../images/no_photos.jpg></a></div>";
+      $('.ph-content').append(template);
+      goodsdetils('订货清单',data,template);
+    }
+  });
+  // 查看发货清单
+  table.on('tool(fhdtb)', function(obj){
+    if(obj.event === 'view'){
+      
+    }
+  });
+  // 查看补货清单
+  table.on('tool(bhdtb)', function(obj){
+    if(obj.event === 'view'){
+      
+    }
+  });
+  // 查看收货清单
+  table.on('tool(shdtb)', function(obj){
+    if(obj.event === 'view'){
+      
+    }
+  });
+  function goodsdetils(title){
+    var phlayer =layer.open({
         type: 1,
-        title:'订货清单',
+        title:title,
         // skin: 'layui-layer-demo', //样式类名
         closeBtn: 1, //不显示关闭按钮
-        // maxmin:true,
+        maxmin:true,
         anim: 2,
         area: ['600px', '500px'],
         // shadeClose: false, //开启遮罩关闭
-        offset: '20px',
+        // offset: '20px',
         content: $('#phqdpanl')
       });
       layer.full(phlayer);
+      $('.layui-layer-content').on('resize',function(){}); // 监听弹出层缩放 使表格自适应。
       $(".custmname").text(obj.data.custmname);
       $(".custmaddress").text(obj.data.custmaddress);
       $(".custmcontact").text(obj.data.custmcontact);
@@ -292,13 +577,9 @@
           ,{field:'gozunitname', title: '单位'}
           ,{field:'oddlprice', title: '单价'}
           ,{field:'oddlquantity', title: '数量'}
-        ]],
-      done: function(res, curr, count){
-      }
+        ]]
       });
-    }
-  });
- 
+  }
 });
     </script>  
     </body>
