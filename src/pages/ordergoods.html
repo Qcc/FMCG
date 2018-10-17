@@ -135,7 +135,7 @@
             </div>
     <!-- 订货清单开始 -->
     <div id="phqdpanl" class="phqdpanl">
-        <!-- <h2>订货清单</h2> -->
+        <h2 class="ph-title"></h2>
         <div class="ph-content">
             <!-- <div><p>客户 : </p><p class="custmname"></p></div>
             <div><p>客户地址 : </p><p class="custmaddress"></p></div>
@@ -225,6 +225,11 @@
         {{#  } }}
       </script> 
 
+      <script type="text/html" id="img">
+        {{# var path = layui.setter.root + layui.admin.base64decode(d.resourcepath)}}
+          <a><img style="max-width: 35px;" src={{ path }}></a>
+        </script>
+
     <script src="../lib/layui.js"></script>
     <!-- <script src="../js/attendance.js"></script> -->
      
@@ -261,13 +266,30 @@
             api: 'read',
             columns:['*', 'odoriginator$$bas_user.nickname AS nickname',
             'odapprover$$org_employee.empname AS proverempname',
-            'odcustomer$$crm_customer.custmname AS custmname',
-            'odpictures$$bas_resource.resourcegroupnumber AS resourcegroupnumber'],
+            // 'odpictures$$bas_resource.resourcegroupnumber AS pictures',
+            'odcustomer$$crm_customer.custmname AS custmname'],
             association: {  	
               odoriginator: {},
               odcustomer:{},
+              // odpictures:{},
               odapprover:{},
-              odpictures:{},
+              oddetaillist: {
+	              	collection: 1,
+	              	association_model: 'eos_oddetaillist',
+                  association_column: 'oddlgroupid',
+                  columns:['*','oddlgoods$$eos_goods.gozname AS gozname',
+                  'oddlgoods$$eos_goods.goznumber AS goznumber',
+                  'oddlgoods__gozpictures$$bas_resource.resourcepath AS resourcepath',
+                'oddlgoods__gozbasunit$$eos_goodsunit.gozunitname AS gozunitname',],
+	                association: {
+                    oddlgoods: {
+                      association: {
+                        gozpictures:{},
+                        gozbasunit:{}
+                      }
+                    }
+	                }
+	              }
             },
             order: [ 
              {
@@ -316,12 +338,31 @@
             columns:['*', 'fahapprover$$org_employee.empname AS fahapprovername',
             'fahcustomer$$crm_customer.custmname AS custmname',
             'fahorder$$eos_order.odnumber AS odnumber',
+            // 'fahpictures$$bas_resource.resourcegroupnumber AS pictures',
             'fahoriginator$$bas_user.nickname AS nickname'],
             association: {  	
               fahoriginator: {},
               fahorder:{},
               fahcustomer:{},
+              // fahpictures:{},
               fahapprover:{},
+              fahdetaillist: {
+	              	collection: 1,
+	              	association_model: 'eos_fahdetaillist',
+                  association_column: 'fahdlgroupid',
+                  columns:['*','fahdlgoods$$eos_goods.gozname AS gozname',
+                  'fahdlgoods$$eos_goods.goznumber AS goznumber',
+                  'fahdlgoods__gozpictures$$bas_resource.resourcepath AS resourcepath',
+                'fahdlgoods__gozbasunit$$eos_goodsunit.gozunitname AS gozunitname',],
+	                association: {
+                    fahdlgoods: {
+                      association: {
+                        gozpictures:{},
+                        gozbasunit:{}
+                      }
+                    }
+	                }
+	              }
             },
             order: [ 
              {
@@ -370,12 +411,31 @@
             columns:['*', 'buhapprover$$org_employee.empname AS proverempname',
             'buhcustomer$$crm_customer.custmname AS custmname',
             'buhorder$$eos_order.odnumber AS odnumber',
+            // 'buhpictures$$bas_resource.resourcegroupnumber AS pictures',
             'buhoriginator$$bas_user.nickname AS nickname'],
             association: {  	
               buhoriginator: {},
               buhcustomer:{},
               buhapprover:{},
               buhorder:{},
+              // buhpictures:{},
+              buhdetaillist: {
+	              	collection: 1,
+	              	association_model: 'eos_buhdetaillist',
+                  association_column: 'buhdlgroupid',
+                  columns:['*','buhdlgoods$$eos_goods.gozname AS gozname',
+                  'buhdlgoods$$eos_goods.goznumber AS goznumber',
+                  'buhdlgoods__gozpictures$$bas_resource.resourcepath AS resourcepath',
+                'buhdlgoods__gozbasunit$$eos_goodsunit.gozunitname AS gozunitname',],
+	                association: {
+                    buhdlgoods: {
+                      association: {
+                        gozpictures:{},
+                        gozbasunit:{}
+                      }
+                    }
+	                }
+	              }
             },
             order: [ 
              {
@@ -423,11 +483,30 @@
             api: 'read',
             columns:['*', 'shouhoriginator$$bas_user.nickname AS nickname',
             'shouhfah$$eos_fahuo.fahnumber AS fahnumber',
+            // 'shouhpictures$$bas_resource.resourcegroupnumber AS pictures',
             'shouhbuh$$eos_buhuo.buhnumber AS buhnumber'],
             association: {  	
               shouhoriginator: {},
               shouhfah:{},
-              shouhbuh:{}
+              shouhbuh:{},
+              // shouhpictures:{},
+              shouhdetaillist: {
+	              	collection: 1,
+	              	association_model: 'eos_shouhdetaillist',
+                  association_column: 'shouhdlgroupid',
+                  columns:['*','shouhdlgoods$$eos_goods.gozname AS gozname',
+                  'shouhdlgoods$$eos_goods.goznumber AS goznumber',
+                  'shouhdlgoods__gozpictures$$bas_resource.resourcepath AS resourcepath',
+                'shouhdlgoods__gozbasunit$$eos_goodsunit.gozunitname AS gozunitname',],
+	                association: {
+                    shouhdlgoods: {
+                      association: {
+                        gozpictures:{},
+                        gozbasunit:{}
+                      }
+                    }
+	                }
+	              }
             },
             order: [ 
              {
@@ -461,7 +540,7 @@
   table.on('tool(dhdtb)', function(obj){
     if(obj.event === 'view'){
       var data = obj.data;
-      console.log(data);
+      $(".ph-content").empty();
       var template = "<div><h4>订单号：</h4><p>"+data.odnumber+"</p></div>" +
             "<div><h4>客户：</h4><p>"+ data.custmname+"</p></div>" +
             "<div><h4>订单状态：</h4><p>"+ data.odstate+"</p></div>" +
@@ -469,32 +548,119 @@
             "<div><h4>补货：</h4><p>"+ data.odbuhflg+"</p></div>" +
             "<div><h4>收款金额：</h4><p>"+ data.odreceipt+"</p></div>" +
             "<div><h4>审批人：</h4><p>"+ data.proverempname+"</p></div>" +
-            "<div><h4>订货时间：</h4><p>"+ data.oddatetime+"</p></div>" +
+            "<div><h4>订货时间：</h4><p>"+ layui.admin.formatDateTime(data.oddatetime)+"</p></div>" +
             "<div><h4>订货人：</h4><p>"+ data.nickname+"</p></div>" +
             "<div><h4>订货照片 : </h4><a title=无照片><img src=../images/no_photos.jpg></a></div>";
       $('.ph-content').append(template);
-      goodsdetils('订货清单',data,template);
+      var cols = [[
+          {type:'checkbox'}
+          ,{field:'resourcepath', title: '商品',templet:'#img'}
+          ,{field:'goznumber', title: '编码'}
+          ,{field:'gozname', title: '名称'}
+          ,{field:'oddlquantity', title: '数量'}
+          ,{field:'gozunitname', title: '单位'}
+          ,{field:'oddlprice', title: '单价'}
+          ,{field:'oddlcomment', title: '说明'}
+        ]];
+      data.detaillist =  data.eos_oddetaillist;
+      data.pictures = data.odpictures;
+      goodsdetils('订货清单',template,data,cols);
     }
   });
   // 查看发货清单
   table.on('tool(fhdtb)', function(obj){
     if(obj.event === 'view'){
-      
+      var data = obj.data;
+      $(".ph-content").empty();
+      var template = "<div><h4>订单号：</h4><p>"+data.fahnumber+"</p></div>" +
+            "<div><h4>客户：</h4><p>"+ data.custmname+"</p></div>" +
+            "<div><h4>收货人：</h4><p>"+ data.fahreceiver+"</p></div>" +
+            "<div><h4>联系电话：</h4><p>"+ data.fahreceiverphone+"</p></div>" +
+            "<div><h4>送货地址：</h4><p>"+ data.fahreceiveraddr+"</p></div>" +
+            "<div><h4>审批人：</h4><p>"+ data.fahapprovername+"</p></div>" +
+            "<div><h4>发货时间：</h4><p>"+ layui.admin.formatDateTime(data.fahdatetime)+"</p></div>" +
+            "<div><h4>发货人：</h4><p>"+ data.nickname+"</p></div>" +
+            "<div><h4>订货照片 : </h4><a title=无照片><img src=../images/no_photos.jpg></a></div>";
+      $('.ph-content').append(template);
+      var cols = [[
+          {type:'checkbox'}
+          ,{field:'resourcepath', title: '商品',templet:'#img'}
+          ,{field:'goznumber', title: '编码'}
+          ,{field:'gozname', title: '名称'}
+          ,{field:'fahdlquantity', title: '数量'}
+          ,{field:'gozunitname', title: '单位'}
+          ,{field:'fahdlprice', title: '单价'}
+          ,{field:'fahdlcomment', title: '说明'}
+        ]];
+      data.detaillist =  data.eos_fahdetaillist;
+      data.pictures = data.fahpictures;
+      goodsdetils('订货清单',template,data,cols);
     }
   });
   // 查看补货清单
   table.on('tool(bhdtb)', function(obj){
     if(obj.event === 'view'){
-      
+      var data = obj.data;
+      $(".ph-content").empty();
+      var template = "<div><h4>订单号：</h4><p>"+data.odnumber+"</p></div>" +
+            "<div><h4>客户：</h4><p>"+ data.custmname+"</p></div>" +
+            "<div><h4>订单状态：</h4><p>"+ data.odstate+"</p></div>" +
+            "<div><h4>付款状态：</h4><p>"+ data.odpayment+"</p></div>" +
+            "<div><h4>补货：</h4><p>"+ data.odbuhflg+"</p></div>" +
+            "<div><h4>收款金额：</h4><p>"+ data.odreceipt+"</p></div>" +
+            "<div><h4>审批人：</h4><p>"+ data.proverempname+"</p></div>" +
+            "<div><h4>订货时间：</h4><p>"+ layui.admin.formatDateTime(data.oddatetime)+"</p></div>" +
+            "<div><h4>订货人：</h4><p>"+ data.nickname+"</p></div>" +
+            "<div><h4>订货照片 : </h4><a title=无照片><img src=../images/no_photos.jpg></a></div>";
+      $('.ph-content').append(template);
+      var cols = [[
+          {type:'checkbox'}
+          ,{field:'resourcepath', title: '商品',templet:'#img'}
+          ,{field:'goznumber', title: '编码'}
+          ,{field:'gozname', title: '名称'}
+          ,{field:'oddlquantity', title: '数量'}
+          ,{field:'gozunitname', title: '单位'}
+          ,{field:'oddlprice', title: '单价'}
+          ,{field:'oddlcomment', title: '说明'}
+        ]];
+      data.detaillist =  data.eos_oddetaillist;
+      data.pictures = data.odpictures;
+      goodsdetils('订货清单',template,data,cols);
     }
   });
   // 查看收货清单
   table.on('tool(shdtb)', function(obj){
     if(obj.event === 'view'){
-      
+      var data = obj.data;
+      $(".ph-content").empty();
+      var template = "<div><h4>订单号：</h4><p>"+data.odnumber+"</p></div>" +
+            "<div><h4>客户：</h4><p>"+ data.custmname+"</p></div>" +
+            "<div><h4>订单状态：</h4><p>"+ data.odstate+"</p></div>" +
+            "<div><h4>付款状态：</h4><p>"+ data.odpayment+"</p></div>" +
+            "<div><h4>补货：</h4><p>"+ data.odbuhflg+"</p></div>" +
+            "<div><h4>收款金额：</h4><p>"+ data.odreceipt+"</p></div>" +
+            "<div><h4>审批人：</h4><p>"+ data.proverempname+"</p></div>" +
+            "<div><h4>订货时间：</h4><p>"+ layui.admin.formatDateTime(data.oddatetime)+"</p></div>" +
+            "<div><h4>订货人：</h4><p>"+ data.nickname+"</p></div>" +
+            "<div><h4>订货照片 : </h4><a title=无照片><img src=../images/no_photos.jpg></a></div>";
+      $('.ph-content').append(template);
+      var cols = [[
+          {type:'checkbox'}
+          ,{field:'resourcepath', title: '商品',templet:'#img'}
+          ,{field:'goznumber', title: '编码'}
+          ,{field:'gozname', title: '名称'}
+          ,{field:'oddlquantity', title: '数量'}
+          ,{field:'gozunitname', title: '单位'}
+          ,{field:'oddlprice', title: '单价'}
+          ,{field:'oddlcomment', title: '说明'}
+        ]];
+      data.detaillist =  data.eos_oddetaillist;
+      data.pictures = data.odpictures;
+      goodsdetils('订货清单',template,data,cols);
     }
   });
-  function goodsdetils(title){
+  function goodsdetils(title,template,data,cols){
+    console.log(data);
     var phlayer =layer.open({
         type: 1,
         title:title,
@@ -509,16 +675,11 @@
       });
       layer.full(phlayer);
       $('.layui-layer-content').on('resize',function(){}); // 监听弹出层缩放 使表格自适应。
-      $(".custmname").text(obj.data.custmname);
-      $(".custmaddress").text(obj.data.custmaddress);
-      $(".custmcontact").text(obj.data.custmcontact);
-      $(".odcomment").text(obj.data.odcomment);
-      $(".oddatetime").text( admin.formatDateTime(obj.data.oddatetime));
-      $(".empname").text(obj.data.empname);
-      if(obj.data.resourcegroupnumber){
+      $(".ph-title").text(title);
+      if(data.pictures !== undefined){
         $(".oddpictures").empty();
         //展示图片
-    admin.req({
+        admin.req({
         url: setter.standardapi
         ,data: {model:'bas_resource',api:'read',jsonparam: JSON.stringify({
           condition: {
@@ -526,7 +687,7 @@
                   item1: {
                     column: 'resourcegroupnumber',
                     cop: '=',
-                    value: obj.data.resourcegroupnumber
+                    value: data.pictures
                   }
                 }
               }
@@ -563,21 +724,14 @@
           ,error: function(res){layer.msg('获取资源分组失败', {offset: '15px',icon: 5,time: 1000});}
         });
         
-      }else{
-        // 没有照片显示默认图片
-        $(".oddpictures").empty().attr("title","无照片").append("<img src=../images/no_photos.jpg>");
       }
       // 加载订货商品
-  var splan = table.render({
+      var splan = table.render({
       elem: '#phtb',
-      data:obj.data.eos_oddetaillist,
-      cols: [[
-          {type:'checkbox'}
-          ,{field:'gozname', title: '商品'}
-          ,{field:'gozunitname', title: '单位'}
-          ,{field:'oddlprice', title: '单价'}
-          ,{field:'oddlquantity', title: '数量'}
-        ]]
+      data:data.detaillist,
+      cols: cols,
+      done: function(res, curr, count){
+      }
       });
   }
 });
